@@ -10,5 +10,5 @@ public:
 	~Cloud();
 
 	//check the collision between cloud and hero
-	void collideHero(Hero* hero) override;
+	void collideHero() override;
 };

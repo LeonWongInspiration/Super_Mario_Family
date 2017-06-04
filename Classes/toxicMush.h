@@ -9,5 +9,5 @@ public:
 	~toxicMush();
 
 	//check the collision between toxicmush and hero
-	void collideHero(Hero* hero) override;
+	void collideHero() override;
 };
