@@ -1,19 +1,18 @@
-#include "Cloud.h"
+#include "Sting.h"
 
-
-Cloud::Cloud()
+Sting::Sting()
 {
-	nowSprite = Sprite::create("eb//normalCloud.png");
-	nowSprite->setTextureRect(Rect(0, 0, 96, 64));
+	nowSprite = Sprite::create("tile//Sting.png");
+	nowSprite->setTextureRect(Rect(0, 0, 32, 32));
 }
 
-Cloud::~Cloud()
+Sting::~Sting()
 {}
 
-void Cloud::collideHero(Hero* hero)
+void Sting::collideHero(Hero* hero)
 {
 	setRect blockRect, heroRect;
-	
+
 
 	blockRect.bottom = nowSprite->getPositionY();
 	blockRect.top = nowSprite->getPositionY() + 32;
@@ -27,7 +26,7 @@ void Cloud::collideHero(Hero* hero)
 
 	if (rectIntersect(&blockRect, &heroRect))
 	{
-		nowSprite = Sprite::create("eb//hurtfulCloud.png");
+
 		HeroState heroState = DIE;
 	}
 }

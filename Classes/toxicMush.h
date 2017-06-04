@@ -1,6 +1,8 @@
 #pragma once
-#include "Block.h"
+
 #include "Hero.h"
+#include "Block.h"
+
 
 class toxicMush : public Block
 {
@@ -9,5 +11,5 @@ public:
 	~toxicMush();
 
 	//check the collision between toxicmush and hero
-	void collideHero() override;
+	void collideHero(Hero* hero);
 };

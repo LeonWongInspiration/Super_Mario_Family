@@ -1,11 +1,11 @@
 #pragma once
-#include "Block.h"
 #include "Hero.h"
+#include "Block.h"
 
 class fakePrincess : public Block
 {
 public:
 	fakePrincess();
 	~fakePrincess();
-	void collideHero(Hero* myHero) override;
+	void collideHero(Hero* myHero);
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include "Block.h"
-#include "Hero.h"
+using namespace std;
 
 class Cloud : public Block
 {
@@ -8,7 +8,6 @@ public:
 	bool show;
 	Cloud();
 	~Cloud();
-
 	//check the collision between cloud and hero
-	void collideHero() override;
+	void collideHero(Hero* hero);
 };

@@ -1,8 +1,6 @@
 #pragma once
 #include "Hero.h"
-#include "cocos2d.h"
 
-using namespace std;
 using namespace cocos2d;
 
 struct setRect
@@ -13,6 +11,9 @@ struct setRect
 	int bottom;
 };
 
+bool rectIntersect(setRect* rect1, setRect* rect2);
+bool pointInrect(setRect* rect1, int rect2x, int rect2y);
+
 class Block
 {
 public:
@@ -21,5 +22,5 @@ public:
 	~Block();
 	Sprite* nowSprite;
 	//check the collision
-	virtual void collideHero(Hero* myHero);
+	virtual void collideHero(Hero* hero);
 };
