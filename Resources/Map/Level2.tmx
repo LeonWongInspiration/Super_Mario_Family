@@ -13,6 +13,18 @@
  </tileset>
  <tileset firstgid="37" name="Meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="Meta.png" width="64" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" type="bool" value="true"/>
+    <property name="Crowned" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collidable" type="bool" value="false"/>
+    <property name="Crowned" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Block" width="256" height="16">
   <data encoding="csv">
