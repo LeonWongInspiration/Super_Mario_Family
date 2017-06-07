@@ -95,15 +95,15 @@
 </data>
  </layer>
  <objectgroup name="Enemy">
-  <object id="1" name="Spike1" x="736" y="288" width="32" height="32"/>
-  <object id="2" name="Spike2" x="1312" y="288" width="32" height="32"/>
+  <object id="1" name="Sting1" x="736" y="288" width="32" height="32"/>
+  <object id="2" name="Sting2" x="1312" y="288" width="32" height="32"/>
   <object id="4" name="Cloud1" x="1120" y="64" width="128" height="64"/>
   <object id="5" name="Cloud2" x="1120" y="128" width="128" height="64"/>
   <object id="6" name="Piranha1" x="1712" y="480" width="32" height="32"/>
   <object id="7" name="Falling1" x="1952" y="0" width="224" height="32"/>
   <object id="9" name="Cloud3" x="2912" y="32" width="128" height="64"/>
-  <object id="10" name="Spike3" x="3008" y="352" width="32" height="32"/>
-  <object id="12" name="Spike4" x="3584" y="352" width="32" height="32"/>
+  <object id="10" name="Sting3" x="3008" y="352" width="32" height="32"/>
+  <object id="12" name="Sting4" x="3584" y="352" width="32" height="32"/>
   <object id="15" name="Piranha2" x="5104" y="480" width="32" height="32"/>
   <object id="16" name="Piranha3" x="5248" y="480" width="32" height="32"/>
   <object id="17" name="Piranha4" x="5280" y="480" width="32" height="32"/>
