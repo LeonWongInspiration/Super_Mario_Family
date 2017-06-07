@@ -120,6 +120,12 @@ bool GameScene::init()
     
     auto fall = enemy->getObject(f);
     
+    FallBricks * fallBricks = new FallBricks(fall.at("x").asFloat(),fall.at("y").asFloat());
+    
+    this->addChild(fallBricks->sprite,0);
+    
+    fallbricksList.push_back(fallBricks);
+    
    
 
     
@@ -165,6 +171,11 @@ void GameScene::update(float dt)
     }
     
     for(auto item:koopaList)
+    {
+        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+    }
+    
+    for(auto item:fallbricksList)
     {
         item->sprite->setPositionX(item->sprite->getPositionX()-1);
     }
