@@ -37,15 +37,24 @@ bool GameScene::init()
     //loading start scene and player
     
 	TMXTiledMap* map = TMXTiledMap::create("Level1.tmx");
-	addChild(map, 0);
+	addChild(map, 10);
     mapMe = map;
 	auto blockLayer = map->getLayer("Blocks");
 	auto hiddenLayer = map->getLayer("Hidden");
 	auto fakeLayer = map->getLayer("Fake");
+    
+    
+    
+    auto meta = map->getLayer("Meta");
+    
+    meta->setVisible(false);
+    
 	hiddenLayer->setVisible(false);
+    
 	enemy = map->getObjectGroup("Enemy");
 
 	ValueMap sting = enemy->getObject("Stingtest");
+    
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Enemy_256.plist");
     
     //add koopa list
@@ -88,22 +97,30 @@ bool GameScene::init()
     
     //add piranha list
     
-    string p = "Prianha";
+    string p = "Piranha";
     
     for(int i = 1;i <= 4;++i)
     {
         sprintf(buffer, "%d",i);
         CCLOG("%s",buffer);
-        auto pri = enemy->getObject(p+buffer);
+        auto pir = enemy->getObject(p + buffer);
         
-        Prianha * prianha = new Prianha("Enemy_256.plist","Goomba_256.png",pri.at("x").asFloat(),pri.at("y").asFloat());
+        Piranha * piranha = new Piranha("Enemy_256.plist","Piranha_open_256.png",pir.at("x").asFloat(),pir.at("y").asFloat());
         
-        this->addChild(prianha->sprite);
+        this->addChild(piranha->sprite);
         
-        piranhaList.push_back(prianha);
+        piranhaList.push_back(piranha);
     
         
     }
+    
+    //add fallBricks list
+    
+    string f = "Falling1";
+    
+    auto fall = enemy->getObject(f);
+    
+   
 
     
     
@@ -135,8 +152,22 @@ void GameScene::update(float dt)
     
     CCLOG("update");
     
+    mapMe->setPositionX(mapMe->getPositionX()-1);
     
+    for(auto item:piranhaList)
+    {
+        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+    }
     
+    for(auto item:goombaList)
+    {
+        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+    }
+    
+    for(auto item:koopaList)
+    {
+        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+    }
     //use isKeyPressed to judge the keyboard event
     
     

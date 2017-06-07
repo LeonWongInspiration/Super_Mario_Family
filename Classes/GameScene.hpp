@@ -21,9 +21,10 @@
 #include "HelloWorldScene.h"
 #include "Box2D/Box2D.h"
 #include "Block.h"
-#include "Prianha.hpp"
+#include "Piranha.hpp"
 #include "Koopa.hpp"
 #include "Goomba.hpp"
+#include "FallBricks.hpp"
 #include "Cloud.h"
 #include <list>
 #include <map>
@@ -67,7 +68,9 @@ public:
     
     std::list<Goomba*> goombaList;
     
-    std::list<Prianha*> piranhaList;
+    std::list<Piranha*> piranhaList;
+    
+    std::list<FallBricks*> fallbricksList;
 
     
     TMXTiledMap * mapMe;
