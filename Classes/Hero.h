@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706072145 |   Leon Wong  | Adopting a new interface                                       |
  * |201706041448 |   Leon Wong  | Add some basic features                                        |
  * |201705251928 |   Leon Wong  | Add some properties for hero                                   |
  * |201705251846 |   Leon Wong  | First time initialization                                      |
@@ -25,6 +26,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "Block.h"
+#include "HeroInterface.h"
 
 #include <list>
 
@@ -44,7 +46,7 @@ enum HeroState{
     FALL,
 };
 
-class Hero: public Layer{
+class Hero: public Layer, implements HeroInterface{
 public:
     /// Lives Count
     static int life;
