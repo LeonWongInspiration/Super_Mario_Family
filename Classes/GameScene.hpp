@@ -19,11 +19,17 @@
 #define GameScene_hpp
 
 #include "HelloWorldScene.h"
+#include "Box2D/Box2D.h"
+#include "Block.h"
+#include "Prianha.hpp"
+#include "Koopa.hpp"
+#include "Goomba.hpp"
+#include "Cloud.h"
+#include <list>
+#include <map>
 
-#include <vector>
-#include "Enemy.hpp"
 
-USING_NS_CC;
+
 /**
  * @brief an enum used to
  * TODO 潮潮把这里描述一下
@@ -41,10 +47,7 @@ typedef enum
 class GameScene:public cocos2d::Layer
 {
 private:
-    
-    cocos2d::TMXTiledMap * map;
-    
-   std::vector<Enemy*> enemyTest;
+    std::map<cocos2d::EventKeyboard::KeyCode, bool> keyCode;
 public:
     virtual bool init();
     
@@ -58,9 +61,24 @@ public:
     
     void update(float dt);
     
-
-    CREATE_FUNC(GameScene);
+    bool isKeyPressed(cocos2d::EventKeyboard::KeyCode KeyCode);
     
+    std::list<Koopa*> koopaList;
+    
+    std::list<Goomba*> goombaList;
+    
+    std::list<Prianha*> piranhaList;
+
+    
+    TMXTiledMap * mapMe;
+    
+    TMXObjectGroup * enemy;
+    
+    
+    
+	CREATE_FUNC(GameScene);
+
+	
 };
 
 
