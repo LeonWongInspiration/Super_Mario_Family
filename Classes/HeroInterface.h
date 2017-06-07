@@ -8,14 +8,10 @@
     #define implements virtual
 #endif
 
-#ifndef ENEMYINTERFACE_ENEMYINTERFACE_H
-#define ENEMYINTERFACE_ENEMYINTERFACE_H
+#ifndef HEROINTERFACE_HEROINTERFACE_H
+#define HEROINTERFACE_HEROINTERFACE_H
 
-/**
- * An interface for enemies.
- */
-
-Interface EnemyInterface{
+Interface HeroInterface{
     /**
      * @brief Get the pointer to the Sprite.
      * @return The pointer to the Sprite of this enemy
@@ -35,4 +31,4 @@ Interface EnemyInterface{
     virtual cocos2d::Vec2 getPosition() = 0;
 };
 
-#endif //ENEMYINTERFACE_ENEMYINTERFACE_H
+#endif //HEROINTERFACE_HEROINTERFACE_H
