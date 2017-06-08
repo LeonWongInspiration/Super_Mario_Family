@@ -23,10 +23,10 @@ void Cloud::collideHero(Hero* hero)
 	blockRect.left = nowSprite->getPositionX();
 	blockRect.right = nowSprite->getPositionX() + 128;
 
-	heroRect.bottom = hero->heroSprite->getPositionX();
-	heroRect.top = hero->heroSprite->getPositionY() + hero->heroSprite->getTextureRect().size.height;
-	heroRect.left = hero->heroSprite->getPositionX();
-	heroRect.right = hero->heroSprite->getPositionX() + hero->heroSprite->getTextureRect().size.width;
+	heroRect.bottom = hero->getSprite()->getPositionX();
+	heroRect.top = hero->getSprite()->getPositionY() + hero->getSprite()->getTextureRect().size.height;
+	heroRect.left = hero->getSprite()->getPositionX();
+	heroRect.right = hero->getSprite()->getPositionX() + hero->getSprite()->getTextureRect().size.width;
 
 	if (rectIntersect(&blockRect, &heroRect))
 	{
@@ -35,6 +35,6 @@ void Cloud::collideHero(Hero* hero)
 		nowSprite->setTextureRect(Rect(0, 0, 826, 480));
 		nowSprite->setScaleX(0.15f);
 		nowSprite->setScaleY(0.17f);
-		HeroState heroState = DIE;
+		hero->death(0);
 	}
 }

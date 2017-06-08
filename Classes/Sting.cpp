@@ -4,7 +4,7 @@ Sting::Sting()
 {
 	nowSprite = Sprite::create("Block//Sting.png");
 	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
-	nowSprite->setTextureRect(Rect(0,0, 60, 40));
+	nowSprite->setTextureRect(Rect(0,0, 55, 40));
 	nowSprite->setScale(0.5f);
 	
 }
@@ -22,14 +22,11 @@ void Sting::collideHero(Hero* hero)
 	blockRect.left = nowSprite->getPositionX();
 	blockRect.right = nowSprite->getPositionX() + 32;
 
-	heroRect.bottom = hero->heroSprite->getPositionX();
-	heroRect.top = hero->heroSprite->getPositionY() + hero->heroSprite->getTextureRect().size.height;
-	heroRect.left = hero->heroSprite->getPositionX();
-	heroRect.right = hero->heroSprite->getPositionX() + hero->heroSprite->getTextureRect().size.width;
+	heroRect.bottom = hero->getSprite()->getPositionX();
+	heroRect.top = hero->getSprite()->getPositionY() + hero->getSprite()->getTextureRect().size.height;
+	heroRect.left = hero->getSprite()->getPositionX();
+	heroRect.right = hero->getSprite()->getPositionX() + hero->getSprite()->getTextureRect().size.width;
 
 	if (rectIntersect(&blockRect, &heroRect))
-	{
-
-		HeroState heroState = DIE;
-	}
+		hero->death(0);
 }
