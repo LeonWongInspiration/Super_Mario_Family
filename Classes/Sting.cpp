@@ -1,9 +1,7 @@
 #include "Sting.h"
 
-Sting::Sting()
+Sting::Sting(const char* fileName,float x,float y):Block(fileName,x,y)
 {
-	nowSprite = Sprite::create("Block//Sting.png");
-	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
 	nowSprite->setTextureRect(Rect(0,0, 55, 40));
 	nowSprite->setScale(0.5f);
 	
@@ -12,21 +10,10 @@ Sting::Sting()
 Sting::~Sting()
 {}
 
-void Sting::collideHero(Hero* hero)
+void Sting::killMario(Hero* hero)
 {
-	setRect blockRect, heroRect;
+	if (collideHero(hero,width,height))
+	{
 
-
-	blockRect.bottom = nowSprite->getPositionY();
-	blockRect.top = nowSprite->getPositionY() + 32;
-	blockRect.left = nowSprite->getPositionX();
-	blockRect.right = nowSprite->getPositionX() + 32;
-
-	heroRect.bottom = hero->getSprite()->getPositionX();
-	heroRect.top = hero->getSprite()->getPositionY() + hero->getSprite()->getTextureRect().size.height;
-	heroRect.left = hero->getSprite()->getPositionX();
-	heroRect.right = hero->getSprite()->getPositionX() + hero->getSprite()->getTextureRect().size.width;
-
-	if (rectIntersect(&blockRect, &heroRect))
-		hero->death(0);
+	}
 }

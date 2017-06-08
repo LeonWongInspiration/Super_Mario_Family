@@ -22,14 +22,39 @@ bool pointInrect(setRect* rect1,int rect2x,int rect2y)
 	return false;
 }
 
-Block::Block()
+Block::Block(const char* fileName,float x,float y)
 {
-
+	nowSprite = Sprite::create(fileName);
+	nowSprite->setPositionX(x);
+	nowSprite->setPositionY(y);
+	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
 }
 
 Block::~Block()
-{}
+{
+}
 
-void Block::collideHero(Hero* hero)
-{}
+bool Block::collideHero(Hero* hero,float width,float height)
+{
+	setRect blockRect, heroRect;
+
+
+	blockRect.bottom = nowSprite->getPositionY();
+	blockRect.top = nowSprite->getPositionY() + height;
+	blockRect.left = nowSprite->getPositionX();
+	blockRect.right = nowSprite->getPositionX() + width;
+
+	heroRect.bottom = hero->getSprite()->getPositionX();
+	heroRect.top = hero->getSprite()->getPositionY() + hero->getSprite()->getTextureRect().size.height;
+	heroRect.left = hero->getSprite()->getPositionX();
+	heroRect.right = hero->getSprite()->getPositionX() + hero->getSprite()->getTextureRect().size.width;
+
+	if (rectIntersect(&blockRect, &heroRect))
+	{
+		return true;
+	}
+	return false;
+}
+
+
 

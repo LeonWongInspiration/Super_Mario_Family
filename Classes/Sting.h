@@ -4,10 +4,14 @@
 class Sting :public Block
 {
 public:
-	Sting();
+	Sting(const char* fileName,float x,float y);
 	~Sting();
 
-	///check if blocks coliiide hero
-	virtual void collideHero(Hero* hero) override;
+	///set the event of collision between sting and hero
+	void killMario(Hero* hero);
+
+private:
+	float width = 32;
+	float height = 32;
 };
 #pragma once

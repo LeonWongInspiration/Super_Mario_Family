@@ -5,10 +5,13 @@ using namespace std;
 class Cloud : public Block
 {
 public:
-	bool show;
-	Cloud();
+	Cloud(const char* filename,float x,float y);
 	~Cloud();
 
-	///check the collision between cloud and hero
-	void collideHero(Hero* hero);
+	///set the event of collision between cloud and hero
+	void killMario(Hero* hero);
+
+private:
+	float width=128;
+	float height=64;
 };

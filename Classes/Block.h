@@ -1,5 +1,6 @@
 #pragma once
 #include "Hero.h"
+#include "Utility.h"
 
 using namespace cocos2d;
 
@@ -17,10 +18,9 @@ bool pointInrect(setRect* rect1, int rect2x, int rect2y);
 class Block
 {
 public:
-	int blockHeight, blockWidth;
-	Block();
+	Block(const char* fileName,float x,float y);
 	~Block();
 	Sprite* nowSprite;
 	//check the collision
-	virtual void collideHero(Hero* hero);
+	virtual bool collideHero(Hero* hero,float width,float height);
 };
