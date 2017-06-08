@@ -19,4 +19,13 @@ Hero::Hero(): heroState(STAND){
     this->heroBody = PhysicsBody::createBox(this->heroSprite->getContentSize());
     
     this->heroSprite->setPhysicsBody(this->heroBody);
+    this->heroBody->setCategoryBitmask(1);
+}
+
+Hero::~Hero(){
+    
+}
+
+void Hero::run(TMXTiledMap* tMap, TMXLayer* tLayer){
+    
 }

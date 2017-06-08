@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706081906 |   Leon Wong  | Remove Interface, and make them inside. Update more functions  |
  * |201706072145 |   Leon Wong  | Adopting a new interface                                       |
  * |201706041448 |   Leon Wong  | Add some basic features                                        |
  * |201705251928 |   Leon Wong  | Add some properties for hero                                   |
@@ -15,8 +16,6 @@
  */
 #ifndef Hero_h
 #define Hero_h
-
-#include "HeroInterface.h"
 
 #include <list>
 
@@ -30,27 +29,51 @@ using namespace std;
  */
 enum HeroState{
     STAND,
-    JUMP,
+    UP_JUMP,
+    LEFT_JUMP,
+    RIGHT_JUMP,
     LEFT_MOVE,
     RIGHT_MOVE,
     DIE,
     FALL,
 };
 
-class Hero: public Layer, implements HeroInterface{
+class Hero: public Layer{
 private:
+    
     Sprite* heroSprite;
+    
     PhysicsBody* heroBody;
+    
     HeroState heroState;
+    
     SpriteFrameCache* heroSpriteSheet;
 public:
+    
     static int lifeCount;
+    
     Hero();
+    
     ~Hero();
-    void run();
+    
+    void run(TMXTiledMap* tMap, TMXLayer* tLayer);
+    
     void death(int foo){};
+    
     Sprite* getSprite(){
         return this->heroSprite;
+    }
+    
+    float getPositionX(){
+        return this->heroSprite->getPositionX();
+    }
+    
+    float getPositionY(){
+        return this->heroSprite->getPositionY();
+    }
+    
+    void setAction(HeroState currentState){
+        this->heroState = currentState;
     }
 };
 
