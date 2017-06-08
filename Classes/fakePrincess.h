@@ -2,11 +2,11 @@
 #include "Hero.h"
 #include "Block.h"
 
-class fakePrincess : public Block
+class FakePrincess : public Block
 {
 public:
-	fakePrincess(const char* fileName,float x,float y);
-	~fakePrincess();
+	FakePrincess(const char* fileName,float x,float y);
+	~FakePrincess();
 
 	///set the event of collision between fakeprincess and hero
 	void killMario(Hero* hero);
