@@ -31,8 +31,8 @@ using namespace std;
 enum HeroState{
     STAND,
     JUMP,
-    LEFT,
-    RIGHT,
+    LEFT_MOVE,
+    RIGHT_MOVE,
     DIE,
     FALL,
 };
@@ -48,7 +48,7 @@ public:
     Hero();
     ~Hero();
     void run();
-    
+    void death(int foo){};
     Sprite* getSprite(){
         return this->heroSprite;
     }
