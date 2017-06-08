@@ -26,6 +26,8 @@
 #include "Goomba.hpp"
 #include "FallBricks.hpp"
 #include "Cloud.h"
+#include "Sting.h"
+#include "fakePrincess.h"
 #include <list>
 #include <map>
 
@@ -71,6 +73,12 @@ public:
     std::list<Piranha*> piranhaList;
     
     std::list<FallBricks*> fallbricksList;
+    
+    std::list<Cloud*> cloudList;
+    
+    std::list<Sting*> stingList;
+    
+    std::list<FakePrincess * > fakePrincessList;
 
     
     TMXTiledMap * mapMe;

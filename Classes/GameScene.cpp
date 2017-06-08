@@ -126,6 +126,75 @@ bool GameScene::init()
     
     fallbricksList.push_back(fallBricks);
     
+    
+    //add Cloud list
+    
+    string c = "stingCloud";
+    
+    auto sCloud = enemy->getObject(c);
+    
+    Cloud * stingCloud = new Cloud("normalCloud.png",sCloud.at("x").asFloat(),sCloud.at("y").asFloat());
+    
+    this->addChild(stingCloud->nowSprite);
+    
+    cloudList.push_back(stingCloud);
+    
+    //add sting list
+    
+    string s = "Sting";
+    
+    for(int i = 1; i <= 4;++i)
+    {
+        sprintf(buffer, "%d",i);
+        
+        auto stingValue = enemy->getObject(s + buffer);
+        auto stingX = stingValue.at("x").asFloat();
+        auto stingY = stingValue.at("y").asFloat();
+        
+        Sting * sting = new Sting("Sting.png",stingX,stingY);
+        
+        this->addChild(sting->nowSprite);
+        
+        if(i == 3)
+        {
+            Sting * sting2 = new Sting("Sting.png",stingX+32,stingY);
+            this->addChild(sting->nowSprite);
+            
+            
+            stingList.push_back(sting2);
+            
+            
+            
+            
+            
+        }
+        
+        if(i == 4)
+        {
+            for(int j = 1;j <= 3;++j)
+            {
+                sting = new Sting("Sting.png",stingX+(float)j*32,stingY);
+                this->addChild(sting->nowSprite);
+                stingList.push_back(sting);
+            }
+        }
+        
+        
+        
+    }
+    
+    //add fake princess list
+    
+    auto princessValue = enemy->getObject("fakePrincess");
+    
+    FakePrincess* fakePrincess = new FakePrincess("fakePrincess.png",princessValue.at("x").asFloat(),princessValue.at("y").asFloat());
+    
+    this->addChild(fakePrincess->nowSprite);
+    
+    fakePrincessList.push_back(fakePrincess);
+    
+    
+    
    
 
     
@@ -159,6 +228,8 @@ void GameScene::update(float dt)
     CCLOG("update");
     
     mapMe->setPositionX(mapMe->getPositionX()-1);
+    
+    CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
     
     for(auto item:piranhaList)
     {
