@@ -2,8 +2,12 @@
 
 fakePrincess::fakePrincess()
 {
-	nowSprite->Sprite::create("tile//fakePrincess.png");
-	nowSprite->setTextureRect(Rect(0, 0, 32, 64));
+	nowSprite=Sprite::create("Block//fakePrincess.png");
+	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+	nowSprite->setTextureRect(Rect(0, 0, 200, 256));
+	nowSprite->setScaleX(0.16f);
+	nowSprite->setScaleY(0.32f);
+	
 }
 
 fakePrincess::~fakePrincess()
@@ -25,7 +29,6 @@ void fakePrincess::collideHero(Hero* hero)
 
 	if (rectIntersect(&blockRect, &heroRect))
 	{
-		Sprite* knife = Sprite::create("tile//knife.png");
 		HeroState heroState = DIE;
 	}
 }

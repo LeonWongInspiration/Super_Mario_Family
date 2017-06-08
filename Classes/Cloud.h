@@ -8,6 +8,7 @@ public:
 	bool show;
 	Cloud();
 	~Cloud();
-	//check the collision between cloud and hero
+
+	///check the collision between cloud and hero
 	void collideHero(Hero* hero);
 };

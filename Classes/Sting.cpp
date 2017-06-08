@@ -2,8 +2,11 @@
 
 Sting::Sting()
 {
-	nowSprite = Sprite::create("tile//Sting.png");
-	nowSprite->setTextureRect(Rect(0, 0, 32, 32));
+	nowSprite = Sprite::create("Block//Sting.png");
+	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+	nowSprite->setTextureRect(Rect(0,0, 60, 40));
+	nowSprite->setScale(0.5f);
+	
 }
 
 Sting::~Sting()

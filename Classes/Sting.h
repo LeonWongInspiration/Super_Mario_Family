@@ -6,6 +6,8 @@ class Sting :public Block
 public:
 	Sting();
 	~Sting();
-	void collideHero(Hero* hero);
+
+	///check if blocks coliiide hero
+	virtual void collideHero(Hero* hero) override;
 };
 #pragma once

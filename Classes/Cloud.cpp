@@ -3,8 +3,11 @@
 
 Cloud::Cloud()
 {
-	nowSprite = Sprite::create("eb//normalCloud.png");
-	nowSprite->setTextureRect(Rect(0, 0, 96, 64));
+	nowSprite = Sprite::create("Block//normalCloud.png");
+	nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+	nowSprite->setTextureRect(Rect(0, 0, 826, 480));
+	nowSprite->setScaleX(0.15f);
+	nowSprite->setScaleY(0.17f);
 }
 
 Cloud::~Cloud()
@@ -16,9 +19,9 @@ void Cloud::collideHero(Hero* hero)
 	
 
 	blockRect.bottom = nowSprite->getPositionY();
-	blockRect.top = nowSprite->getPositionY() + 32;
+	blockRect.top = nowSprite->getPositionY() + 64;
 	blockRect.left = nowSprite->getPositionX();
-	blockRect.right = nowSprite->getPositionX() + 32;
+	blockRect.right = nowSprite->getPositionX() + 128;
 
 	heroRect.bottom = hero->heroSprite->getPositionX();
 	heroRect.top = hero->heroSprite->getPositionY() + hero->heroSprite->getTextureRect().size.height;
@@ -27,7 +30,11 @@ void Cloud::collideHero(Hero* hero)
 
 	if (rectIntersect(&blockRect, &heroRect))
 	{
-		nowSprite = Sprite::create("eb//hurtfulCloud.png");
+		nowSprite = Sprite::create("Enemy//hurtfulCloud.png");
+		nowSprite->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+		nowSprite->setTextureRect(Rect(0, 0, 826, 480));
+		nowSprite->setScaleX(0.15f);
+		nowSprite->setScaleY(0.17f);
 		HeroState heroState = DIE;
 	}
 }
