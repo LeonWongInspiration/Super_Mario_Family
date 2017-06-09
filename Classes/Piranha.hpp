@@ -11,11 +11,11 @@
 
 #include "Enemy.hpp"
 
-class Prianha:public Enemy
+class Piranha:public Enemy
 {
 public:
-    Prianha(const char * frameName,const char * fileName,int x,int y);
-    ~Prianha(){};
+    Piranha(const char * frameName,const char * fileName,int x,int y);
+    ~Piranha(){};
     float upSpeed;
     int upCount;
 };
