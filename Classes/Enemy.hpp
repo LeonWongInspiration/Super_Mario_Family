@@ -57,6 +57,8 @@ public:
     void judge(cocos2d::TMXTiledMap * tmxmap,float x,float y);
     void setDirection(Direction dir){this->dir = dir;}
     
+    bool getTrigger(){return trigger;}
+    
     
     
 };
