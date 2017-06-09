@@ -13,6 +13,11 @@
 
 class FallBricks
 {
+private:
+    bool above;
+    bool trigger;
+    bool outScene;
+
 public:
     FallBricks(int x,int y);
     ~FallBricks();
@@ -20,8 +25,12 @@ public:
     float fallSpeed;
     float width;
     float height;
-    bool trigger;
+    
     void fall();
+    void isAbove(float x,float y);
+    bool isOutScene(){return outScene;}
+    
+    
     
 };
 

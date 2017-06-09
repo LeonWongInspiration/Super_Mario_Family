@@ -7,7 +7,7 @@
 //
 
 #include "Enemy.hpp"
-Enemy::Enemy(const char * filename,int x,int y,KIND monsterKind)
+Enemy::Enemy(const char* frameName,const char * filename,int x,int y,KIND monsterKind)
 :
 kind(monsterKind),
 moveSpeed(1.0f),
@@ -23,16 +23,22 @@ setEnemyY(0),
 moveTime(0),
 dir(LEFT)
 {
-    sprite = cocos2d::Sprite::create(filename);
+    cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(frameName);
+    sprite = cocos2d::Sprite::createWithSpriteFrameName(filename);
     sprite->setPositionX(x);
     sprite->setPositionY(y);
     sprite->setAnchorPoint(cocos2d::Point(0,0));
+    sprite->setScale(0.125, 0.125);
     width = sprite->getContentSize().width;
     height = sprite->getContentSize().height;
 }
 
 bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
 {
+    int x = sprite->getPositionX();
+    int y = sprite->getPositionY();
+    int mapWidth = tmxmap->getMapSize().width;
+    int mapHeight = tmxmap->getMapSize().height;
     if(moveTime < 1)
     {
         moveTime++;
@@ -42,6 +48,15 @@ bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
     {
         moveTime = 0;
     }
+    if(x>=mapWidth)
+    {
+        tmxmap->setPositionX(tmxmap->getPositionX()-1);
+        return true;
+    }
+ /*   if(x<10||x>mapWidth - 10)
+    {
+        dir = (dir == LEFT)?RIGHT:LEFT;
+    }*/
     //here need a map to finish some codes(such as judge the bricks)
     
     if(dir == LEFT)
@@ -63,7 +78,7 @@ bool Enemy::gravity(cocos2d::TMXTiledMap *tmxmap)
 
 void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
 {
-    if(sprite->getPositionY() - sprite->getContentSize().height/2 < 0)
+    if(sprite->getPositionY()  < 0)
     {
         isDeleted = true;
         return;
@@ -78,6 +93,20 @@ void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
     bool picdir = dir==RIGHT?true:false;
     sprite->setFlippedX(picdir);
     
+}
+
+void Enemy::judge(cocos2d::TMXTiledMap* tmxmap,float x, float y)
+{
+    auto spriteX = sprite->getPositionX();
+    
+    auto spriteY = sprite->getPositionY();
+    
+    auto mapSize = tmxmap->getMapSize().width;
+    
+    if(spriteX - x < mapSize/2)
+    {
+        trigger = true;
+    }
 }
 
 

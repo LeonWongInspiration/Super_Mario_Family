@@ -10,13 +10,18 @@
 #define Enemy_hpp
 
 #include "Utility.h"
+#include "cocos2d.h"
 
 class Enemy
 {
+    
+private:
+    bool trigger;
+    Direction dir;
 public:
     enum KIND
     {
-        COOMBA,
+        GOOMBA,
         KOOPA,
         KOOPADEAD,
         PIRANHA,
@@ -34,7 +39,7 @@ public:
     float width;
     bool normalSpeed;
     bool isDeleted;
-    bool trigger;
+    
     bool fall;
     int moveTime;
     int setEnemyX;
@@ -42,13 +47,15 @@ public:
     KIND kind;
     cocos2d::Sprite * sprite;
     cocos2d::Label * label;
-    Direction dir;
     
-    Enemy(const char * filename,int x,int y,KIND kind);
-    ~Enemy();
+    
+    Enemy(const char *frameName,const char * filename,int x,int y,KIND kind);
+    ~Enemy(){};
     bool move(cocos2d::TMXTiledMap * tmxmap);
     void update(cocos2d::TMXTiledMap * tmxmap);
     bool gravity(cocos2d::TMXTiledMap * tmxmap);
+    void judge(cocos2d::TMXTiledMap * tmxmap,float x,float y);
+    void setDirection(Direction dir){this->dir = dir;}
     
     
     
