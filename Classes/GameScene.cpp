@@ -39,6 +39,7 @@ bool GameScene::init()
 	TMXTiledMap* map = TMXTiledMap::create("Level1.tmx");
 	addChild(map, 10);
     mapMe = map;
+    mapMoveCount = 0.0;
 	auto blockLayer = map->getLayer("Blocks");
 	auto hiddenLayer = map->getLayer("Hidden");
 	auto fakeLayer = map->getLayer("Fake");
@@ -56,6 +57,12 @@ bool GameScene::init()
 	ValueMap sting = enemy->getObject("Stingtest");
     
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Enemy_256.plist");
+    
+    //add player
+    
+    hero = new Hero;
+    
+    
     
     //add koopa list
     
@@ -225,31 +232,72 @@ bool GameScene::init()
 void GameScene::update(float dt)
 {
     
-    CCLOG("update");
+    //CCLOG("update");
     
-    mapMe->setPositionX(mapMe->getPositionX()-1);
+    auto visibleSize = Director::getInstance()->getVisibleSize();
     
-    CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
+    auto heroPositionX = hero->getSprite()->getPositionX();
+    
+    auto heroPositionY = hero->getSprite()->getPositionY();
+    
+    mapMe->setPositionX(mapMe->getPositionX()+mapMoveCount);
+    
+    //CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
     
     for(auto item:piranhaList)
     {
-        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+        
+        item->judge(mapMe, heroPositionX, heroPositionY);
+        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
+        item->update(mapMe);
     }
     
     for(auto item:goombaList)
     {
-        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+        item->judge(mapMe, heroPositionX, heroPositionY);
+        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
+        item->update(mapMe);
     }
     
     for(auto item:koopaList)
     {
-        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+        item->judge(mapMe, heroPositionX, heroPositionY);
+        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
+        item->update(mapMe);
     }
     
     for(auto item:fallbricksList)
     {
-        item->sprite->setPositionX(item->sprite->getPositionX()-1);
+        
+        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
+        item->isAbove(heroPositionX, heroPositionY);
+        item->fall();
     }
+    
+    for(auto item:stingList)
+    {
+        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+    }
+    
+    for(auto item:cloudList)
+    {
+        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+    }
+    for(auto item:fakePrincessList)
+    {
+        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //use isKeyPressed to judge the keyboard event
     
     

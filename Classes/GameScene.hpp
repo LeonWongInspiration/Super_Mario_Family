@@ -25,6 +25,7 @@
 #include "Koopa.hpp"
 #include "Goomba.hpp"
 #include "FallBricks.hpp"
+#include "Hero.h"
 #include "Cloud.h"
 #include "Sting.h"
 #include "fakePrincess.h"
@@ -51,6 +52,11 @@ class GameScene:public cocos2d::Layer
 {
 private:
     std::map<cocos2d::EventKeyboard::KeyCode, bool> keyCode;
+    
+    float mapMoveCount;
+    
+    Hero * hero;
+    
 public:
     virtual bool init();
     
