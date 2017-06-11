@@ -18,6 +18,7 @@
 #define Hero_h
 
 #include <list>
+#include "Utility.h"
 
 USING_NS_CC;
 using namespace std;
@@ -48,11 +49,23 @@ private:
     HeroState heroState;
     
     SpriteFrameCache* heroSpriteSheet;
+    
+    std::map<cocos2d::EventKeyboard::KeyCode, bool>& keyCode;
+    
+    Vec2& heroVelocity;
+    
+    const int maxXVelocity = 10;
+    
+    void jump();
+    
+    void moveRight();
+    
+    void moveLeft();
 public:
     
     static int lifeCount;
     
-    Hero();
+    Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool> _KeyCode);
     
     ~Hero();
     
@@ -72,9 +85,6 @@ public:
         return this->heroSprite->getPositionY();
     }
     
-    void setAction(HeroState currentState){
-        this->heroState = currentState;
-    }
 };
 
 #endif /* Hero_h */
