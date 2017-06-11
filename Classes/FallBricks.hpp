@@ -17,19 +17,23 @@ private:
     bool above;
     bool trigger;
     bool outScene;
-
-public:
-    FallBricks(int x,int y);
-    ~FallBricks();
-    cocos2d::Sprite * sprite;
     float fallSpeed;
     float width;
     float height;
+    cocos2d::Sprite * sprite;
+public:
+    FallBricks(int x,int y);
+    ~FallBricks();
+    void setFallSpeed(float speed){fallSpeed = speed;}
+    float getWidth(){return width;}
+    float getHeight(){return height;}
     
+    cocos2d::Sprite * getSprite(){return sprite;}
     void fall();
     void isAbove(float x,float y);
     bool isOutScene(){return outScene;}
-    
+    void run();
+
     
     
 };

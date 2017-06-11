@@ -55,3 +55,8 @@ void FallBricks::isAbove(float x,float y)
     }
     
 }
+
+void FallBricks::run()
+{
+    fall();
+}

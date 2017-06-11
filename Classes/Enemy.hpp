@@ -18,6 +18,14 @@ class Enemy
 private:
     bool trigger;
     Direction dir;
+    cocos2d::Sprite * sprite;
+    bool isDead;
+    float moveSpeed;
+    float jumpSpeed;
+    float fallSpeed;
+     bool fall;
+    float height;
+    float width;
 public:
     enum KIND
     {
@@ -31,21 +39,25 @@ public:
         
     };
     
-    float moveSpeed;
-    float jumpSpeed;
-    float fallSpeed;
-    bool isDead;
-    float height;
-    float width;
+    
+    
+    
     bool normalSpeed;
     bool isDeleted;
+    void dead(bool isDead){this->isDead = isDead;}
+    cocos2d::Sprite * getSprite(){return sprite;}
+    void setMoveSpeed(float speed){moveSpeed = speed;}
+    void setFallSpeed(float speed){fallSpeed = speed;}
+    float getWidth(){return width;}
+    float getHeight(){return height;}
     
-    bool fall;
+    
+   
     int moveTime;
     int setEnemyX;
     int setEnemyY;
     KIND kind;
-    cocos2d::Sprite * sprite;
+    
     cocos2d::Label * label;
     
     

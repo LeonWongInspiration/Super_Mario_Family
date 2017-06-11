@@ -73,7 +73,7 @@ bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
 
 bool Enemy::gravity(cocos2d::TMXTiledMap *tmxmap)
 {
-    
+    return true;
 }
 
 void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
