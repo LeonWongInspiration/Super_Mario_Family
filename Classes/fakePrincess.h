@@ -11,6 +11,7 @@ public:
 	///set the event of collision between fakeprincess and hero
 	void killMario(Hero* hero);
 private:
+	PhysicsBody* body;
 	float width = 32;
 	float height = 64;
 };

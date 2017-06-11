@@ -22,7 +22,7 @@ bool pointInrect(setRect* rect1,int rect2x,int rect2y)
 	return false;
 }
 
-Block::Block(const char* fileName,float x,float y)
+Block::Block(const char * fileName,float x,float y)
 {
 	nowSprite = Sprite::create(fileName);
 	nowSprite->setPositionX(x);

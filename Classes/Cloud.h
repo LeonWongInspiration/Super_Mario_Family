@@ -12,6 +12,7 @@ public:
 	void killMario(Hero* hero);
 
 private:
+	PhysicsBody * body;
 	float width=128;
 	float height=64;
 };
