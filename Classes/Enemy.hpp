@@ -27,6 +27,7 @@ private:
      bool fall;
     float height;
     float width;
+    bool isDeleted;
 public:
     enum KIND
     {
@@ -44,7 +45,8 @@ public:
     
     
     bool normalSpeed;
-    bool isDeleted;
+    void deleteFromNode(){isDeleted = true;}
+    bool deleted(){return isDeleted;}
     void dead(bool isDead){this->isDead = isDead;}
     cocos2d::Sprite * getSprite(){return sprite;}
     void setMoveSpeed(float speed){moveSpeed = speed;}
