@@ -21,8 +21,6 @@
 
 #include <list>
 #include "Utility.h"
-#include "cocos2d.h"
-
 
 USING_NS_CC;
 using namespace std;
@@ -54,7 +52,7 @@ private:
     
     SpriteFrameCache* heroSpriteSheet;
     
-    std::map<cocos2d::EventKeyboard::KeyCode, bool>& keyCode;
+    std::map<cocos2d::EventKeyboard::KeyCode, bool>* keyCode;
     
     Vec2& heroVelocity;
     
@@ -95,7 +93,7 @@ public:
         return this->heroSprite->getPositionY();
     }
     
-    void collideEnemy(bool enemyCanBeSteppedOn,Sprite* enemyCollided);
+    void collideEnemy(bool enemyCanBeSteppedOn);
     
 };
 
