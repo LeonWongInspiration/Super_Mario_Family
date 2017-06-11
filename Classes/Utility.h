@@ -26,4 +26,15 @@ enum Direction{
     RIGHT
 };
 
+namespace SpriteBitmask{
+    const int hero = 1;
+    const int goomba = 1 << 1;
+    const int koopa = 1 << 2;
+    const int koopa_dead = 1 << 3;
+    const int piranha = 1 << 4;
+    const int quotation = 1 << 5;
+    const int [q]hidden = 1 << 6;
+    const int pass = 1 << 7;
+};
+
 #endif /* Utility_h */
