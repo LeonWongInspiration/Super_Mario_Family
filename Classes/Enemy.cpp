@@ -31,6 +31,8 @@ dir(LEFT)
     sprite->setScale(0.125, 0.125);
     width = sprite->getContentSize().width;
     height = sprite->getContentSize().height;
+    body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());
+    this->getSprite()->setPhysicsBody(body);
 }
 
 bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)

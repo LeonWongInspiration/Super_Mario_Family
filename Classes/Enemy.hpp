@@ -19,6 +19,7 @@ private:
     bool trigger;
     Direction dir;
     cocos2d::Sprite * sprite;
+    cocos2d::PhysicsBody * body;
     bool isDead;
     float moveSpeed;
     float jumpSpeed;

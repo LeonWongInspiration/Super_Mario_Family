@@ -17,7 +17,14 @@ FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(1.0f),outScene(fals
     sprite->setPositionX(x);
     sprite->setPositionY(y);
     CCLOG("%d %d",x,y);
-    }
+    body = cocos2d::PhysicsBody::createBox(this->getSprite()->getContentSize());
+    this->getSprite()->setPhysicsBody(body);
+    
+    
+    
+    
+    
+}
 
 void FallBricks::fall()
 {

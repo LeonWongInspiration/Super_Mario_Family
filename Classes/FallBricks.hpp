@@ -21,6 +21,7 @@ private:
     float width;
     float height;
     cocos2d::Sprite * sprite;
+    cocos2d::PhysicsBody * body;
 public:
     FallBricks(int x,int y);
     ~FallBricks();
