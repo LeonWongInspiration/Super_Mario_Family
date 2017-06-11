@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706111850 |   Leon Wong  | Now it can move around                                         |
  * |201706081906 |   Leon Wong  | Remove Interface, and make them inside. Update more functions  |
  * |201706072145 |   Leon Wong  | Adopting a new interface                                       |
  * |201706041448 |   Leon Wong  | Add some basic features                                        |
@@ -61,6 +62,8 @@ private:
     void moveRight();
     
     void moveLeft();
+    
+    bool isGoing(const Direction& dir);
 public:
     
     static int lifeCount;

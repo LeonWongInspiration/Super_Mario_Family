@@ -51,6 +51,25 @@ void Hero::moveLeft(){
     }
 }
 
-void Hero::run(TMXTiledMap* tMap, TMXLayer* tLayer){
-    
+bool Hero::isGoing(const Direction& dir){
+    switch dir{
+    case Direction::UP:
+        return keyCode[EventKeyboard::keyCode::KEY_UP_ARROW];
+        
+    case Direction::LEFT:
+        return keyCode[EventKeyboard::keyCode::KEY_LEFT_ARROW];
+        
+    case Direction::RIGHT:
+        return keyCode[EventKeyboard::keyCode::KEY_RIGHT_ARROW];
+        
+    }
+}
+
+void Hero::run(){
+    if (isGoing(Direction::UP))
+        jump();
+    if (isGoing(Direction::LEFT))
+        moveLeft();
+    if (isGoing(Direction::RIGHT))
+        moveRight();
 }
