@@ -21,6 +21,8 @@
 
 #include <list>
 #include "Utility.h"
+#include "cocos2d.h"
+
 
 USING_NS_CC;
 using namespace std;
@@ -93,7 +95,7 @@ public:
         return this->heroSprite->getPositionY();
     }
     
-    void collideEnemy(bool enemyCanBeSteppedOn);
+    void collideEnemy(bool enemyCanBeSteppedOn,Sprite* enemyCollided);
     
 };
 
