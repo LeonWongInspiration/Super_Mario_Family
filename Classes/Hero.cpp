@@ -73,3 +73,17 @@ void Hero::run(){
     if (isGoing(Direction::RIGHT))
         moveRight();
 }
+
+void Hero::collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided){
+    if (enemyCanBeSteppedOn && this->heroSprite->getPosition().x >=
+        enemyCollided->getPosition().x + 0.1 * enemyCollided->getContentSize().width
+        && this->heroSprite->getPosition().x <=
+        enemyCollided->getPosition().x - 0.1 * enemyCollided->getContentSize().width){
+        //TODO remove Enemy
+        //TODO music
+    }
+    else {
+        //TODO music
+        this->death(0);
+    }
+}

@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706111913 |   Leon Wong  | Add methods for stepping on enemies and colliding with enemies |
  * |201706111850 |   Leon Wong  | Now it can move around                                         |
  * |201706081906 |   Leon Wong  | Remove Interface, and make them inside. Update more functions  |
  * |201706072145 |   Leon Wong  | Adopting a new interface                                       |
@@ -64,6 +65,10 @@ private:
     void moveLeft();
     
     bool isGoing(const Direction& dir);
+    
+    void jumpAfterStepOnEnemy(){
+        this->heroBody->applyImpulse(Vec2(0, 4900));
+    }
 public:
     
     static int lifeCount;
@@ -87,6 +92,8 @@ public:
     float getPositionY(){
         return this->heroSprite->getPositionY();
     }
+    
+    void collideEnemy(bool enemyCanBeSteppedOn);
     
 };
 
