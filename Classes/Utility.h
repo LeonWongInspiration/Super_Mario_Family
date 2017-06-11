@@ -35,6 +35,9 @@ namespace SpriteBitmask{
     const int quotation = 1 << 5;
     const int hidden = 1 << 6;
     const int pass = 1 << 7;
+    const int cloud = 1 << 8;
+    const int sting = 1 << 9;
+    const int fakePrincess = 1 << 10;
 };
 
 #endif /* Utility_h */
