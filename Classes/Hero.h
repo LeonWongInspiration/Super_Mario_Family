@@ -54,7 +54,7 @@ private:
     
     std::map<cocos2d::EventKeyboard::KeyCode, bool>* keyCode;
     
-    Vec2& heroVelocity;
+    //Vec2& heroVelocity;
     
     const int maxXVelocity = 10;
     
@@ -73,11 +73,11 @@ public:
     
     static int lifeCount;
     
-    Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool> _KeyCode);
+    Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool>* _KeyCode);
     
     ~Hero();
     
-    void run(TMXTiledMap* tMap, TMXLayer* tLayer);
+    void run();
     
     void death(int foo){};
     
@@ -93,7 +93,7 @@ public:
         return this->heroSprite->getPositionY();
     }
     
-    void collideEnemy(bool enemyCanBeSteppedOn);
+    void collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided);
     
 };
 
