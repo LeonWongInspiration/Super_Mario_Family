@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706131517 |   Leon Wong  | Add running & jumping animation for sprite                     |
  * |201706131405 |   Leon Wong  | Hero cannot jump in the air                                    |
  * |201706111913 |   Leon Wong  | Add methods for stepping on enemies and colliding with enemies |
  * |201706111850 |   Leon Wong  | Now it can move around                                         |
@@ -70,6 +71,16 @@ private:
     void jumpAfterStepOnEnemy(){
         this->heroBody->applyImpulse(Vec2(0, 4900));
     }
+    
+    SpriteFrame* standFrame;
+    
+    SpriteFrame* runFrame;
+    
+    int runningSprite = 0;
+    
+    bool runningFrame = false;
+    
+    bool jumping = false;
 public:
     
     static int lifeCount;
