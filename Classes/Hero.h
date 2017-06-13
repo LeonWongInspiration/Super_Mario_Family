@@ -7,6 +7,7 @@
  * -----------------------------------------------------------------------------------------------
  * |   <Build>   |   <Author>   | <Description>                                                  |
  * -----------------------------------------------------------------------------------------------
+ * |201706131405 |   Leon Wong  | Hero cannot jump in the air                                    |
  * |201706111913 |   Leon Wong  | Add methods for stepping on enemies and colliding with enemies |
  * |201706111850 |   Leon Wong  | Now it can move around                                         |
  * |201706081906 |   Leon Wong  | Remove Interface, and make them inside. Update more functions  |
@@ -56,7 +57,7 @@ private:
     
     //Vec2& heroVelocity;
     
-    const int maxXVelocity = 10;
+    const int maxXVelocity = 40;
     
     void jump();
     

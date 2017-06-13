@@ -28,8 +28,8 @@ Hero::~Hero(){
 }
 
 void Hero::jump(){
-    if (this->heroBody->getVelocity().y == 0){
-        this->heroBody->applyImpulse(Vec2(0, 9800));
+    if (abs(this->heroBody->getVelocity().y) <= 0.0001f){
+        this->heroBody->applyImpulse(Vec2(0, 20000));
     }
 }
 
@@ -37,7 +37,7 @@ void Hero::moveRight(){
     this->heroSprite->setFlippedX(false);
     const Vec2& currentVelocity = this->heroBody->getVelocity();
     if (currentVelocity.x <= this->maxXVelocity){
-        this->heroBody->setVelocity(Vec2(currentVelocity.x + 1, currentVelocity.y));
+        this->heroBody->setVelocity(Vec2(currentVelocity.x + 8, currentVelocity.y));
     }
 }
 
@@ -45,7 +45,7 @@ void Hero::moveLeft(){
     this->heroSprite->setFlippedX(true);
     const Vec2& currentVelocity = this->heroBody->getVelocity();
     if (-currentVelocity.x <= this->maxXVelocity){
-        this->heroBody->setVelocity(Vec2(currentVelocity.x - 1, currentVelocity.y));
+        this->heroBody->setVelocity(Vec2(currentVelocity.x - 8, currentVelocity.y));
     }
 }
 
