@@ -91,7 +91,7 @@ public:
     
     TMXObjectGroup * enemy;
     
-    
+    cocos2d::Animate * koopaMove;
     
 	CREATE_FUNC(GameScene);
 

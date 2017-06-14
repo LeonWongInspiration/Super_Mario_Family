@@ -39,11 +39,17 @@ bool GameScene::init()
 	TMXTiledMap* map = TMXTiledMap::create("Level1.tmx");
 	addChild(map, 10);
     mapMe = map;
-    mapMoveCount = 0.0;
+    mapMoveCount = -0.5;
 	auto blockLayer = map->getLayer("Blocks");
 	auto hiddenLayer = map->getLayer("Hidden");
 	auto fakeLayer = map->getLayer("Fake");
+    auto animation = cocos2d::Animation::create();
     
+    animation->addSpriteFrameWithFile("Koopa_256.png");
+    animation->addSpriteFrameWithFile("Koopa_Run_256.png");
+    animation->setRestoreOriginalFrame(true);
+    animation->setDelayPerUnit(5.0f/38);
+    koopaMove = cocos2d::Animate::create(animation);
     
     
     auto meta = map->getLayer("Meta");
@@ -60,7 +66,7 @@ bool GameScene::init()
     
     //add player
     
-    hero = new Hero;
+    hero = new Hero(&keyCode);
     
     
     
@@ -72,11 +78,13 @@ bool GameScene::init()
     
     for(int i = 1;i <= 2;++i)
     {
+        CCLOG("Koopa");
         sprintf(buffer, "%d",i);
         ValueMap koo = enemy->getObject(k+buffer);
         Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koo.at("x").asFloat(),koo.at("y").asFloat());
+        koopa->getSprite()->runAction(cocos2d::RepeatForever::create(koopaMove));
         
-        this->addChild(koopa->sprite);
+        this->addChild(koopa->getSprite());
         
         koopaList.push_back(koopa);
         
@@ -88,6 +96,8 @@ bool GameScene::init()
     
     for(int i = 1;i <= 7;++i)
     {
+        CCLOG("Goomba");
+        
         sprintf(buffer, "%d",i);
         
         auto goo = enemy->getObject(g + buffer);
@@ -95,7 +105,7 @@ bool GameScene::init()
         Goomba * goomba = new Goomba("Enemy_256.plist","Goomba_256.png",goo.at("x").asFloat(),goo.at("y").asFloat());
         
         
-        this->addChild(goomba->sprite);
+        this->addChild(goomba->getSprite());
         
         goombaList.push_back(goomba);
         
@@ -108,13 +118,17 @@ bool GameScene::init()
     
     for(int i = 1;i <= 4;++i)
     {
+        
+        CCLOG("Piranha");
         sprintf(buffer, "%d",i);
         CCLOG("%s",buffer);
         auto pir = enemy->getObject(p + buffer);
         
         Piranha * piranha = new Piranha("Enemy_256.plist","Piranha_open_256.png",pir.at("x").asFloat(),pir.at("y").asFloat());
         
-        this->addChild(piranha->sprite);
+        piranha->setMoveSpeed(0.0f);
+        
+        this->addChild(piranha->getSprite());
         
         piranhaList.push_back(piranha);
     
@@ -125,11 +139,13 @@ bool GameScene::init()
     
     string f = "Falling1";
     
+    CCLOG("fallbricks");
+    
     auto fall = enemy->getObject(f);
     
     FallBricks * fallBricks = new FallBricks(fall.at("x").asFloat(),fall.at("y").asFloat());
     
-    this->addChild(fallBricks->sprite,0);
+    this->addChild(fallBricks->getSprite(),0);
     
     fallbricksList.push_back(fallBricks);
     
@@ -137,6 +153,8 @@ bool GameScene::init()
     //add Cloud list
     
     string c = "stingCloud";
+    
+    CCLOG("stingCloud");
     
     auto sCloud = enemy->getObject(c);
     
@@ -150,7 +168,9 @@ bool GameScene::init()
     
     string s = "Sting";
     
-    for(int i = 1; i <= 4;++i)
+    CCLOG("Sting");
+    
+    for(int i = 1; i <= 8;++i)
     {
         sprintf(buffer, "%d",i);
         
@@ -162,35 +182,13 @@ bool GameScene::init()
         
         this->addChild(sting->nowSprite);
         
-        if(i == 3)
-        {
-            Sting * sting2 = new Sting("Sting.png",stingX+32,stingY);
-            this->addChild(sting->nowSprite);
-            
-            
-            stingList.push_back(sting2);
-            
-            
-            
-            
-            
-        }
-        
-        if(i == 4)
-        {
-            for(int j = 1;j <= 3;++j)
-            {
-                sting = new Sting("Sting.png",stingX+(float)j*32,stingY);
-                this->addChild(sting->nowSprite);
-                stingList.push_back(sting);
-            }
-        }
-        
-        
+        stingList.push_back(sting);
         
     }
     
     //add fake princess list
+    
+    CCLOG("fake");
     
     auto princessValue = enemy->getObject("fakePrincess");
     
@@ -200,6 +198,9 @@ bool GameScene::init()
     
     fakePrincessList.push_back(fakePrincess);
     
+    // add pass point
+    
+    auto pass = enemy->getObject("Pass");
     
     
    
@@ -234,58 +235,90 @@ void GameScene::update(float dt)
     
     //CCLOG("update");
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
     
-    auto heroPositionX = hero->getSprite()->getPositionX();
     
-    auto heroPositionY = hero->getSprite()->getPositionY();
+  /*  auto heroPositionX = hero->getSprite()->getPositionX();
     
-    mapMe->setPositionX(mapMe->getPositionX()+mapMoveCount);
+    auto heroPositionY = hero->getSprite()->getPositionY();*/
     
-    //CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
+    auto formerX = mapMe->getPositionX();
     
-    for(auto item:piranhaList)
+    
+    //mapMe->setPositionX(mapMe->getPositionX()-1);
+    this->setPositionX(this->getPositionX()-1.0f);
+    
+    auto nowX = mapMe->getPositionX();
+    
+    auto d = nowX - formerX;
+    
+    CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
+    
+    for(auto item = piranhaList.begin();item != piranhaList.end();)
     {
         
-        item->judge(mapMe, heroPositionX, heroPositionY);
-        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
-        item->update(mapMe);
+        //item->judge(mapMe, heroPositionX, heroPositionY);
+        if((*item)->deleted())
+        {
+            auto del = item;
+            ++item;
+            piranhaList.erase(del);
+            delete *del;
+            continue;
+        }
+        ++item;
     }
     
-    for(auto item:goombaList)
+    for(auto item = goombaList.begin();item != goombaList.end();)
     {
-        item->judge(mapMe, heroPositionX, heroPositionY);
-        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
-        item->update(mapMe);
-    }
-    
-    for(auto item:koopaList)
-    {
-        item->judge(mapMe, heroPositionX, heroPositionY);
-        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
-        item->update(mapMe);
-    }
-    
-    for(auto item:fallbricksList)
-    {
+        //item->judge(mapMe, heroPositionX, heroPositionY);
         
-        item->sprite->setPositionX(item->sprite->getPositionX() + mapMoveCount);
-        item->isAbove(heroPositionX, heroPositionY);
-        item->fall();
+    }
+    
+    for(auto item = koopaList.begin();item != koopaList.end();)
+    {
+        if((*item)->deleted())
+        {
+            auto del = item;
+            ++item;
+            koopaList.erase(del);
+            delete *del;
+            continue;
+        }
+        if(!(*item)->getTrigger())
+        {
+            
+            
+        }
+        
+        
+        (*item)->update(mapMe);
+        ++item;
+    }
+    
+    for(auto item = fallbricksList.begin();item!=fallbricksList.end();)
+    {
+        if((*item)->isOutScene())
+        {
+            auto del = item;
+            ++item;
+            fallbricksList.erase(del);
+            delete *del;
+            continue;
+        }
     }
     
     for(auto item:stingList)
     {
-        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+        
     }
     
     for(auto item:cloudList)
     {
-        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+       
     }
     for(auto item:fakePrincessList)
     {
-        item->nowSprite->setPositionX(item->nowSprite->getPositionX() + mapMoveCount);
+        
     }
     
     
@@ -317,7 +350,7 @@ cocos2d::Scene * GameScene::createScene()
     auto scene = cocos2d::Scene::createWithPhysics();
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
-    scene->getPhysicsWorld()->setGravity(Vec2(0,-6));
+    scene->getPhysicsWorld()->setGravity(Vec2(0,0));
 	
     auto layer = GameScene::create();
 	
