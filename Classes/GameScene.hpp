@@ -59,6 +59,8 @@ private:
     
     cocos2d::Scene * myScene;
     
+    void limitHeroPosition();
+    
 public:
     virtual bool init();
     

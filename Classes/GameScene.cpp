@@ -370,7 +370,7 @@ void GameScene::update(float dt)
     
     hero->run();
     
-    
+    this->limitHeroPosition();
     
     
     
@@ -415,4 +415,17 @@ bool GameScene::isKeyPressed(cocos2d::EventKeyboard::KeyCode KeyCode)
         return true;
     else
         return false;
+}
+
+void GameScene::limitHeroPosition(){
+    if(this->hero->getPositionX() >= 400)
+    {
+        float moveLen = this->hero->getPositionX() - 400;
+        this->mapMe->setPositionX(this->mapMe->getPositionX() - moveLen);
+        this->metaLayer->setPositionX(this->metaLayer->getPositionX() - moveLen);
+        this->hero->getSprite()->setPositionX(this->hero->getPositionX() - moveLen);
+    }
+    
+    if (this->hero->getPositionX() < 0)
+        this->hero->getSprite()->setPositionX(0);
 }
