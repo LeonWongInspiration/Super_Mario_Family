@@ -10,7 +10,7 @@
 Enemy::Enemy(const char* frameName,const char * filename,int x,int y,KIND monsterKind)
 :
 kind(monsterKind),
-moveSpeed(1.0f),
+moveSpeed(0.5f),
 jumpSpeed(3.0f),
 fallSpeed(3.0f),
 isDead(false),
@@ -21,6 +21,7 @@ fall(false),
 setEnemyX(0),
 setEnemyY(0),
 moveTime(0),
+deathCount(0),
 dir(LEFT)
 {
     cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(frameName);
@@ -73,25 +74,34 @@ bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
     return true;
 }
 
-bool Enemy::gravity(cocos2d::TMXTiledMap *tmxmap)
-{
-    return true;
-}
+
 
 void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
 {
-    if(sprite->getPositionY()  < 0)
+    if(dead())
     {
+        deathCount++;
+    }
+    if(isDead&&!isDeleted&&deathCount >= 120)
+    {
+        getSprite()->removeFromParent();
         isDeleted = true;
         return;
+    }
+    
+    
+    if(sprite->getPositionY()  < 0)
+    {
+        dead(true);
+        deathCount = 120;
+        
     }
     if(!trigger)
     {
         return;
     }
     move(tmxmap);
-    gravity(tmxmap);
-    
+        
     bool picdir = dir==RIGHT?true:false;
     sprite->setFlippedX(picdir);
     
@@ -109,6 +119,41 @@ void Enemy::judge(cocos2d::TMXTiledMap* tmxmap,float x, float y)
     {
         trigger = true;
     }
+}
+
+void Enemy::dead(bool isDead)
+{
+    if(!dead())
+    {
+        this->isDead = isDead;
+        replacePic();
+        if(kind!=KOOPA)
+        {
+            trigger = false;
+        }
+        
+    }
+}
+
+void Enemy::replacePic()
+{
+    cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Enemy_256.plist");
+    std::string enemyName;
+    switch (kind) {
+        case GOOMBA:
+            enemyName = "Goomba_dead_256.png";
+            break;
+        case KOOPA:
+            enemyName = "Koopa_dead_256.png";
+        default:
+            break;
+    }
+    auto tempSprite = cocos2d::Sprite::createWithSpriteFrameName(enemyName);
+    tempSprite->setScale(0.125, 0.125);
+    tempSprite->setPosition(sprite->getPosition());
+    sprite->removeFromParent();
+    sprite = tempSprite;
+    
 }
 
 

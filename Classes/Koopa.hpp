@@ -14,11 +14,11 @@ class Koopa:public Enemy
 {
 public:
     int count;
-
+    bool flag;
     Koopa(const char * frameName,const char * fileName,int x,int y);
     ~Koopa(){};
     cocos2d::Animate * moveAcition;
-    void action();
+    void action(cocos2d::TMXTiledMap * tmxmap);
 };
 
 #endif /* Koopa_hpp */

@@ -28,6 +28,7 @@ private:
     float height;
     float width;
     bool isDeleted;
+    int deathCount;
 public:
     enum KIND
     {
@@ -47,11 +48,20 @@ public:
     bool normalSpeed;
     void deleteFromNode(){isDeleted = true;}
     bool deleted(){return isDeleted;}
-    void dead(bool isDead){this->isDead = isDead;}
+    
+    bool dead(){return isDeleted;}
+    
+    void dead(bool isDead);
+    
+    void replacePic();
+    
     cocos2d::Sprite * getSprite(){return sprite;}
     void setMoveSpeed(float speed){moveSpeed = speed;}
+    
     void setFallSpeed(float speed){fallSpeed = speed;}
+    
     float getWidth(){return width;}
+    
     float getHeight(){return height;}
     
     
@@ -68,11 +78,13 @@ public:
     ~Enemy(){};
     bool move(cocos2d::TMXTiledMap * tmxmap);
     void update(cocos2d::TMXTiledMap * tmxmap);
-    bool gravity(cocos2d::TMXTiledMap * tmxmap);
+
     void judge(cocos2d::TMXTiledMap * tmxmap,float x,float y);
     void setDirection(Direction dir){this->dir = dir;}
     
     bool getTrigger(){return trigger;}
+    
+    void setTrigger(){trigger = true;}
     
     
     
