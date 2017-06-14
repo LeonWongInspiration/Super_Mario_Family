@@ -2,13 +2,16 @@
 
 FakePrincess::FakePrincess(const char* fileName,float x,float y):Block(fileName,x,y)
 {
-	this->getSprite()->setTextureRect(Rect(0, 0, 200, 256));
-	this->getSprite()->setScaleX(0.16f);
-	this->getSprite()->setScaleY(0.25f);
+	this->getSprite()->setScaleX(0.16);
+	this->getSprite()->setScaleY(0.25);
+
+	width = this->getSprite()->getContentSize().width;
+	height = this->getSprite()->getContentSize().height;
 
 	body = PhysicsBody::createBox(this->getSprite()->getContentSize());
 	this->getSprite()->setPhysicsBody(body);
 	body->setCollisionBitmask(SpriteBitmask::fakePrincess);
+	body->setDynamic(false);
 }
 
 FakePrincess::~FakePrincess()
@@ -16,8 +19,5 @@ FakePrincess::~FakePrincess()
 
 void FakePrincess::killMario(Hero* hero)
 {
-	if (collideHero(hero, width, height))
-	{
 		hero->death(0);
-	}
 }
