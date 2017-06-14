@@ -56,9 +56,7 @@ private:
     
     std::map<cocos2d::EventKeyboard::KeyCode, bool>* keyCode;
     
-    //Vec2& heroVelocity;
-    
-    const int maxXVelocity = 40;
+    const int maxXVelocity = 80;
     
     void jump();
     
@@ -81,6 +79,8 @@ private:
     bool runningFrame = false;
     
     bool jumping = false;
+    
+    TMXLayer* meta;
 public:
     
     static int lifeCount;

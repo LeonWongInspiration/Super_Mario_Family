@@ -25,9 +25,8 @@ keyCode(_KeyCode){
     this->heroSprite = Sprite::createWithSpriteFrameName("Mario_Stand.png");
     this->heroSprite->setScale(0.125);
     
-    this->heroSprite->setAnchorPoint(Vec2(0.5, 1));
-    
     this->heroBody = PhysicsBody::createBox(this->heroSprite->getContentSize());
+    this->heroBody->setRotationEnable(false);
     
     this->heroSprite->setPhysicsBody(this->heroBody);
     this->heroBody->setCollisionBitmask(SpriteBitmask::hero);
@@ -101,6 +100,9 @@ void Hero::run(){
         moveLeft();
     if (isGoing(Direction::RIGHT))
         moveRight();
+    //if (isHindered(DOWN)){
+    //    this->heroBody->setVelocity(Vec2(this->heroBody->getVelocity().x, 0));
+    //}
 }
 
 void Hero::collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided){
