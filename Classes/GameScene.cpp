@@ -28,7 +28,7 @@ using namespace std;
  */
 bool GameScene::init()
 {
-    if(!cocos2d::Layer::init())
+    if(!cocos2d::Scene::init())
     {
         return false;
     }
@@ -36,13 +36,24 @@ bool GameScene::init()
     auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     //loading start scene and player
     
+    this->enemyLayer = Layer::create();
+    
+    this->addChild(enemyLayer);
+    
 	TMXTiledMap* map = TMXTiledMap::create("Level1.tmx");
+    
 	addChild(map, 10);
+    
     mapMe = map;
+    
     mapMoveCount = -0.5;
+    
 	auto blockLayer = map->getLayer("Blocks");
+    
 	auto hiddenLayer = map->getLayer("Hidden");
+    
 	auto fakeLayer = map->getLayer("Fake");
+    
     auto animation = cocos2d::Animation::create();
     
     animation->addSpriteFrameWithFile("Koopa_256.png");
@@ -51,8 +62,39 @@ bool GameScene::init()
     animation->setDelayPerUnit(5.0f/38);
     koopaMove = cocos2d::Animate::create(animation);
     
+    meta = map->getLayer("Meta");
     
-    auto meta = map->getLayer("Meta");
+    metaLayer = cocos2d::Layer::create();
+    
+    this->addChild(metaLayer);
+    
+    
+    
+    
+    
+    
+    for (int i = 0; i < mapMe->getMapSize().width; ++i)
+    {
+        for (int j = 0; j < mapMe->getMapSize().height; ++j)
+        {
+            if (meta->getTileGIDAt(Vec2(i, j)) != 0)
+            {
+                Sprite* tile = Sprite::create("Blocks.png");
+                tile->setScale(mapMe->getTileSize().width / tile->getContentSize().width,
+                               mapMe->getTileSize().height / tile->getContentSize().height);
+                PhysicsBody* tileBody = PhysicsBody::createBox(tile->getContentSize());
+                tile->setPhysicsBody(tileBody);
+                tile->setVisible(false);
+                tileBody->setDynamic(false);
+                tileBody->getShape(0)->setRestitution(0.0f);
+                tileBody->getShape(0)->setFriction(0.5f);
+                tile->setPosition(Vec2(i * mapMe->getTileSize().width + 16, (mapMe->getMapSize().height - j) * mapMe->getTileSize().height - 16));
+                metaLayer->addChild(tile);
+            }
+        }
+    }
+
+    
     
     meta->setVisible(false);
     
@@ -67,6 +109,9 @@ bool GameScene::init()
     //add player
     
     hero = new Hero(&keyCode);
+    hero->getSprite()->setPosition(Vec2(64, 256));
+    
+    this->addChild(hero->getSprite());
     
     
     
@@ -84,7 +129,7 @@ bool GameScene::init()
         Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koo.at("x").asFloat(),koo.at("y").asFloat());
         koopa->getSprite()->runAction(cocos2d::RepeatForever::create(koopaMove));
         
-        this->addChild(koopa->getSprite());
+        this->enemyLayer->addChild(koopa->getSprite());
         
         koopaList.push_back(koopa);
         
@@ -105,7 +150,7 @@ bool GameScene::init()
         Goomba * goomba = new Goomba("Enemy_256.plist","Goomba_256.png",goo.at("x").asFloat(),goo.at("y").asFloat());
         
         
-        this->addChild(goomba->getSprite());
+        this->enemyLayer->addChild(goomba->getSprite());
         
         goombaList.push_back(goomba);
         
@@ -128,7 +173,7 @@ bool GameScene::init()
         
         piranha->setMoveSpeed(0.0f);
         
-        this->addChild(piranha->getSprite());
+        this->enemyLayer->addChild(piranha->getSprite());
         
         piranhaList.push_back(piranha);
     
@@ -145,7 +190,7 @@ bool GameScene::init()
     
     FallBricks * fallBricks = new FallBricks(fall.at("x").asFloat(),fall.at("y").asFloat());
     
-    this->addChild(fallBricks->getSprite(),0);
+    this->enemyLayer->addChild(fallBricks->getSprite(),0);
     
     fallbricksList.push_back(fallBricks);
     
@@ -180,7 +225,7 @@ bool GameScene::init()
         
         Sting * sting = new Sting("Sting.png",stingX,stingY);
         
-        this->addChild(sting->nowSprite);
+        this->enemyLayer->addChild(sting->nowSprite);
         
         stingList.push_back(sting);
         
@@ -194,7 +239,7 @@ bool GameScene::init()
     
     FakePrincess* fakePrincess = new FakePrincess("fakePrincess.png",princessValue.at("x").asFloat(),princessValue.at("y").asFloat());
     
-    this->addChild(fakePrincess->nowSprite);
+    this->enemyLayer->addChild(fakePrincess->nowSprite);
     
     fakePrincessList.push_back(fakePrincess);
     
@@ -222,6 +267,7 @@ bool GameScene::init()
     keyboardListener->onKeyReleased = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event)
     {
         keyCode[KeyCode] = false;
+        CCLOG("Release");
     };
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
@@ -245,15 +291,14 @@ void GameScene::update(float dt)
     
     
     //mapMe->setPositionX(mapMe->getPositionX()-1);
-    this->setPositionX(this->getPositionX()-1.0f);
     
     auto nowX = mapMe->getPositionX();
     
     auto d = nowX - formerX;
     
-    CCLOG("%f %f",mapMe->getPositionX(),mapMe->getPositionY());
+   // CCLOG("%f %f",hero->getPositionX(),hero->getPositionY());
     
-    for(auto item = piranhaList.begin();item != piranhaList.end();)
+  /*  for(auto item = piranhaList.begin();item != piranhaList.end();)
     {
         
         //item->judge(mapMe, heroPositionX, heroPositionY);
@@ -320,8 +365,10 @@ void GameScene::update(float dt)
     {
         
     }
+   */
     
     
+    hero->run();
     
     
     
@@ -350,11 +397,14 @@ cocos2d::Scene * GameScene::createScene()
     auto scene = cocos2d::Scene::createWithPhysics();
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
-    scene->getPhysicsWorld()->setGravity(Vec2(0,0));
+    scene->getPhysicsWorld()->setGravity(Vec2(0,-400));
 	
     auto layer = GameScene::create();
+    
+   
 	
     scene->addChild(layer);
+    
 
     return scene;
 }

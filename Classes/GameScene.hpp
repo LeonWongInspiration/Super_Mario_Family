@@ -48,7 +48,7 @@ typedef enum
 /**
  * @brief TODO 潮潮在这里加上简介, 参考GameHelp的样式
  */
-class GameScene:public cocos2d::Layer
+class GameScene:public cocos2d::Scene
 {
 private:
     std::map<cocos2d::EventKeyboard::KeyCode, bool> keyCode;
@@ -56,6 +56,8 @@ private:
     float mapMoveCount;
     
     Hero * hero;
+    
+    cocos2d::Scene * myScene;
     
 public:
     virtual bool init();
@@ -85,6 +87,12 @@ public:
     std::list<Sting*> stingList;
     
     std::list<FakePrincess * > fakePrincessList;
+    
+    TMXLayer * meta;
+    
+    Layer * enemyLayer;
+    
+    Layer * metaLayer;
 
     
     TMXTiledMap * mapMe;
