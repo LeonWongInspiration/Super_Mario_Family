@@ -33,8 +33,8 @@ dir(LEFT)
     width = sprite->getContentSize().width;
     height = sprite->getContentSize().height;
     body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());
-    this->getSprite()->getPhysicsBody()->setRotationEnable(false);
     this->getSprite()->setPhysicsBody(body);
+    this->getSprite()->getPhysicsBody()->setRotationEnable(false);
     this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
 }
 
