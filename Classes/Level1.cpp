@@ -110,17 +110,6 @@ bool Level1::init(){
     this->addChild(this->heroManager->getSprite());
     
     
-    // Listen the keyboard
-    auto keyboardListener = cocos2d::EventListenerKeyboard::create();
-    keyboardListener->onKeyPressed = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = true;
-        CCLOG("Press");
-    };
-    keyboardListener->onKeyReleased = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = false;
-    };
-    
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     
     this->scheduleUpdate();
     return true;
@@ -249,17 +238,26 @@ void Level1::setupEnemyLayer()
     this->enemyLayer->addChild(fakePrincess->getSprite());
     
     staticEnemyList.push_back(fakePrincess);
+}
+
+void Level1::onEnter(){
+    Scene::onEnter();
     
+    // Listen the keyboard
+    auto keyboardListener = cocos2d::EventListenerKeyboard::create();
+    keyboardListener->onKeyPressed = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
+        this->keyCode[KeyCode] = true;
+        CCLOG("Press");
+    };
+    keyboardListener->onKeyReleased = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
+        this->keyCode[KeyCode] = false;
+    };
     
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // Listen the collisions
+    auto contactListener=EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(Utility::onContactBegin, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+
 }

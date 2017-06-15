@@ -52,23 +52,18 @@ private:
     std::map<cocos2d::EventKeyboard::KeyCode, bool> keyCode;
     
     /// A list used to store koopa
-    
     std::list<Koopa *> koopaList;
     
-    ///A list used to store goomba
-    
+    /// A list used to store goomba
     std::list<Goomba *> goombaList;
     
-    ///A list used to store piranha
-    
+    /// A list used to store piranha
     std::list<Piranha *> piranhaList;
     
-    ///A list used to store fallbricks
-    
+    /// A list used to store fallbricks
     std::list<FallBricks *> fallBricksList;
     
-    ///A list to store static enemy
-    
+    /// A list to store static enemy
     std::list<Block *> staticEnemyList;
     
     Hero* heroManager;
@@ -91,13 +86,15 @@ private:
 public:
     static cocos2d::Scene* createScene();
     
-    virtual bool init();
+    virtual bool init() override;
     
-    void update(float delta);
+    void update(float delta) override;
     
     void setPosition(Point p);
     // implement the "static create()" method manually
     CREATE_FUNC(Level1);
+    
+    void onEnter() override;
 };
 
 #endif /* Level1_hpp */
