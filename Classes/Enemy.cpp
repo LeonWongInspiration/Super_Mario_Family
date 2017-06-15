@@ -10,7 +10,7 @@
 Enemy::Enemy(const char* frameName,const char * filename,int x,int y,KIND monsterKind)
 :
 kind(monsterKind),
-moveSpeed(60.0f),
+moveSpeed(0.5f),
 jumpSpeed(3.0f),
 fallSpeed(3.0f),
 isDead(false),
@@ -33,39 +33,45 @@ dir(LEFT)
     width = sprite->getContentSize().width;
     height = sprite->getContentSize().height;
     body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());
-    
-    body->setRotationEnable(false);
-    
-    
+    this->getSprite()->getPhysicsBody()->setRotationEnable(false);
     this->getSprite()->setPhysicsBody(body);
     this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
 }
 
 bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
 {
-    
+    int x = sprite->getPositionX();
+    int y = sprite->getPositionY();
     int mapWidth = tmxmap->getMapSize().width;
     int mapHeight = tmxmap->getMapSize().height;
-    
-    
-    if(getBody()->getVelocity().x < 50)
+    if(moveTime < 1)
     {
-        dir = dir == LEFT?RIGHT:LEFT;
+        moveTime++;
+        return false;
     }
-    
-    
-    
-    
+    else
+    {
+        moveTime = 0;
+    }
+    if(x>=mapWidth)
+    {
+        tmxmap->setPositionX(tmxmap->getPositionX()-1);
+        return true;
+    }
+ /*   if(x<10||x>mapWidth - 10)
+    {
+        dir = (dir == LEFT)?RIGHT:LEFT;
+    }*/
     //here need a map to finish some codes(such as judge the bricks)
     
     if(dir == LEFT)
     {
-        getBody()->setVelocity(cocos2d::Vec2(-moveSpeed,0));
+        sprite-> setPositionX(sprite->getPositionX() - moveSpeed);
     }
     else
         if(dir == RIGHT)
         {
-            getBody()->setVelocity(cocos2d::Vec2(moveSpeed,0));
+            sprite-> setPositionX(sprite->getPositionX() + moveSpeed);
         }
     return true;
 }
@@ -74,7 +80,7 @@ bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
 
 void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
 {
-    if(dead()&&kind!=KOOPA)
+    if(dead())
     {
         deathCount++;
     }
