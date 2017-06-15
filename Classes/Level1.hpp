@@ -95,6 +95,18 @@ public:
     CREATE_FUNC(Level1);
     
     void onEnter() override;
+    
+    bool onContactBegin(const cocos2d::PhysicsContact& contact){
+        cocos2d::Sprite* spriteA = static_cast<cocos2d::Sprite*>(contact.getShapeA()->getBody()->getNode());
+        cocos2d::Sprite* spriteB = static_cast<cocos2d::Sprite*>(contact.getShapeB()->getBody()->getNode());
+        int bitMaskA = spriteA->getPhysicsBody()->getCollisionBitmask();
+        int bitMaskB = spriteB->getPhysicsBody()->getCollisionBitmask();
+        
+        CCLOG("%d %d contact", bitMaskA, bitMaskB);
+        
+        return true;
+    }
+
 };
 
 #endif /* Level1_hpp */

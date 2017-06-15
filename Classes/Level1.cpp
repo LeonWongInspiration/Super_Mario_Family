@@ -48,6 +48,7 @@ void Level1::keepHeroInLimitedRange(){
         float moveLen = this->heroManager->getPositionX() - 400;
         this->map->setPositionX(this->map->getPositionX() - moveLen);
         this->metaLayer->setPositionX(this->metaLayer->getPositionX() - moveLen);
+        this->enemyLayer->setPositionX(this->metaLayer->getPositionX());
         this->heroManager->getSprite()->setPositionX(this->heroManager->getPositionX() - moveLen);
     }
     
@@ -59,7 +60,7 @@ void Level1::keepHeroInLimitedRange(){
 void Level1::update(float delta){
     this->heroManager->run();
     this->keepHeroInLimitedRange();
-    CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
+    //CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
 }
 
 Scene* Level1::createScene(){
@@ -102,6 +103,10 @@ bool Level1::init(){
     this->setupMetaLayer();
     this->addChild(this->metaLayer);
     
+    // Set up enemy Layer to include enemies
+    this->setupEnemyLayer();
+    this->addChild(this->enemyLayer);
+    
     // Set up hero
     this->heroManager = new Hero(&(this->keyCode));
     // Get hero in the Scene
@@ -117,8 +122,7 @@ bool Level1::init(){
 
 
 
-void Level1::setupEnemyLayer()
-{
+void Level1::setupEnemyLayer(){
     auto enemy = map->getObjectGroup("Enemy");
     char buffer[20] ;
     std::string enemyName;
@@ -256,8 +260,8 @@ void Level1::onEnter(){
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     
     // Listen the collisions
-    auto contactListener=EventListenerPhysicsContact::create();
-    contactListener->onContactBegin = CC_CALLBACK_1(Utility::onContactBegin, this);
+    auto contactListener = EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(Level1::onContactBegin, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 }
