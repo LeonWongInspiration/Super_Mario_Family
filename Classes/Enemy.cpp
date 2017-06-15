@@ -34,6 +34,7 @@ dir(LEFT)
     height = sprite->getContentSize().height;
     body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());
     this->getSprite()->setPhysicsBody(body);
+    this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
 }
 
 bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)

@@ -30,6 +30,7 @@ keyCode(_KeyCode){
     
     this->heroSprite->setPhysicsBody(this->heroBody);
     this->heroBody->setCollisionBitmask(SpriteBitmask::hero);
+    this->heroBody->setContactTestBitmask(0xFFFF);
 }
 
 Hero::~Hero(){
