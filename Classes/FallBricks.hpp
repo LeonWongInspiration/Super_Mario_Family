@@ -24,7 +24,7 @@ private:
     cocos2d::PhysicsBody * body;
 public:
     FallBricks(int x,int y);
-    ~FallBricks();
+    ~FallBricks(){};
     void setFallSpeed(float speed){fallSpeed = speed;}
     float getWidth(){return width;}
     float getHeight(){return height;}

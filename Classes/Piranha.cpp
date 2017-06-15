@@ -11,7 +11,7 @@
 
 Piranha::Piranha(const char * frameName,const char * fileName,int x,int y):Enemy(frameName,fileName,x,y,Enemy::PIRANHA),upCount(0),upSpeed(0.5f)
 {
-    
+    getBody()->setCollisionBitmask(SpriteBitmask::piranha);
 };
 void Piranha::up(float heroPositionX)
 {

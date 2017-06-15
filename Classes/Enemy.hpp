@@ -53,12 +53,20 @@ public:
     
     void dead(bool isDead);
     
+    
+    
     void replacePic();
     
     cocos2d::Sprite * getSprite(){return sprite;}
+    
+    cocos2d::PhysicsBody * getBody(){return body;}
+    
     void setMoveSpeed(float speed){moveSpeed = speed;}
     
     void setFallSpeed(float speed){fallSpeed = speed;}
+    
+    float getMoveSpeed(){return moveSpeed;}
+    
     
     float getWidth(){return width;}
     

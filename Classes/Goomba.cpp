@@ -8,5 +8,7 @@
 
 #include "Goomba.hpp"
 Goomba::Goomba(const char * frameName,const char * fileName,int x,int y):Enemy(frameName,fileName,x,y,Enemy::GOOMBA)
-{};
+{
+    this->getBody()->setCollisionBitmask(SpriteBitmask::goomba);
+}
 

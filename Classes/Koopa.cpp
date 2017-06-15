@@ -14,16 +14,18 @@ Koopa::Koopa(const char * frameName,const char * fileName,int x,int y):Enemy(fra
     auto animation = cocos2d::Animation::create();
     animation->addSpriteFrameWithFile("Koopa_256.png");
     animation->addSpriteFrameWithFile("Koopa_Run_256.png");
-    animation->setDelayPerUnit(5.0f/38);
+    animation->setDelayPerUnit(5.0f/20);
     animation->setRestoreOriginalFrame(true);
     moveAcition = cocos2d::Animate::create(animation);
+    this->getBody()->setCollisionBitmask(SpriteBitmask::koopa);
+    
+    getSprite()->runAction(moveAcition);
 }
 
 void Koopa::action(cocos2d::TMXTiledMap * tmxmap)
 {
     if(getTrigger()&&!flag)
     {
-   //     this->getSprite()->runAction(cocos2d::RepeatForever::create(moveAcition));
         flag = true;
     }
     if(count == 1)
@@ -33,7 +35,10 @@ void Koopa::action(cocos2d::TMXTiledMap * tmxmap)
         
         if(!this->dead())
         {
-            
+            this->dead(dead());
+            replacePic();
+            this->setMoveSpeed(getMoveSpeed()*2);
+            this->getSprite()->setPhysicsBody(this->getBody());
             
         }
     }
