@@ -65,6 +65,8 @@ public:
     
     void setFallSpeed(float speed){fallSpeed = speed;}
     
+    void setDeathCount(int n){deathCount = n;}
+    
     float getMoveSpeed(){return moveSpeed;}
     
     

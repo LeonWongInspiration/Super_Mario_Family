@@ -35,7 +35,7 @@ void Koopa::action(cocos2d::TMXTiledMap * tmxmap)
         
         if(!this->dead())
         {
-            this->dead(dead());
+            
             replacePic();
             this->setMoveSpeed(getMoveSpeed()*2);
             this->getSprite()->setPhysicsBody(this->getBody());

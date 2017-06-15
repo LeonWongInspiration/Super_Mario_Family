@@ -19,6 +19,8 @@ public:
     ~Koopa(){};
     cocos2d::Animate * moveAcition;
     void action(cocos2d::TMXTiledMap * tmxmap);
+    
+    void addCount(){++ count;}
 };
 
 #endif /* Koopa_hpp */
