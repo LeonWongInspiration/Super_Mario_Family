@@ -57,10 +57,81 @@ void Level1::keepHeroInLimitedRange(){
 
 }
 
-void Level1::update(float delta){
+void Level1::update(float delta)
+{
     this->heroManager->run();
     this->keepHeroInLimitedRange();
     //CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
+    //koopa list
+    for(auto item = koopaList.begin(); item!=koopaList.end();)
+    {
+        if((*item)->deleted())
+        {
+            auto del = item;
+            item++;
+            koopaList.erase(del);
+            continue;
+        }
+        if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
+           !(*item)->dead())
+        {
+            (*item)->addCount();
+        }
+        (*item)->action(map);
+        item++;
+    }
+    
+    //goomba list
+    
+    for(auto item = goombaList.begin(); item!=goombaList.end();)
+    {
+        if((*item)->deleted())
+        {
+            auto del = item;
+            item++;
+            goombaList.erase(del);
+            continue;
+        }
+        if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
+           !(*item)->dead())
+        {
+            (*item)->dead(true);
+        }
+        (*item)->update(map);
+        item++;
+    }
+    
+    
+    //piranha list
+    
+    for(auto item = piranhaList.begin(); item!=piranhaList.end();)
+    {
+        if((*item)->deleted())
+        {
+            auto del = item;
+            item++;
+            piranhaList.erase(del);
+            continue;
+        }
+        (*item)->up(heroManager->getPositionX());
+        item++;
+    }
+    
+    //fallbricks list
+    for (auto item = fallBricksList.begin(); item != fallBricksList.end(); )
+    {
+        if((*item)->isOutScene())
+        {
+            auto del = item;
+            item++;
+            fallBricksList.erase(del);
+            continue;
+        }
+        
+        (*item)->run(heroManager->getPositionX());
+        item++;
+    }
+
 }
 
 Scene* Level1::createScene(){
@@ -277,6 +348,8 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     if (bitMaskA == SpriteBitmask::hero){
         CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
         if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
+            
+            spriteB->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
             CCLOG("Enemy DIED");
             //TODO remove Enemy
             //TODO music
@@ -289,4 +362,32 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     
     return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

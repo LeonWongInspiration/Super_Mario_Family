@@ -27,6 +27,7 @@ enum Direction{
 };
 
 namespace SpriteBitmask{
+    const int dead = 0x0000;
     const int hero = 1;
     const int goomba = 1 << 1;
     const int koopa = 1 << 2;

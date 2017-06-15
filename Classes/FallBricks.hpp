@@ -33,7 +33,7 @@ public:
     void fall();
     void isAbove(float x,float y);
     bool isOutScene(){return outScene;}
-    void run();
+    void run(float x);
 
     
     

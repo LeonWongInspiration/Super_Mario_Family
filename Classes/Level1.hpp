@@ -97,6 +97,8 @@ public:
     void onEnter() override;
     
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
+    
+    
 };
 
 #endif /* Level1_hpp */

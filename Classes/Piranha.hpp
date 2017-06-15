@@ -20,6 +20,7 @@ public:
     int upCount;
     void up(float x);
     bool isAbove(float);
+
 };
 
 #endif /* Piranha_hpp */
