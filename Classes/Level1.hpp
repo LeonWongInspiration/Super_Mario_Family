@@ -11,6 +11,16 @@
 
 #include "cocos2d.h"
 #include "Hero.h"
+#include "Piranha.hpp"
+
+#include "Cloud.h"
+#include "Koopa.hpp"
+#include "FallBricks.hpp"
+#include "Goomba.hpp"
+#include "Sting.h"
+#include "fakePrincess.h"
+
+
 
 class Level1 : public cocos2d::Scene{
 private:
@@ -40,6 +50,26 @@ private:
     
     /// A map used to keep the information of keys
     std::map<cocos2d::EventKeyboard::KeyCode, bool> keyCode;
+    
+    /// A list used to store koopa
+    
+    std::list<Koopa *> koopaList;
+    
+    ///A list used to store goomba
+    
+    std::list<Goomba *> goombaList;
+    
+    ///A list used to store piranha
+    
+    std::list<Piranha *> piranhaList;
+    
+    ///A list used to store fallbricks
+    
+    std::list<FallBricks *> fallBricksList;
+    
+    ///A list to store static enemy
+    
+    std::list<Block *> staticEnemyList;
     
     Hero* heroManager;
 

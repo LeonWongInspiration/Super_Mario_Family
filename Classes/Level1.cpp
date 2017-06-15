@@ -125,3 +125,141 @@ bool Level1::init(){
     this->scheduleUpdate();
     return true;
 }
+
+
+
+void Level1::setupEnemyLayer()
+{
+    auto enemy = map->getObjectGroup("Enemy");
+    char buffer[20] ;
+    std::string enemyName;
+    int enemyNumber;
+    
+    // Add koopa to enemy layer
+    
+    enemyName = "Koopa";
+    enemyNumber = 2;
+    
+    for(int i = 1;i <= enemyNumber;++i)
+    {
+        sprintf(buffer, "%d",i);
+        
+        auto koopaValue = enemy->getObject(enemyName + buffer);
+        Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
+        
+        this->enemyLayer->addChild(koopa->getSprite());
+        
+        koopaList.push_back(koopa);
+    }
+    
+    
+    //Add goomba to enemy layer
+    
+    enemyName = "Goomba";
+    enemyNumber = 7;
+    
+    for (int i = 1; i <= enemyNumber; ++i)
+    {
+        sprintf(buffer, "%d",i);
+        
+        auto goombaValue = enemy->getObject(enemyName + buffer);
+        
+        Goomba * goomba = new Goomba("Enemy_256.plist","Goomba_256.png",goombaValue.at("x").asFloat(),goombaValue.at("y").asFloat());
+        
+        
+        this->enemyLayer->addChild(goomba->getSprite());
+        
+        goombaList.push_back(goomba);
+    }
+    
+    //Add piranha to enemy layer
+    
+    enemyName = "Piranha";
+    enemyNumber = 4;
+    
+    for(int i = 1; i <= enemyNumber; ++i)
+    {
+        sprintf(buffer, "%d",i);
+
+        auto piranhaValue = enemy->getObject(enemyName + buffer);
+        
+        Piranha * piranha = new Piranha("Enemy_256.plist","Piranha_open_256.png",piranhaValue.at("x").asFloat(),piranhaValue.at("y").asFloat());
+        
+        piranha->setMoveSpeed(0.0f);
+        
+        this->enemyLayer->addChild(piranha->getSprite());
+        
+        piranhaList.push_back(piranha);
+    }
+    
+    //Add fallbricks to the enemy layer
+    
+    enemyName = "Falling1";
+    
+    auto fallBricksValue = enemy->getObject(enemyName);
+    
+    FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat());
+    
+    this->enemyLayer->addChild(fallBricks->getSprite(),0);
+    
+    fallBricksList.push_back(fallBricks);
+    
+    
+    
+    //Add static enemy to the enemy layer
+    
+    //add sting cloud
+    
+    enemyName = "stingCloud";
+    
+    auto stingCloudValue = enemy->getObject(enemyName);
+    
+    Cloud * stingCloud = new Cloud("normalCloud.png",stingCloudValue.at("x").asFloat(),stingCloudValue.at("y").asFloat());
+    
+    this->enemyLayer->addChild(stingCloud->getSprite());
+    
+    staticEnemyList.push_back(stingCloud);
+    
+    //add sting(on the ground)
+    
+    enemyName = "Sting";
+    enemyNumber = 8;
+    for(int i = 1; i <= 8;++i)
+    {
+        sprintf(buffer, "%d",i);
+        
+        auto stingValue = enemy->getObject(enemyName + buffer);
+        auto stingX = stingValue.at("x").asFloat();
+        auto stingY = stingValue.at("y").asFloat();
+        
+        Sting * sting = new Sting("Sting.png",stingX,stingY);
+        
+        this->enemyLayer->addChild(sting->getSprite());
+        
+        staticEnemyList.push_back(sting);
+        
+    }
+    
+    //add fake princess
+    
+    auto princessValue = enemy->getObject("fakePrincess");
+    
+    FakePrincess* fakePrincess = new FakePrincess("fakePrincess.png",princessValue.at("x").asFloat(),princessValue.at("y").asFloat());
+    
+    this->enemyLayer->addChild(fakePrincess->getSprite());
+    
+    staticEnemyList.push_back(fakePrincess);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
