@@ -265,3 +265,28 @@ void Level1::onEnter(){
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
 }
+
+bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
+    cocos2d::Sprite* spriteA = static_cast<cocos2d::Sprite*>(contact.getShapeA()->getBody()->getNode());
+    cocos2d::Sprite* spriteB = static_cast<cocos2d::Sprite*>(contact.getShapeB()->getBody()->getNode());
+    int bitMaskA = spriteA->getPhysicsBody()->getCollisionBitmask();
+    int bitMaskB = spriteB->getPhysicsBody()->getCollisionBitmask();
+    
+    CCLOG("%d %d contact", bitMaskA, bitMaskB);
+    
+    if (bitMaskA == SpriteBitmask::hero){
+        CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
+        if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
+            CCLOG("Enemy DIED");
+            //TODO remove Enemy
+            //TODO music
+        }
+    }
+    
+    if (bitMaskB == SpriteBitmask::hero){
+        CCLOG("Fuck");
+    }
+    
+    return true;
+}
+
