@@ -8,6 +8,7 @@ Sting::Sting(const char* fileName,float x,float y):Block(fileName,x,y)
 	body = PhysicsBody::createBox(this->getSprite()->getContentSize());
 	this->getSprite()->setPhysicsBody(body);
 	body->setCollisionBitmask(SpriteBitmask::sting);
+    body->setContactTestBitmask(0xFFFF);
 	body->setDynamic(false);
 }
 
