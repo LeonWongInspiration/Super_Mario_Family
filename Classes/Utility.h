@@ -43,10 +43,13 @@ namespace SpriteBitmask{
 class Utility{
 public:
     bool onContactBegin(const cocos2d::PhysicsContact& contact){
-        cocos2d::Sprite* spriteA=(cocos2d::Sprite*)contact.getShapeA()->getBody()->getNode();
-        cocos2d::Sprite* spriteB=(cocos2d::Sprite*)contact.getShapeB()->getBody()->getNode();
-        int tagA=spriteA->getTag();
-        int tagB=spriteB->getTag();
+        cocos2d::Sprite* spriteA = static_cast<cocos2d::Sprite*>(contact.getShapeA()->getBody()->getNode());
+        cocos2d::Sprite* spriteB = static_cast<cocos2d::Sprite*>(contact.getShapeB()->getBody()->getNode());
+        int bitMaskA = spriteA->getPhysicsBody()->getCollisionBitmask();
+        int bitMaskB = spriteB->getPhysicsBody()->getCollisionBitmask();
+        
+        CCLOG("%d %d contact", bitMaskA, bitMaskB);
+        
         return true;  
     }
 };
