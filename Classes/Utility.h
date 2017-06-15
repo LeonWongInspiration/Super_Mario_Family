@@ -40,4 +40,15 @@ namespace SpriteBitmask{
     const int fakePrincess = 1 << 10;
 };
 
+class Utility{
+public:
+    bool onContactBegin(const cocos2d::PhysicsContact& contact){
+        cocos2d::Sprite* spriteA=(cocos2d::Sprite*)contact.getShapeA()->getBody()->getNode();
+        cocos2d::Sprite* spriteB=(cocos2d::Sprite*)contact.getShapeB()->getBody()->getNode();
+        int tagA=spriteA->getTag();
+        int tagB=spriteB->getTag();
+        return true;  
+    }
+};
+
 #endif /* Utility_h */
