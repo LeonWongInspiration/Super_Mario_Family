@@ -16,6 +16,7 @@ class Goomba:public Enemy
 public:
     Goomba(const char * frameName,const char * fileName,int x,int y);
     ~Goomba(){};
+    void run(float x);
     
 };
 

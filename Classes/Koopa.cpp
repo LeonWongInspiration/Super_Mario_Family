@@ -22,8 +22,19 @@ Koopa::Koopa(const char * frameName,const char * fileName,int x,int y):Enemy(fra
     getSprite()->runAction(moveAcition);
 }
 
-void Koopa::action(cocos2d::TMXTiledMap * tmxmap)
+void Koopa::action(float x)
 {
+    if(getSprite()->getPositionX() - x <500)
+    {
+        if(!getTrigger())
+        {
+            setTrigger();
+        }
+    }
+    if(x - getSprite()->getPositionX() > 500)
+    {
+        getSprite()->setPositionY(-10);
+    }
     if(getTrigger()&&!flag)
     {
         flag = true;
@@ -42,7 +53,7 @@ void Koopa::action(cocos2d::TMXTiledMap * tmxmap)
             
         }
     }
-    this->update(tmxmap);
+    this->update();
 }
 
 

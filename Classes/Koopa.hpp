@@ -18,7 +18,7 @@ public:
     Koopa(const char * frameName,const char * fileName,int x,int y);
     ~Koopa(){};
     cocos2d::Animate * moveAcition;
-    void action(cocos2d::TMXTiledMap * tmxmap);
+    void action(float x);
     
     void addCount(){++ count;}
 };

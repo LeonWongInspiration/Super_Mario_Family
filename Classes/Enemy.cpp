@@ -41,11 +41,9 @@ dir(LEFT)
     this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
 }
 
-bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
+bool Enemy::move()
 {
     
-    int mapWidth = tmxmap->getMapSize().width;
-    int mapHeight = tmxmap->getMapSize().height;
     
     
     if(getBody()->getVelocity().x < 50)
@@ -72,7 +70,7 @@ bool Enemy::move(cocos2d::TMXTiledMap * tmxmap)
 
 
 
-void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
+void Enemy::update()
 {
     if(dead()&&kind!=KOOPA)
     {
@@ -96,26 +94,14 @@ void Enemy::update(cocos2d::TMXTiledMap *tmxmap)
     {
         return;
     }
-    move(tmxmap);
+    move();
         
     bool picdir = dir==RIGHT?true:false;
     sprite->setFlippedX(picdir);
     
 }
 
-void Enemy::judge(cocos2d::TMXTiledMap* tmxmap,float x, float y)
-{
-    auto spriteX = sprite->getPositionX();
-    
-    auto spriteY = sprite->getPositionY();
-    
-    auto mapSize = tmxmap->getMapSize().width;
-    
-    if(spriteX - x < mapSize/2)
-    {
-        trigger = true;
-    }
-}
+
 
 void Enemy::dead(bool isDead)
 {

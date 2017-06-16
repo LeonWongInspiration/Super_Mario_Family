@@ -86,10 +86,10 @@ public:
     
     Enemy(const char *frameName,const char * filename,int x,int y,KIND kind);
     ~Enemy(){};
-    bool move(cocos2d::TMXTiledMap * tmxmap);
-    void update(cocos2d::TMXTiledMap * tmxmap);
+    bool move();
+    void update();
 
-    void judge(cocos2d::TMXTiledMap * tmxmap,float x,float y);
+    
     void setDirection(Direction dir){this->dir = dir;}
     
     bool getTrigger(){return trigger;}

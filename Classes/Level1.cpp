@@ -77,7 +77,7 @@ void Level1::update(float delta)
         {
             (*item)->addCount();
         }
-        (*item)->action(map);
+        (*item)->action(heroManager->getPositionX());
         item++;
     }
     
@@ -97,7 +97,7 @@ void Level1::update(float delta)
         {
             (*item)->dead(true);
         }
-        (*item)->update(map);
+        (*item)->run(heroManager->getPositionX());
         item++;
     }
     
