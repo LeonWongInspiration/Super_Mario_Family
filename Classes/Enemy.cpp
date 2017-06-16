@@ -144,11 +144,8 @@ void Enemy::replacePic()
         default:
             break;
     }
-    auto tempSprite = cocos2d::Sprite::createWithSpriteFrameName(enemyName);
-    tempSprite->setScale(0.125, 0.125);
-    tempSprite->setPosition(sprite->getPosition());
-    sprite->removeFromParent();
-    sprite = tempSprite;
+    auto frame = cocos2d::SpriteFrameCache::getInstance()->spriteFrameByName(enemyName);
+    getSprite()->setDisplayFrame(frame);
     
 }
 
