@@ -135,6 +135,12 @@ void Hero::run(){
         if ((*this->keyCode)[EventKeyboard::KeyCode::KEY_F]){
             this->heroBody->applyImpulse(Vec2(0, 1000));
         }
+        if ((*this->keyCode)[EventKeyboard::KeyCode::KEY_R]){
+            this->maxXVelocity = 160;
+        }
+        else{
+            this->maxXVelocity = 80;
+        }
     }
     this->checkDeath();
     //if (isHindered(DOWN)){

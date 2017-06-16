@@ -56,7 +56,7 @@ private:
     
     std::map<cocos2d::EventKeyboard::KeyCode, bool>* keyCode;
     
-    const int maxXVelocity = 80;
+    int maxXVelocity = 80;
     
     void jump();
     
