@@ -7,6 +7,7 @@
 //
 
 #include "Hero.h"
+#include "SimpleAudioEngine.h"
 
 int Hero::lifeCount = 2;
 
@@ -32,6 +33,9 @@ keyCode(_KeyCode){
     this->heroSprite->setPhysicsBody(this->heroBody);
     this->heroBody->setCollisionBitmask(SpriteBitmask::hero);
     this->heroBody->setContactTestBitmask(0xFFFF);
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Jump.mp3");
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Death.mp3");
 }
 
 Hero::~Hero(){
@@ -39,6 +43,7 @@ Hero::~Hero(){
 
 void Hero::jump(){
     if (abs(this->heroBody->getVelocity().y) <= 0.0001f){
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Jump.mp3");
         this->heroBody->applyImpulse(Vec2(0, 20000));
         this->heroSprite->setDisplayFrame(this->runFrame);
     }
@@ -92,11 +97,14 @@ bool Hero::isGoing(const Direction& dir){
 
 void Hero::checkDeath(){
     if (!this->dead && this->heroBody->getContactTestBitmask() == 0x0000){
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Death.mp3");
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         this->heroSprite->setDisplayFrame(this->deathFrame);
         this->heroBody->setVelocity(Vec2(0, this->heroBody->getVelocity().y));
         this->heroBody->applyImpulse(Vec2(0, 20000));
         this->heroBody->setCategoryBitmask(0x0000);
         this->dead = true;
+        --Hero::lifeCount;
     }
 }
 
