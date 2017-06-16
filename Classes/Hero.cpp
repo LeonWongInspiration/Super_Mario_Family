@@ -106,6 +106,16 @@ void Hero::checkDeath(){
         this->dead = true;
         --Hero::lifeCount;
     }
+    if (!this->dead && this->heroSprite->getPositionY() <= 0){
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Death.mp3");
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        this->heroSprite->setDisplayFrame(this->deathFrame);
+        this->heroBody->setVelocity(Vec2(0, this->heroBody->getVelocity().y));
+        this->heroBody->applyImpulse(Vec2(0, 20000));
+        this->heroBody->setCategoryBitmask(0x0000);
+        this->dead = true;
+        --Hero::lifeCount;
+    }
 }
 
 void Hero::run(){
@@ -122,6 +132,9 @@ void Hero::run(){
             moveLeft();
         if (isGoing(Direction::RIGHT))
             moveRight();
+        if ((*this->keyCode)[EventKeyboard::KeyCode::KEY_F]){
+            this->heroBody->applyImpulse(Vec2(0, 1000));
+        }
     }
     this->checkDeath();
     //if (isHindered(DOWN)){
