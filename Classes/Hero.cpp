@@ -18,6 +18,7 @@ keyCode(_KeyCode){
     
     this->standFrame = this->heroSpriteSheet->getSpriteFrameByName("Mario_Stand.png");
     this->runFrame = this->heroSpriteSheet->getSpriteFrameByName("Mario_Run.png");
+    this->deathFrame = this->heroSpriteSheet->getSpriteFrameByName("Mario_dead.png");
     
     // CCASSERT(this->standFrame != nullptr, "Fuck!");
     // CCASSERT(this->runFrame != nullptr, "Fuck!");
@@ -89,6 +90,14 @@ bool Hero::isGoing(const Direction& dir){
     }
 }
 
+void Hero::checkDeath(){
+    if (!this->dead && this->heroBody->getContactTestBitmask() == 0x0000){
+        this->heroSprite->setDisplayFrame(this->deathFrame);
+        this->heroBody->applyImpulse(Vec2(0, 1000));
+        this->dead = true;
+    }
+}
+
 void Hero::run(){
     if (isGoing(Direction::UP)){
         jump();
@@ -111,11 +120,13 @@ void Hero::collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided){
         enemyCollided->getPosition().x + 0.1 * enemyCollided->getContentSize().width
         && this->heroSprite->getPosition().x <=
         enemyCollided->getPosition().x - 0.1 * enemyCollided->getContentSize().width){
+        CCLOG("Enemy DIED");
         //TODO remove Enemy
         //TODO music
     }
     else {
+        CCLOG("Hero DIED");
         //TODO music
-        this->death(0);
+        //this->death(0);
     }
 }

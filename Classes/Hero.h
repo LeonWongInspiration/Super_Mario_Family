@@ -74,6 +74,8 @@ private:
     
     SpriteFrame* runFrame;
     
+    SpriteFrame* deathFrame;
+    
     int runningSprite = 0;
     
     bool runningFrame = false;
@@ -81,6 +83,10 @@ private:
     bool jumping = false;
     
     TMXLayer* meta;
+    
+    void checkDeath();
+    
+    bool dead = false;
 public:
     
     static int lifeCount;
@@ -90,8 +96,6 @@ public:
     ~Hero();
     
     void run();
-    
-    void death(int foo){};
     
     Sprite* getSprite(){
         return this->heroSprite;
