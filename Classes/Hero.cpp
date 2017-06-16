@@ -93,23 +93,29 @@ bool Hero::isGoing(const Direction& dir){
 void Hero::checkDeath(){
     if (!this->dead && this->heroBody->getContactTestBitmask() == 0x0000){
         this->heroSprite->setDisplayFrame(this->deathFrame);
-        this->heroBody->applyImpulse(Vec2(0, 1000));
+        this->heroBody->setVelocity(Vec2(0, this->heroBody->getVelocity().y));
+        this->heroBody->applyImpulse(Vec2(0, 20000));
+        this->heroBody->setCategoryBitmask(0x0000);
         this->dead = true;
     }
 }
 
 void Hero::run(){
-    if (isGoing(Direction::UP)){
-        jump();
-        this->jumping = true;
+    if (!this->dead){
+        if (isGoing(Direction::UP)){
+            jump();
+            this->jumping = true;
+
+        }
+        else {
+            this->jumping = false;
+        }
+        if (isGoing(Direction::LEFT))
+            moveLeft();
+        if (isGoing(Direction::RIGHT))
+            moveRight();
     }
-    else {
-        this->jumping = false;
-    }
-    if (isGoing(Direction::LEFT))
-        moveLeft();
-    if (isGoing(Direction::RIGHT))
-        moveRight();
+    this->checkDeath();
     //if (isHindered(DOWN)){
     //    this->heroBody->setVelocity(Vec2(this->heroBody->getVelocity().x, 0));
     //}
