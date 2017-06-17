@@ -29,6 +29,8 @@ private:
     float width;
     bool isDeleted;
     int deathCount;
+    float prePisitionX;
+    
 public:
     enum KIND
     {
@@ -95,6 +97,10 @@ public:
     bool getTrigger(){return trigger;}
     
     void setTrigger(){trigger = true;}
+    
+    void switchDir();
+    
+    Direction getDir(){return dir;}
     
     
     

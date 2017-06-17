@@ -23,17 +23,26 @@ void Piranha::up(float heroPositionX)
         }
         ++upCount;
     }
-    if(!this->getTrigger()||upCount <= 100)
+    if(heroPositionX - getSprite()->getPositionX() > 100)
+    {
+        if(!getTrigger())
+        {
+            setTrigger();
+        }
+        ++upCount;
+    }
+    
+    if(!this->getTrigger()||upCount <= 30)
     {
         return;
     }
     this->getSprite()->getPhysicsBody()->setVelocity(cocos2d::Vec2(0,upSpeed));
-        
+    
 }
 
 bool Piranha::isAbove(float x)
 {
-    if(x > getSprite()->getPositionX() - 32&&x < getSprite()->getPositionX() + 32)
+    if(x - getSprite()->getPositionX() < 64&&x - getSprite()->getPositionX()  > -64)
         return true;
     else
         return false;

@@ -18,13 +18,13 @@ Koopa::Koopa(const char * frameName,const char * fileName,int x,int y):Enemy(fra
     animation->setRestoreOriginalFrame(true);
     moveAcition = cocos2d::Animate::create(animation);
     this->getBody()->setCollisionBitmask(SpriteBitmask::koopa);
-    
+    setMoveSpeed(30.0f);
     getSprite()->runAction(moveAcition);
 }
 
 void Koopa::action(float x)
 {
-    if(getSprite()->getPositionX() - x <500)
+    if(getSprite()->getPositionX() - x < 800)
     {
         if(!getTrigger())
         {
@@ -35,24 +35,24 @@ void Koopa::action(float x)
     {
         getSprite()->setPositionY(-10);
     }
-    if(getTrigger()&&!flag)
-    {
-        flag = true;
-    }
+    
     if(count == 1)
     {
         
         
         
-        if(!this->dead())
+        if(!flag)
         {
+            flag = true;
             
             replacePic();
-            this->setMoveSpeed(getMoveSpeed()*2);
-            this->getSprite()->setPhysicsBody(this->getBody());
+            this->setMoveSpeed(60.0f);
+            this->getSprite()->getPhysicsBody()->setVelocity(cocos2d::Vec2(getMoveSpeed(),0));
+            this->getSprite()->getPhysicsBody()->setDynamic(true);
             
         }
     }
+    
     this->update();
 }
 

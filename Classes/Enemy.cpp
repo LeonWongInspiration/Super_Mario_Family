@@ -24,6 +24,7 @@ moveTime(0),
 deathCount(0),
 dir(LEFT)
 {
+    prePisitionX = x;
     cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(frameName);
     sprite = cocos2d::Sprite::createWithSpriteFrameName(filename);
     sprite->setPositionX(x);
@@ -38,6 +39,7 @@ dir(LEFT)
     
     
     this->getSprite()->setPhysicsBody(body);
+    this->body->applyImpulse(cocos2d::Vec2(0,4900));
     this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
 }
 
@@ -46,24 +48,21 @@ bool Enemy::move()
     
     
     
-    if(getBody()->getVelocity().x < 50)
-    {
-        dir = dir == LEFT?RIGHT:LEFT;
-    }
+    
     
     
     
     
     //here need a map to finish some codes(such as judge the bricks)
     
-    if(dir == LEFT)
+    //float y = 0;
+        if(dir == LEFT)
     {
-        getBody()->setVelocity(cocos2d::Vec2(-moveSpeed,0));
+        getBody()->setVelocity(cocos2d::Vec2(-moveSpeed,getBody()->getVelocity().y));//y));
     }
-    else
-        if(dir == RIGHT)
+    else if(dir == RIGHT)
         {
-            getBody()->setVelocity(cocos2d::Vec2(moveSpeed,0));
+            getBody()->setVelocity(cocos2d::Vec2(moveSpeed,getBody()->getVelocity().y));//y));
         }
     return true;
 }
@@ -72,7 +71,7 @@ bool Enemy::move()
 
 void Enemy::update()
 {
-    if(dead()&&kind!=KOOPA)
+    if(isDead&&kind!=KOOPA)
     {
         deathCount++;
     }
@@ -84,10 +83,11 @@ void Enemy::update()
     }
     
     
-    if(sprite->getPositionY()  < 0)
+    if(sprite->getPositionY()  < 0 &&!isDeleted)
     {
-        dead(true);
-        deathCount = 120;
+        getSprite()->removeFromParent();
+        isDeleted = true;
+        return;
         
     }
     if(!trigger)
@@ -107,11 +107,15 @@ void Enemy::dead(bool isDead)
 {
     if(!dead())
     {
-        this->isDead = isDead;
+        if(kind != KOOPA)
+        {
+            this->isDead = isDead;
+        }
         replacePic();
-        if(kind!=KOOPA)
+        if(kind != KOOPA)
         {
             trigger = false;
+            getBody()->setDynamic(false);
         }
         
     }
@@ -133,6 +137,11 @@ void Enemy::replacePic()
     auto frame = cocos2d::SpriteFrameCache::getInstance()->spriteFrameByName(enemyName);
     getSprite()->setDisplayFrame(frame);
     
+}
+
+void Enemy::switchDir()
+{
+    dir = dir == LEFT?RIGHT:LEFT;
 }
 
 

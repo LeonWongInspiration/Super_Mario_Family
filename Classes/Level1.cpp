@@ -57,12 +57,19 @@ void Level1::keepHeroInLimitedRange(){
 
 }
 
-void Level1::update(float delta)
+void Level1::update(float dt)
 {
-    this->heroManager->run();
-    this->keepHeroInLimitedRange();
-    //CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
+        this->heroManager->run();
+    
+        this->keepHeroInLimitedRange();
+    
+    auto heroWorldPositon = heroManager->getSprite()->getParent()->convertToWorldSpace(heroManager->getSprite()->getPosition());
+//    CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
+    
+    
+    
     //koopa list
+   
     for(auto item = koopaList.begin(); item!=koopaList.end();)
     {
         if((*item)->deleted())
@@ -77,12 +84,62 @@ void Level1::update(float delta)
         {
             (*item)->addCount();
         }
-        (*item)->action(heroManager->getPositionX());
+        
+        
+        auto koopaNodePosition = (*item)->getSprite()->getPosition();
+        
+        auto heroNodePositon = heroManager->getSprite()->getPosition();
+        
+        auto koopaWorldPosition = (*item)->getSprite()->getParent()->convertToWorldSpace(koopaNodePosition);
+        
+        auto heroWorldPositon = heroManager->getSprite()->getParent()->convertToWorldSpace(heroNodePositon);
+        
+        auto heroInKoopa = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
+        
+        auto koopaInHero = heroManager->getSprite()->getParent()->convertToNodeSpace(koopaWorldPosition);
+        
+        
+        (*item)->action(heroInKoopa.x);
+        
+        auto x = (*item)->getSprite()->getPositionX();
+        switch ((*item)->getSprite()->getTag())
+        {
+            case 1:
+                if(x < 1446 && (*item)->getDir() == LEFT)
+                {
+                    (*item)->switchDir();
+                }
+                if(x > 1715 &&!(*item)->flag && (*item)->getDir() == RIGHT)
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 2:
+                if((x < 7890 &&(*item)->getDir() == LEFT)|| (x > 8040 && (*item)->getDir() == RIGHT))
+                {
+                    (*item)->switchDir();
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+        
+        
+        CCLOG("Koopa: %f , %f",koopaNodePosition.x,koopaNodePosition.y);
+        CCLOG("Hero: %f, %f",heroInKoopa.x,heroInKoopa.y);
+        //CCLOG("Koopa %d",i);
+       // CCLOG("%f",enemyLayer->getPositionX());
+       // CCLOG("%f",heroManager->getPositionX());
+      //  CCLOG("%f",(*item)->getSprite()->getPositionX());
+        
+        
         item++;
     }
     
     //goomba list
-    
+
     for(auto item = goombaList.begin(); item!=goombaList.end();)
     {
         if((*item)->deleted())
@@ -97,13 +154,77 @@ void Level1::update(float delta)
         {
             (*item)->dead(true);
         }
-        (*item)->run(heroManager->getPositionX());
+       
+        
+        auto heroInGoomba = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
+        
+        switch ((*item)->getSprite()->getTag())
+        {
+            case 1:
+                if((*item)->getSprite()->getPositionX() < 30 ||
+                   (*item)->getSprite()->getPositionX() > 680)
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 2:
+                if((*item)->getSprite()->getPositionX() < 90 ||
+                   (*item)->getSprite()->getPositionX() > 740)
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 3:
+                if((*item)->getSprite()->getPositionX() < 3075 ||
+                   ((*item)->getSprite()->getPositionX()> 3185 && (*item)->getDir() == RIGHT) )
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 4:
+                if((*item)->getSprite()->getPositionX() < 3120 ||
+                   ((*item)->getSprite()->getPositionX() > 3215 && (*item)->getDir() == RIGHT))
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 5:
+                if((*item)->getSprite()->getPositionX() < 3150 ||
+                   ((*item)->getSprite()->getPositionX() > 3250 && (*item)->getDir() == RIGHT))
+                {
+                    (*item)->switchDir();
+                }
+                break;
+            case 7:
+                if((*item)->getSprite()->getPositionX() < 5814||
+                   (*item)->getSprite()->getPositionX() > 6615)
+                {
+                    (*item)->switchDir();
+                }
+                break;
+                
+            default:
+                break;
+        }
+        if((*item)->getSprite()->getPhysicsBody()->getVelocity().x > 0 &&(*item)->getDir() == LEFT)
+        {
+            (*item)->switchDir();
+        }
+        else if((*item)->getSprite()->getPhysicsBody()->getVelocity().x < 0 && (*item)->getDir() ==RIGHT)
+        {
+            (*item)->switchDir();
+        }
+        
+        
+        
+        (*item)->run(heroInGoomba.x);
         item++;
+      
     }
     
     
     //piranha list
-    
+ 
     for(auto item = piranhaList.begin(); item!=piranhaList.end();)
     {
         if((*item)->deleted())
@@ -113,7 +234,16 @@ void Level1::update(float delta)
             piranhaList.erase(del);
             continue;
         }
-        (*item)->up(heroManager->getPositionX());
+        //CCLOG("heroY %f",heroManager->getPositionY());
+        //CCLOG("piranha %d",i);
+        //CCLOG("%f",(*item)->getSprite()->getPositionY());
+        
+        
+        auto heroInPiranha = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
+        
+        
+        
+        (*item)->up(heroInPiranha.x);
         item++;
     }
     
@@ -128,7 +258,16 @@ void Level1::update(float delta)
             continue;
         }
         
-        (*item)->run(heroManager->getPositionX());
+        
+       // CCLOG("%f",(*item)->getSprite()->getPositionX());
+       // CCLOG("%f",enemyLayer->getPositionX());
+        
+        auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
+        
+        (*item)->run(HeroInBricks.x);
+        
+        CCLOG("hero x:%f",HeroInBricks.x);
+        CCLOG("fallblocks x: %f",(*item)->getSprite()->getPositionX());
         item++;
     }
 
@@ -175,8 +314,14 @@ bool Level1::init(){
     this->addChild(this->metaLayer);
     
     // Set up enemy Layer to include enemies
+ 
     this->setupEnemyLayer();
+    
+    
     this->addChild(this->enemyLayer);
+    
+    
+    
     
     // Set up hero
     this->heroManager = new Hero(&(this->keyCode));
@@ -185,15 +330,24 @@ bool Level1::init(){
     this->heroManager->getSprite()->setAnchorPoint(Vec2(0, 0));
     this->addChild(this->heroManager->getSprite());
     
-    
+   
     
     this->scheduleUpdate();
+    
+    
+    
+    
+    
     return true;
+    
+    
+    
 }
 
 
 
-void Level1::setupEnemyLayer(){
+void Level1::setupEnemyLayer()
+{
     auto enemy = map->getObjectGroup("Enemy");
     char buffer[20] ;
     std::string enemyName;
@@ -211,7 +365,11 @@ void Level1::setupEnemyLayer(){
         auto koopaValue = enemy->getObject(enemyName + buffer);
         Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
         
+        koopa->getSprite()->setTag(i);
+        
         this->enemyLayer->addChild(koopa->getSprite());
+        
+        
         
         koopaList.push_back(koopa);
     }
@@ -230,6 +388,7 @@ void Level1::setupEnemyLayer(){
         
         Goomba * goomba = new Goomba("Enemy_256.plist","Goomba_256.png",goombaValue.at("x").asFloat(),goombaValue.at("y").asFloat());
         
+        goomba->getSprite()->setTag(i);
         
         this->enemyLayer->addChild(goomba->getSprite());
         
@@ -250,6 +409,8 @@ void Level1::setupEnemyLayer(){
         Piranha * piranha = new Piranha("Enemy_256.plist","Piranha_open_256.png",piranhaValue.at("x").asFloat(),piranhaValue.at("y").asFloat());
         
         piranha->setMoveSpeed(0.0f);
+        
+        piranha->getSprite()->setTag(i);
         
         this->enemyLayer->addChild(piranha->getSprite());
         
@@ -316,6 +477,7 @@ void Level1::setupEnemyLayer(){
 }
 
 void Level1::onEnter(){
+    
     Scene::onEnter();
     
     // Listen the keyboard
@@ -348,11 +510,15 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     if (bitMaskA == SpriteBitmask::hero){
         CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
         if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
-            
+            spriteB->getPhysicsBody()->setContactTestBitmask(0x0000);
             spriteB->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
+            
             CCLOG("Enemy DIED");
             //TODO remove Enemy
             //TODO music
+        }
+        else{
+            spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
         }
     }
     

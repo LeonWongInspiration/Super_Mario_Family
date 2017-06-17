@@ -16,7 +16,7 @@ FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(100.0f),outScene(fa
     sprite->setAnchorPoint(cocos2d::Point(0,0));
     sprite->setPositionX(x);
     sprite->setPositionY(y);
-    CCLOG("%d %d",x,y);
+    
     body = cocos2d::PhysicsBody::createBox(this->getSprite()->getContentSize());
     this->getSprite()->setPhysicsBody(body);
     this->getSprite()->getPhysicsBody()->setDynamic(false);
@@ -33,9 +33,8 @@ void FallBricks::fall()
     {
         return;
     }
-    
-    //here need to be adjusted when the map's position is changed
-    
+    CCLOG("fall!!!");    //here need to be adjusted when the map's position is changed
+    sprite->getPhysicsBody()->setDynamic(true);
     sprite->getPhysicsBody()->setVelocity(cocos2d::Vec2(0,-fallSpeed));
     if(sprite->getPositionY() < 0)
     {
@@ -66,13 +65,17 @@ void FallBricks::isAbove(float x,float y)
 
 void FallBricks::run(float x)
 {
-    if(x>getSprite()->getPositionX() && x < getSprite()->getPositionX() + getSprite()->getContentSize().width)
+    if(x - getSprite()->getPositionX()  > -5 && x - getSprite()->getPositionX() <= 96)
     {
         if(!trigger)
         {
             trigger = true;
             getSprite()->getPhysicsBody()->setDynamic(true);
         }
+    }
+    if(!trigger)
+    {
+        return;
     }
     fall();
 }

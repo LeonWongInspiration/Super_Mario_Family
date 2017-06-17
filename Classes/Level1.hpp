@@ -88,7 +88,7 @@ public:
     
     virtual bool init() override;
     
-    void update(float delta) override;
+    void update(float dt) override;
     
     void setPosition(Point p);
     // implement the "static create()" method manually
