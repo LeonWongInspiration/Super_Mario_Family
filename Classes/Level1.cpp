@@ -42,6 +42,37 @@ void Level1::setupMetaLayer(){
     }
 }
 
+void Level1::setupHiddenLayer()
+{
+	const int mapW = map->getMapSize().width;
+	const int mapH = map->getMapSize().height;
+
+	const int tileW = map->getTileSize().width;
+	const int tileH = map->getTileSize().height;
+
+	this->mapSize = map->getMapSize();
+	this->screenSize = Director::getInstance()->getWinSize();
+	this->mapTileSize = map->getTileSize();
+
+	for (int i = 0; i < mapW; ++i) {
+		for (int j = 0; j < mapH; ++j) {
+			if (hidden->getTileGIDAt(Vec2(i, j)) != 0) {
+				Sprite* tile = Sprite::create("Blocks.png");
+				//Sprite* tile = hidden->getTileAt(Vec2(i, j));
+				tile->setScale(this->mapTileSize.width / tile->getContentSize().width, this->mapTileSize.height / tile->getContentSize().height);
+				PhysicsBody* tileBody = PhysicsBody::createBox(tile->getContentSize());
+				tile->setPhysicsBody(tileBody);
+				tile->setVisible(false);
+				tileBody->setDynamic(false);
+				tileBody->getShape(0)->setRestitution(0.0f);
+				tileBody->getShape(0)->setFriction(0.5f);
+				tile->setPosition(Vec2(i * tileW + 16, (mapH - j) * tileH - 16));
+				this->hiddenLayer->addChild(tile);
+			}
+		}
+	}
+}
+
 void Level1::keepHeroInLimitedRange(){
     if(this->heroManager->getPositionX() >= 400){
         CCLOG("Limit Hero PositionX from %f to 400", this->heroManager->getPositionX());
