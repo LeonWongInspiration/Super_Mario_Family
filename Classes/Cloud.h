@@ -8,8 +8,6 @@ public:
 	Cloud(const char* filename,float x,float y);
 	~Cloud();
 
-	///set the event of collision between cloud and hero
-	void killMario(Hero* hero);
 
 private:
 	PhysicsBody * body;

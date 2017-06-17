@@ -8,8 +8,6 @@ public:
 	FakePrincess(const char* fileName,float x,float y);
 	~FakePrincess();
 
-	///set the event of collision between fakeprincess and hero
-	void killMario(Hero* hero);
 private:
 	PhysicsBody* body;
 	float width = 32;

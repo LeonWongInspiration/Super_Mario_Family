@@ -15,8 +15,4 @@ Sting::Sting(const char* fileName,float x,float y):Block(fileName,x,y)
 Sting::~Sting()
 {}
 
-void Sting::killMario(Hero* hero)
-{
-		this->getSprite()->setVisible(true);
-		hero->death(0);
-}
+

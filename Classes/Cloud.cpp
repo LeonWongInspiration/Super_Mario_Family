@@ -16,9 +16,4 @@ Cloud::Cloud(const char* fileName,float x,float y):Block(fileName,x,y)
 Cloud::~Cloud()
 {}
 
-void Cloud::killMario(Hero* hero)
-{
-		changeSprite();
-		hero->death(0);
-}
 

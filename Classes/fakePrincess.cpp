@@ -18,7 +18,3 @@ FakePrincess::FakePrincess(const char* fileName,float x,float y):Block(fileName,
 FakePrincess::~FakePrincess()
 {}
 
-void FakePrincess::killMario(Hero* hero)
-{
-		hero->death(0);
-}
