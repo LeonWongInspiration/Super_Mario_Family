@@ -60,14 +60,11 @@ void Level1::setupHiddenLayer()
 				Sprite* tile = Sprite::create("Blocks.png");
 				//Sprite* tile = hidden->getTileAt(Vec2(i, j));
 				tile->setScale(this->mapTileSize.width / tile->getContentSize().width, this->mapTileSize.height / tile->getContentSize().height);
-				PhysicsBody* tileBody = PhysicsBody::createBox(tile->getContentSize());
-				tile->setPhysicsBody(tileBody);
 				tile->setVisible(false);
-				tileBody->setDynamic(false);
-				tileBody->getShape(0)->setRestitution(0.0f);
-				tileBody->getShape(0)->setFriction(0.5f);
 				tile->setPosition(Vec2(i * tileW + 16, (mapH - j) * tileH - 16));
-				this->hiddenLayer->addChild(tile);
+                InvisibleBlock* block = new InvisibleBlock(tile);
+                this->hiddenLayer->addChild(block->getSprite());
+                invisibleList.push_back(block);
 			}
 		}
 	}
@@ -80,6 +77,7 @@ void Level1::keepHeroInLimitedRange(){
         this->map->setPositionX(this->map->getPositionX() - moveLen);
         this->metaLayer->setPositionX(this->metaLayer->getPositionX() - moveLen);
         this->enemyLayer->setPositionX(this->metaLayer->getPositionX());
+        this->hiddenLayer->setPositionX(this->hiddenLayer->getPositionX() - moveLen);
         this->heroManager->getSprite()->setPositionX(this->heroManager->getPositionX() - moveLen);
     }
     
@@ -146,7 +144,7 @@ void Level1::update(float dt)
                 }
                 break;
             case 2:
-                if((x < 7890 &&(*item)->getDir() == LEFT)|| (x > 8040 && (*item)->getDir() == RIGHT))
+                if((x < 7890 &&(*item)->getDir() == LEFT)|| (x > 8036 && (*item)->getDir() == RIGHT))
                 {
                     (*item)->switchDir();
                 }
@@ -301,6 +299,13 @@ void Level1::update(float dt)
         CCLOG("fallblocks x: %f",(*item)->getSprite()->getPositionX());
         item++;
     }
+    
+    //invisible blocks
+    for(auto item = invisibleList.begin();item != invisibleList.end();++item)
+    {
+        auto heroInVisible = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
+        (*item)->collideHero(heroInVisible);
+    }
 
 }
 
@@ -333,6 +338,18 @@ bool Level1::init(){
     // Get enemies
     this->enemyObjectGroup = map->getObjectGroup("Enemy");
     
+    //Get Hidden blocks
+    
+    this->hidden = this->map->getLayer("Hidden");
+    
+    hidden->setVisible(false);
+    
+    
+    this->hiddenLayer = Layer::create();
+    
+    this->hiddenLayer->setVisible(true);// hero need to set the visible to false to hide the blocks!
+    
+    
     // Add the map to this scene
     this->addChild(this->map);
     
@@ -350,6 +367,11 @@ bool Level1::init(){
     
     
     this->addChild(this->enemyLayer);
+    
+    
+    this->setupHiddenLayer();
+    
+    this->addChild(hiddenLayer);
     
     
     

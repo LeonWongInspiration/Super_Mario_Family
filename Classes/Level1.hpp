@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 #include "Hero.h"
 #include "Piranha.hpp"
-
+#include "InvisibleBlock.h"
 #include "Cloud.h"
 #include "Koopa.hpp"
 #include "FallBricks.hpp"
@@ -71,6 +71,10 @@ private:
     
     /// A list to store static enemy
     std::list<Block *> staticEnemyList;
+    
+    /// A list to store invisible blocks
+    
+    std::list<InvisibleBlock *> invisibleList;
     
     Hero* heroManager;
 

@@ -1,33 +1,44 @@
 #include "InvisibleBlock.h"
 
-InvisibleBlock::InvisibleBlock(float x,float y)
+InvisibleBlock::InvisibleBlock(Sprite * sprite):nowsprite(sprite),added(false)
 {
 	//cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(frameName);
 	//nowsprite = cocos2d::Sprite::createWithSpriteFrameName(filename);
-	nowsprite->setPositionX(x);
-	nowsprite->setPositionY(y);
-	nowsprite->setAnchorPoint(cocos2d::Point(0, 0));
-	nowsprite->setScale(0.125, 0.125);
-	nowsprite->setVisible(false);
-	width = nowsprite->getContentSize().width;
-	height = nowsprite->getContentSize().height;
+    width = nowsprite->getContentSize().width;
+    
+    height = nowsprite->getContentSize().height;
+    
+    nowsprite->setVisible(false);
 	
 }
 
-InvisibleBlock::~InvisibleBlock(){}
 
-void InvisibleBlock::collideHero(Hero* hero)
+
+void InvisibleBlock::collideHero(Vec2 & hero)
 {
-	if (hero->getSprite()->getPosition().x >= nowsprite->getPosition().x + 0.1*width
-		&& hero->getSprite()->getPosition().x <= nowsprite->getPosition().x - 0.1*width
-		&& hero->getSprite()->getPosition().y < nowsprite->getPosition().y)
+    if(added)
+    {
+        return;
+    }
+	if (hero.x <= nowsprite->getPosition().x + 0.1*width
+		&& hero.x >= nowsprite->getPosition().x - 0.1*width
+		&& hero.y < nowsprite->getPosition().y-20)
 	{
-		nowsprite->setVisible(true);
+		
 		body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());
 
 		body->setRotationEnable(false);
+        body->setDynamic(false);
+        body->getShape(0)->setFriction(0.5f);
+        body->getShape(0)->setRestitution(0.0f);
 
 		this->getSprite()->setPhysicsBody(body);
-		this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
+		this->getSprite()->getPhysicsBody()->setContactTestBitmask(SpriteBitmask::hidden);
+        added = true;
 	}
+}
+
+void InvisibleBlock::show()
+{
+    nowsprite->setVisible(true);
 }

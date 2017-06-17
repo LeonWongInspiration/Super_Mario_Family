@@ -42,7 +42,7 @@ void Piranha::up(float heroPositionX)
 
 bool Piranha::isAbove(float x)
 {
-    if(x - getSprite()->getPositionX() < 64&&x - getSprite()->getPositionX()  > -64)
+    if(x - getSprite()->getPositionX() < 32&&x - getSprite()->getPositionX()  > -32)
         return true;
     else
         return false;

@@ -1,6 +1,7 @@
 #pragma once
-#include "Hero.h"
+
 #include "cocos2d.h"
+#include "Utility.h"
 
 using namespace cocos2d;
 
@@ -11,12 +12,16 @@ private:
 	PhysicsBody* body;
 	float width;
 	float height;
+    bool added;
+
 
 public:
-	InvisibleBlock(float x,float y);
+    InvisibleBlock(cocos2d::Sprite* sprite);
 	~InvisibleBlock(){};
 
 	Sprite* getSprite() { return nowsprite; }
 	PhysicsBody* getBody() { return body; }
-	void collideHero(Hero* hero);
+    void collideHero(Vec2 & hero);
+    void show();
+    bool add(){return added;}
 };
