@@ -305,6 +305,14 @@ void Level1::update(float dt)
     {
         auto heroInVisible = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         (*item)->collideHero(heroInVisible);
+        
+        if((*item)->add()&&(*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead)
+        {
+            (*item)->show();
+        }
+        
+        
+        
     }
 
 }
