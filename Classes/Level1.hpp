@@ -30,9 +30,6 @@ private:
     /// "Meta" Layer in the map
     TMXLayer* meta;
     
-	/// "Hidden" Layer in the map
-	TMXLayer* hidden;
-
     /// "Enemy" Object Goup in the map
     TMXObjectGroup* enemyObjectGroup;
     
@@ -42,9 +39,6 @@ private:
     /// A layer used to contain all the enemies' Sprites
     Layer* enemyLayer;
     
-	/// A layer used to contain all the hidden blocks
-	Layer* hiddenLayer;
-
     /// Size of the screen
     Size screenSize;
     
@@ -79,11 +73,6 @@ private:
      */
     void setupMetaLayer();
     
-	/**
-	* @brief Create a Hidden Layer
-	*/
-	void setupHiddenLayer();
-
     /**
      * @brief Keep hero in the limited range of the screen
      */
