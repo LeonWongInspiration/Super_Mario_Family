@@ -14,6 +14,7 @@ public:
 
 	void menuCallBack(cocos2d::Ref * pSender);
 
+	CREATE_FUNC(GameOver);
 };
 
 #endif 
