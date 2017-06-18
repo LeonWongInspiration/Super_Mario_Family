@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "GameHelp.hpp"
+#include "Level1.hpp"
+#include "GameOver.h"
 
 USING_NS_CC;
 
@@ -31,26 +33,6 @@ bool HelloWorld::init()
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
- /*   auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);*/
-
-	//Put three buttons on the startScene 
     
 
 	
@@ -91,17 +73,17 @@ bool HelloWorld::init()
     Single->setPosition(Point(Vec2(visibleSize.width/2-200,visibleSize.height/2+origin.y-150)));
     
     
-    //MultiPlayer Button
-    auto Multi = MenuItemImage::create(
-                                       "Button//MultiPlayer_Normal.png",
-                                       "Button//MultiPlayer_Clicked.png",
-                                       "Button//MultiPlayer_Activate.png",
+    //AddedGame Button
+    auto Added = MenuItemImage::create(
+                                       "Button//2048_Normal.png",
+                                       "Button//2048_Clicked.png",
+                                       "Button//2048_Activate.png",
                                        CC_CALLBACK_1(HelloWorld::menuCallback,this));
-    Multi->setTag(MULTI);
-    Multi->setAnchorPoint(Point(cocos2d::Point::ANCHOR_MIDDLE));
-    Multi->setScaleX(0.3f);
-    Multi->setScaleY(0.3f);
-    Multi->setPosition(Point(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 2 - 150)));
+    Added->setTag(ADDED);
+    Added->setAnchorPoint(Point(cocos2d::Point::ANCHOR_MIDDLE));
+	Added->setScaleX(0.3f);
+	Added->setScaleY(0.3f);
+	Added->setPosition(Point(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 2 - 150)));
     
     
     //Help&About Button
@@ -118,28 +100,11 @@ bool HelloWorld::init()
     
     
     
-    auto menu = Menu::create(Single,Multi,Help, NULL);
+    auto menu = Menu::create(Single, Added,Help, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu,1);
     
 
-    
-    
-  /*  // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);*/
     
     return true;
 }
@@ -152,10 +117,11 @@ void HelloWorld::menuCallback(Ref* pSender)
 	{
 		//open SinglePlayer Scene
 	case SINGLE:
+		Director::getInstance()->replaceScene(Level1::createScene());
 		break;
 
 		//open MultiPlayer Scene
-	case MULTI:
+	case ADDED:
 		break;
 
 		//open Help&About Scene

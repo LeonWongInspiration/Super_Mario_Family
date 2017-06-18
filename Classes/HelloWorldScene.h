@@ -20,7 +20,7 @@ public:
 	typedef enum
 	{
 		SINGLE = 1,
-		MULTI,
+		ADDED,
 		HELP
 	}TAG_MENU;
 };
