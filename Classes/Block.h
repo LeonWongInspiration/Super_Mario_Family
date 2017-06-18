@@ -18,9 +18,7 @@ public:
 
 	void changeSprite()
 	{
-		nowSprite = Sprite::create("Block//hurtfulCloud.png");
-		this->getSprite()->setScaleX(0.15);
-		this->getSprite()->setScaleY(0.11);
+		nowSprite->setTexture("Block//hurtfulCloud.png");
 	}
 
 	Block(const char * fileName,float x,float y);
