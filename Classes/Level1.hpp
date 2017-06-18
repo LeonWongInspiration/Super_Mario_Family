@@ -98,6 +98,9 @@ private:
      */
     void setupEnemyLayer();
     
+    
+
+    
 public:
     static cocos2d::Scene* createScene();
     

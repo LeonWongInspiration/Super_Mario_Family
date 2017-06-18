@@ -22,7 +22,7 @@ void InvisibleBlock::collideHero(Vec2 & hero)
     }
 	if (hero.x <= nowsprite->getPosition().x + 0.1*width
 		&& hero.x >= nowsprite->getPosition().x - 0.1*width
-		&& hero.y < nowsprite->getPosition().y-20)
+		&& hero.y < nowsprite->getPosition().y-40)
 	{
 		
 		body = cocos2d::PhysicsBody::createBox(getSprite()->getContentSize());

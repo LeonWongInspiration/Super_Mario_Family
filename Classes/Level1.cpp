@@ -57,12 +57,14 @@ void Level1::setupHiddenLayer()
 	for (int i = 0; i < mapW; ++i) {
 		for (int j = 0; j < mapH; ++j) {
 			if (hidden->getTileGIDAt(Vec2(i, j)) != 0) {
-				Sprite* tile = Sprite::create("Blocks.png");
+				Sprite* tile = Sprite::create("3.png");
 				//Sprite* tile = hidden->getTileAt(Vec2(i, j));
 				tile->setScale(this->mapTileSize.width / tile->getContentSize().width, this->mapTileSize.height / tile->getContentSize().height);
 				tile->setVisible(false);
 				tile->setPosition(Vec2(i * tileW + 16, (mapH - j) * tileH - 16));
                 InvisibleBlock* block = new InvisibleBlock(tile);
+                
+                block->getSprite()->setTag(100);
                 this->hiddenLayer->addChild(block->getSprite());
                 invisibleList.push_back(block);
 			}
@@ -88,6 +90,8 @@ void Level1::keepHeroInLimitedRange(){
 
 void Level1::update(float dt)
 {
+    //physic world
+    
         this->heroManager->run();
     
         this->keepHeroInLimitedRange();
@@ -306,7 +310,7 @@ void Level1::update(float dt)
         auto heroInVisible = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         (*item)->collideHero(heroInVisible);
         
-        if((*item)->add()&&(*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead)
+        if((*item)->add()&&(*item)->getSprite()->getTag() == 70)
         {
             (*item)->show();
         }
@@ -322,6 +326,7 @@ Scene* Level1::createScene(){
     scene->getPhysicsWorld()->setGravity(Vec2(0, -400));
     
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    
     
     auto layer = Level1::create();
     scene->addChild(layer);
@@ -359,7 +364,7 @@ bool Level1::init(){
     
     
     // Add the map to this scene
-    this->addChild(this->map);
+    this->addChild(this->map,10);
     
     // Init Layers
     this->metaLayer = Layer::create();
@@ -389,11 +394,10 @@ bool Level1::init(){
     // Get hero in the Scene
     this->heroManager->getSprite()->setPosition(Vec2(64, 256));
     this->heroManager->getSprite()->setAnchorPoint(Vec2(0, 0));
+    this->heroManager->getSprite()->setTag(50);
     this->addChild(this->heroManager->getSprite());
     
-   
-    
-    this->scheduleUpdate();
+    scheduleUpdate();
     
     
     
@@ -568,6 +572,33 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     
     CCLOG("%d %d contact", bitMaskA, bitMaskB);
     
+    auto tag1 = spriteA->getTag();
+    auto tag2 = spriteB->getTag();
+    
+    
+    if((tag1 == 50 &&tag2 == 100)||(tag1 == 100&&tag2 == 50))
+    {
+        if(tag1 == 100 )
+        {
+            spriteA->setTag(70);
+        }
+        else if(tag2 == 100)
+        {
+            spriteB->setTag(70);
+        }
+        return true;
+    }
+    if(tag1 == 70 ||tag2 == 70)
+    {
+        return true;
+    }
+    
+    
+    
+    
+    
+    
+    
     if (bitMaskA == SpriteBitmask::hero){
         CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
         if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
@@ -589,7 +620,6 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     
     return true;
 }
-
 
 
 
