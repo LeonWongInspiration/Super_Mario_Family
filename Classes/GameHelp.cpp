@@ -18,6 +18,8 @@
 
 #include "GameHelp.hpp"
 
+using namespace cocos2d;
+
 /**
  * Initialization of this Layer
  * @return bool: true if initialization succeed, false otherwise.
@@ -30,22 +32,59 @@ bool GameHelp::init()
         
     }
     
+	Size winSize = Director::getInstance()->getWinSize();
+	float winw = winSize.width;
+	float winh = winSize.height;
+	
+
+	// set the background
+	auto backGroundImage = Sprite::create("HelpScene.jpg");
+	backGroundImage->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+	backGroundImage->setPosition(Vec2(0, 0));
+	float backw = backGroundImage->getTextureRect().getMaxX();
+	float backh = backGroundImage->getTextureRect().getMaxY();
+
+	backGroundImage->setScaleX(winw / backw);
+	backGroundImage->setScaleY(winh / backh);
+
+	this->addChild(backGroundImage);
+
+
     auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     
-    auto lableBack = cocos2d::Label::createWithTTF("Back To Menu","fonts/arial.ttf",24);
+    auto lableBack = cocos2d::Label::createWithTTF("Back To Menu","fonts//SuperMario256.ttf",50);
     CCLOG("create lable");
     
-    auto lableHelp = cocos2d::Label::createWithTTF("Help","fonts/arial.ttf",20);
+	lableBack->setTextColor(Color4B::YELLOW);
+
+    auto lableHelp = cocos2d::Label::createWithTTF("Help","fonts//SuperMario256.ttf",50);
     
+	lableHelp->setTextColor(Color4B::YELLOW);
+
     lableHelp->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE);
     
     lableHelp->setPosition(cocos2d::Vec2(visibleSize.width/2,visibleSize.height-lableBack->getContentSize().height));
     
-    this->addChild(lableHelp);
-    
+	this->addChild(lableHelp);
+
+	//add contents of help
+
+	auto keyHelp = cocos2d::Label::createWithTTF("UP:JUMP LEFT:MOVE LEFT RIGHT:MOVE RIGHT F:FLY", "fonts//Mario and Luigi.ttf", 50);
+
+	keyHelp->setDimensions(500, 500);
+
+	keyHelp->setTextColor(Color4B::YELLOW);
+
+	keyHelp->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE);
+
+	keyHelp->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height/2-50));
+
+	this->addChild(keyHelp);
+
+
     auto itemBack = cocos2d::MenuItemLabel::create(lableBack, CC_CALLBACK_1(GameHelp::menuCallBack, this));
     
-    itemBack->setPosition(cocos2d::Vec2(visibleSize.width/2,visibleSize.height/2));
+    itemBack->setPosition(cocos2d::Vec2(visibleSize.width/2-180,visibleSize.height/2-200));
     
     itemBack->setAnchorPoint(cocos2d::Point::ANCHOR_BOTTOM_LEFT);
     
