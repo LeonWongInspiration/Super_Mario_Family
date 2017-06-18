@@ -9,6 +9,7 @@
 #ifndef FallBricks_hpp
 #define FallBricks_hpp
 
+#include "Utility.h"
 #include "Enemy.hpp"
 
 class FallBricks
@@ -34,6 +35,8 @@ public:
     void isAbove(float x,float y);
     bool isOutScene(){return outScene;}
     void run(float x);
+    void setSpeed(cocos2d::Vec2 speed){sprite->getPhysicsBody()->setVelocity(speed);}
+    bool getTrigger(){return trigger;}
 
     
     

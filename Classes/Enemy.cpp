@@ -136,7 +136,7 @@ void Enemy::replacePic()
     }
     auto frame = cocos2d::SpriteFrameCache::getInstance()->spriteFrameByName(enemyName);
     getSprite()->setDisplayFrame(frame);
-    
+   
 }
 
 void Enemy::switchDir()

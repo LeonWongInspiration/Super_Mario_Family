@@ -1,13 +1,13 @@
 //
-//  Level1.hpp
-//  Physics
+//  Level2.hpp
+//  MyCppGame
 //
-//  Created by Leon Wong on 15/6月.
+//  Created by 梁永潮 on 2017/6/18.
 //
 //
 
-#ifndef Level1_hpp
-#define Level1_hpp
+#ifndef Level2_hpp
+#define Level2_hpp
 
 #include "cocos2d.h"
 #include "Hero.h"
@@ -19,11 +19,10 @@
 #include "Goomba.hpp"
 #include "Sting.h"
 #include "fakePrincess.h"
-#include "Level2.hpp"
 
 
 
-class Level1 : public cocos2d::Scene{
+class Level2 : public cocos2d::Scene{
 private:
     /// The TMX Map
     TMXTiledMap* map;
@@ -31,11 +30,15 @@ private:
     /// "Meta" Layer in the map
     TMXLayer* meta;
     
-	/// "Hidden" Layer in the map
-	TMXLayer* hidden;
-
-    /// "Enemy" Object Goup in the map
+    /// "Hidden" Layer in the map
+    TMXLayer* hidden;
+    
+    /// "Enemy" Object Group in the map
     TMXObjectGroup* enemyObjectGroup;
+    
+    ///"Flag" Object Group in the map
+    
+    TMXObjectGroup* flagObjectGroup;
     
     /// A layer used to contain all the physics bodies to form the map
     Layer* metaLayer;
@@ -43,9 +46,9 @@ private:
     /// A layer used to contain all the enemies' Sprites
     Layer* enemyLayer;
     
-	/// A layer used to contain all the hidden blocks
-	Layer* hiddenLayer;
-
+    /// A layer used to contain all the hidden blocks
+    Layer* hiddenLayer;
+    
     /// Size of the screen
     Size screenSize;
     
@@ -78,17 +81,17 @@ private:
     std::list<InvisibleBlock *> invisibleList;
     
     Hero* heroManager;
-
+    
     /**
      * @brief Create a series of physicsbodies to form the map
      */
     void setupMetaLayer();
     
-	/**
-	* @brief Create a Hidden Layer
-	*/
-	void setupHiddenLayer();
-
+    /**
+     * @brief Create a Hidden Layer
+     */
+    void setupHiddenLayer();
+    
     /**
      * @brief Keep hero in the limited range of the screen
      */
@@ -101,7 +104,6 @@ private:
     
     
     
-
     
 public:
     static cocos2d::Scene* createScene();
@@ -112,18 +114,14 @@ public:
     
     void setPosition(Point p);
     // implement the "static create()" method manually
-    CREATE_FUNC(Level1);
+    CREATE_FUNC(Level2);
     
     void onEnter() override;
     
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
     
-    //Detect Pass Point
-    
-    bool isPass(Vec2 heroPosition);
-    
-    
     
 };
 
-#endif /* Level1_hpp */
+
+#endif /* Level2_hpp */

@@ -21,6 +21,8 @@ FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(100.0f),outScene(fa
     this->getSprite()->setPhysicsBody(body);
     this->getSprite()->getPhysicsBody()->setDynamic(false);
     
+    this->getSprite()->getPhysicsBody()->setCollisionBitmask(0xFFFF);
+    
     
     
     
@@ -34,6 +36,7 @@ void FallBricks::fall()
         return;
     }
     CCLOG("fall!!!");    //here need to be adjusted when the map's position is changed
+    
     sprite->getPhysicsBody()->setDynamic(true);
     sprite->getPhysicsBody()->setVelocity(cocos2d::Vec2(0,-fallSpeed));
     if(sprite->getPositionY() < 0)

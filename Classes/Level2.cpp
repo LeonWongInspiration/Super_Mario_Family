@@ -1,4 +1,15 @@
 //
+//  Level2.cpp
+//  MyCppGame
+//
+//  Created by 梁永潮 on 2017/6/18.
+//
+//
+
+#include "Level2.hpp"
+
+
+//
 //  Level1.cpp
 //  Physics
 //
@@ -6,13 +17,13 @@
 //
 //
 
-#include "Level1.hpp"
+#include "Level2.hpp"
 
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
-void Level1::setupMetaLayer(){
+void Level2::setupMetaLayer(){
     const int mapW = map->getMapSize().width;
     const int mapH = map->getMapSize().height;
     
@@ -42,37 +53,37 @@ void Level1::setupMetaLayer(){
     }
 }
 
-void Level1::setupHiddenLayer()
+void Level2::setupHiddenLayer()
 {
-	const int mapW = map->getMapSize().width;
-	const int mapH = map->getMapSize().height;
-
-	const int tileW = map->getTileSize().width;
-	const int tileH = map->getTileSize().height;
-
-	this->mapSize = map->getMapSize();
-	this->screenSize = Director::getInstance()->getWinSize();
-	this->mapTileSize = map->getTileSize();
-
-	for (int i = 0; i < mapW; ++i) {
-		for (int j = 0; j < mapH; ++j) {
-			if (hidden->getTileGIDAt(Vec2(i, j)) != 0) {
-				Sprite* tile = Sprite::create("3.png");
-				//Sprite* tile = hidden->getTileAt(Vec2(i, j));
-				tile->setScale(this->mapTileSize.width / tile->getContentSize().width, this->mapTileSize.height / tile->getContentSize().height);
-				tile->setVisible(false);
-				tile->setPosition(Vec2(i * tileW + 16, (mapH - j) * tileH - 16));
+    const int mapW = map->getMapSize().width;
+    const int mapH = map->getMapSize().height;
+    
+    const int tileW = map->getTileSize().width;
+    const int tileH = map->getTileSize().height;
+    
+    this->mapSize = map->getMapSize();
+    this->screenSize = Director::getInstance()->getWinSize();
+    this->mapTileSize = map->getTileSize();
+    
+    for (int i = 0; i < mapW; ++i) {
+        for (int j = 0; j < mapH; ++j) {
+            if (hidden->getTileGIDAt(Vec2(i, j)) != 0) {
+                Sprite* tile = Sprite::create("3.png");
+                //Sprite* tile = hidden->getTileAt(Vec2(i, j));
+                tile->setScale(this->mapTileSize.width / tile->getContentSize().width, this->mapTileSize.height / tile->getContentSize().height);
+                tile->setVisible(false);
+                tile->setPosition(Vec2(i * tileW + 16, (mapH - j) * tileH - 16));
                 InvisibleBlock* block = new InvisibleBlock(tile);
                 
                 block->getSprite()->setTag(100);
                 this->hiddenLayer->addChild(block->getSprite());
                 invisibleList.push_back(block);
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
-void Level1::keepHeroInLimitedRange(){
+void Level2::keepHeroInLimitedRange(){
     if(this->heroManager->getPositionX() >= 400){
         CCLOG("Limit Hero PositionX from %f to 400", this->heroManager->getPositionX());
         float moveLen = this->heroManager->getPositionX() - 400;
@@ -85,24 +96,24 @@ void Level1::keepHeroInLimitedRange(){
     
     if (this->heroManager->getPositionX() < 0)
         this->heroManager->getSprite()->setPositionX(0);
-
+    
 }
 
-void Level1::update(float dt)
+void Level2::update(float dt)
 {
     //physic world
     
-        this->heroManager->run();
+    this->heroManager->run();
     
-        this->keepHeroInLimitedRange();
+    this->keepHeroInLimitedRange();
     
     auto heroWorldPositon = heroManager->getSprite()->getParent()->convertToWorldSpace(heroManager->getSprite()->getPosition());
-//    CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
+    //    CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
     
     
     
     //koopa list
-   
+    
     for(auto item = koopaList.begin(); item!=koopaList.end();)
     {
         if((*item)->deleted())
@@ -138,21 +149,26 @@ void Level1::update(float dt)
         switch ((*item)->getSprite()->getTag())
         {
             case 1:
-                if(x < 1446 && (*item)->getDir() == LEFT)
+                if(x < 980 && (*item)->getDir() == LEFT)
                 {
                     (*item)->switchDir();
                 }
-                if(x > 1715 &&!(*item)->flag && (*item)->getDir() == RIGHT)
+                if(x > 1285 &&!(*item)->flag && (*item)->getDir() == RIGHT)
                 {
                     (*item)->switchDir();
                 }
                 break;
             case 2:
-                if((x < 7890 &&(*item)->getDir() == LEFT)|| (x > 8036 && (*item)->getDir() == RIGHT))
+                if((x < 4400 &&(*item)->getDir() == LEFT)|| (x > 4690 && (*item)->getDir() == RIGHT))
                 {
                     (*item)->switchDir();
                 }
                 break;
+            case 3:
+                if((x < 6858 &&(*item)->getDir() ==LEFT) || (x > 6900 && (*item)->getDir() == RIGHT))
+                {
+                    (*item)->switchDir();
+                }
                 
             default:
                 break;
@@ -160,19 +176,13 @@ void Level1::update(float dt)
         
         
         
-        CCLOG("Koopa: %f , %f",koopaNodePosition.x,koopaNodePosition.y);
-        CCLOG("Hero: %f, %f",heroInKoopa.x,heroInKoopa.y);
-        //CCLOG("Koopa %d",i);
-       // CCLOG("%f",enemyLayer->getPositionX());
-       // CCLOG("%f",heroManager->getPositionX());
-      //  CCLOG("%f",(*item)->getSprite()->getPositionX());
         
         
         item++;
     }
     
     //goomba list
-
+    
     for(auto item = goombaList.begin(); item!=goombaList.end();)
     {
         if((*item)->deleted())
@@ -187,58 +197,11 @@ void Level1::update(float dt)
         {
             (*item)->dead(true);
         }
-       
+        
         
         auto heroInGoomba = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
-        switch ((*item)->getSprite()->getTag())
-        {
-            case 1:
-                if((*item)->getSprite()->getPositionX() < 30 ||
-                   (*item)->getSprite()->getPositionX() > 680)
-                {
-                    (*item)->switchDir();
-                }
-                break;
-            case 2:
-                if((*item)->getSprite()->getPositionX() < 90 ||
-                   (*item)->getSprite()->getPositionX() > 740)
-                {
-                    (*item)->switchDir();
-                }
-                break;
-            case 3:
-                if((*item)->getSprite()->getPositionX() < 3075 ||
-                   ((*item)->getSprite()->getPositionX()> 3185 && (*item)->getDir() == RIGHT) )
-                {
-                    (*item)->switchDir();
-                }
-                break;
-            case 4:
-                if((*item)->getSprite()->getPositionX() < 3120 ||
-                   ((*item)->getSprite()->getPositionX() > 3215 && (*item)->getDir() == RIGHT))
-                {
-                    (*item)->switchDir();
-                }
-                break;
-            case 5:
-                if((*item)->getSprite()->getPositionX() < 3150 ||
-                   ((*item)->getSprite()->getPositionX() > 3250 && (*item)->getDir() == RIGHT))
-                {
-                    (*item)->switchDir();
-                }
-                break;
-            case 7:
-                if((*item)->getSprite()->getPositionX() < 5814||
-                   (*item)->getSprite()->getPositionX() > 6615)
-                {
-                    (*item)->switchDir();
-                }
-                break;
-                
-            default:
-                break;
-        }
+
         if((*item)->getSprite()->getPhysicsBody()->getVelocity().x > 0 &&(*item)->getDir() == LEFT)
         {
             (*item)->switchDir();
@@ -252,12 +215,12 @@ void Level1::update(float dt)
         
         (*item)->run(heroInGoomba.x);
         item++;
-      
+        
     }
     
     
     //piranha list
- 
+    
     for(auto item = piranhaList.begin(); item!=piranhaList.end();)
     {
         if((*item)->deleted())
@@ -292,19 +255,13 @@ void Level1::update(float dt)
         }
         
         
-       // CCLOG("%f",(*item)->getSprite()->getPositionX());
-       // CCLOG("%f",enemyLayer->getPositionX());
+        // CCLOG("%f",(*item)->getSprite()->getPositionX());
+        // CCLOG("%f",enemyLayer->getPositionX());
         
         auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
-            (*item)->run(HeroInBricks.x);
-        if((*item)->getSprite()->getPositionY() > 382)
-        {
-            (*item)->setSpeed(cocos2d::Vec2(0,0));
-        }
+        (*item)->run(HeroInBricks.x);
         
-        CCLOG("hero x:%f",HeroInBricks.x);
-        CCLOG("fallblocks x: %f",(*item)->getSprite()->getPositionX());
         item++;
     }
     
@@ -318,50 +275,38 @@ void Level1::update(float dt)
         {
             (*item)->show();
         }
-        
     }
     
-    // static enemy
     for(auto item :staticEnemyList)
     {
         if(item->getSprite()->getTag() == 60)
             item->changeSprite();
     }
     
-    // pass point
-    
-    auto heroInEnemyLayer = enemyLayer->convertToNodeSpace(heroWorldPositon);
-    
-    if(isPass(heroInEnemyLayer))
-    {
-        Director::getInstance()->replaceScene(Level2::createScene());
-    }
-
-
 }
 
-Scene* Level1::createScene(){
-    auto scene = Level1::createWithPhysics();
+Scene* Level2::createScene(){
+    auto scene = Level2::createWithPhysics();
     scene->getPhysicsWorld()->setGravity(Vec2(0, -400));
     
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
     
-    auto layer = Level1::create();
+    auto layer = Level2::create();
     scene->addChild(layer);
     return scene;
-
+    
 }
 
 // on "init" you need to initialize your instance
-bool Level1::init(){
+bool Level2::init(){
     // Super init first
     if ( !Scene::init() ){
         return false;
     }
     
     // First save the map in the scene
-    this->map = TMXTiledMap::create("Level1.tmx");
+    this->map = TMXTiledMap::create("Level2.tmx");
     
     // Get the layers needed
     this->meta = this->map->getLayer("Meta");
@@ -369,6 +314,10 @@ bool Level1::init(){
     
     // Get enemies
     this->enemyObjectGroup = map->getObjectGroup("Enemy");
+    
+    // Get flags
+    
+    this->flagObjectGroup = map->getObjectGroup("Flag");
     
     //Get Hidden blocks
     
@@ -394,7 +343,7 @@ bool Level1::init(){
     this->addChild(this->metaLayer);
     
     // Set up enemy Layer to include enemies
- 
+    
     this->setupEnemyLayer();
     
     
@@ -430,7 +379,7 @@ bool Level1::init(){
 
 
 
-void Level1::setupEnemyLayer()
+void Level2::setupEnemyLayer()
 {
     auto enemy = map->getObjectGroup("Enemy");
     char buffer[20] ;
@@ -440,13 +389,13 @@ void Level1::setupEnemyLayer()
     // Add koopa to enemy layer
     
     enemyName = "Koopa";
-    enemyNumber = 2;
+    enemyNumber = 3;
     
     for(int i = 1;i <= enemyNumber;++i)
     {
         sprintf(buffer, "%d",i);
         
-        auto koopaValue = enemy->getObject(enemyName + buffer);
+        auto koopaValue = flagObjectGroup->getObject(enemyName + buffer);
         Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
         
         koopa->getSprite()->setTag(i);
@@ -462,13 +411,13 @@ void Level1::setupEnemyLayer()
     //Add goomba to enemy layer
     
     enemyName = "Goomba";
-    enemyNumber = 7;
+    enemyNumber = 4;
     
     for (int i = 1; i <= enemyNumber; ++i)
     {
         sprintf(buffer, "%d",i);
         
-        auto goombaValue = enemy->getObject(enemyName + buffer);
+        auto goombaValue = flagObjectGroup->getObject(enemyName + buffer);
         
         Goomba * goomba = new Goomba("Enemy_256.plist","Goomba_256.png",goombaValue.at("x").asFloat(),goombaValue.at("y").asFloat());
         
@@ -482,12 +431,12 @@ void Level1::setupEnemyLayer()
     //Add piranha to enemy layer
     
     enemyName = "Piranha";
-    enemyNumber = 4;
+    enemyNumber = 6;
     
     for(int i = 1; i <= enemyNumber; ++i)
     {
         sprintf(buffer, "%d",i);
-
+        
         auto piranhaValue = enemy->getObject(enemyName + buffer);
         
         Piranha * piranha = new Piranha("Enemy_256.plist","Piranha_open_256.png",piranhaValue.at("x").asFloat(),piranhaValue.at("y").asFloat());
@@ -503,15 +452,22 @@ void Level1::setupEnemyLayer()
     
     //Add fallbricks to the enemy layer
     
-    enemyName = "Falling1";
+    enemyName = "Falling";
+    enemyNumber = 2;
+    for(int i = 1; i <= enemyNumber;++i)
+    {
+        sprintf(buffer, "%d",i);
+        
+        auto fallBricksValue = enemy->getObject(enemyName + buffer);
     
-    auto fallBricksValue = enemy->getObject(enemyName);
+        FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat());
+        
+        fallBricks->getSprite()->setTag(i);
+        
+        this->enemyLayer->addChild(fallBricks->getSprite(),0);
     
-    FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat());
-    
-    this->enemyLayer->addChild(fallBricks->getSprite(),0);
-    
-    fallBricksList.push_back(fallBricks);
+        fallBricksList.push_back(fallBricks);
+    }
     
     
     
@@ -519,23 +475,29 @@ void Level1::setupEnemyLayer()
     
     //add sting cloud
     
-    enemyName = "stingCloud";
+    enemyName = "Cloud";
     
-    auto stingCloudValue = enemy->getObject(enemyName);
+    enemyNumber = 3;
     
-    Cloud * stingCloud = new Cloud("normalCloud.png",stingCloudValue.at("x").asFloat(),stingCloudValue.at("y").asFloat());
+    for(int i = 1;i  < enemyNumber;++i)
+    {
+        sprintf(buffer, "%d",i);
+        auto stingCloudValue = enemy->getObject(enemyName + buffer);
     
-    this->enemyLayer->addChild(stingCloud->getSprite());
+        Cloud * stingCloud = new Cloud("normalCloud.png",stingCloudValue.at("x").asFloat(),stingCloudValue.at("y").asFloat());
+        
+        stingCloud->getSprite()->setTag(120);
     
-    stingCloud->getSprite()->setTag(120);
+        this->enemyLayer->addChild(stingCloud->getSprite());
     
-    staticEnemyList.push_back(stingCloud);
+        staticEnemyList.push_back(stingCloud);
+    }
     
     //add sting(on the ground)
     
     enemyName = "Sting";
-    enemyNumber = 8;
-    for(int i = 1; i <= 8;++i)
+    enemyNumber = 4;
+    for(int i = 1; i <= enemyNumber;++i)
     {
         sprintf(buffer, "%d",i);
         
@@ -553,16 +515,9 @@ void Level1::setupEnemyLayer()
     
     //add fake princess
     
-    auto princessValue = enemy->getObject("fakePrincess");
-    
-    FakePrincess* fakePrincess = new FakePrincess("fakePrincess.png",princessValue.at("x").asFloat(),princessValue.at("y").asFloat());
-    
-    this->enemyLayer->addChild(fakePrincess->getSprite());
-    
-    staticEnemyList.push_back(fakePrincess);
 }
 
-void Level1::onEnter(){
+void Level2::onEnter(){
     
     Scene::onEnter();
     
@@ -580,12 +535,12 @@ void Level1::onEnter(){
     
     // Listen the collisions
     auto contactListener = EventListenerPhysicsContact::create();
-    contactListener->onContactBegin = CC_CALLBACK_1(Level1::onContactBegin, this);
+    contactListener->onContactBegin = CC_CALLBACK_1(Level2::onContactBegin, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-
+    
 }
 
-bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
+bool Level2::onContactBegin(const cocos2d::PhysicsContact& contact){
     cocos2d::Sprite* spriteA = static_cast<cocos2d::Sprite*>(contact.getShapeA()->getBody()->getNode());
     cocos2d::Sprite* spriteB = static_cast<cocos2d::Sprite*>(contact.getShapeB()->getBody()->getNode());
     int bitMaskA = spriteA->getPhysicsBody()->getCollisionBitmask();
@@ -613,19 +568,18 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     {
         return true;
     }
-    
-    if(tag1 == 120)
+    if(tag1 == 120 && tag2 == 50)
     {
         spriteA->setTag(60);
+        spriteB->getPhysicsBody()->setContactTestBitmask(0x0000);
     }
-    if(tag2 == 120)
+    if(tag2 == 120 && tag1 == 50)
     {
-        spriteA->setTag(60);
+        spriteB->setTag(60);
+        spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
     }
-
     
-
-    
+ 
     if (bitMaskA == SpriteBitmask::hero){
         CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
         if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
@@ -646,15 +600,6 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     }
     
     return true;
-}
-
-bool Level1::isPass(cocos2d::Vec2 heroPosition)
-{
-    if(heroPosition.x > 8082 && heroPosition.y < 350 && heroPosition.y > 300)
-    {
-        return true;
-    }
-    return false;
 }
 
 
