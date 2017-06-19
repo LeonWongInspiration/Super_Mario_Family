@@ -562,14 +562,21 @@ void Level1::onEnter(){
     
     Scene::onEnter();
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Level1.mp3", true);
+    
     // Listen the keyboard
     auto keyboardListener = cocos2d::EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = true;
+        if (KeyCode != EventKeyboard::KeyCode::KEY_UP_ARROW)
+            this->keyCode[KeyCode] = true;
+        else {
+            heroManager->jump();
+        }
         CCLOG("Press");
     };
     keyboardListener->onKeyReleased = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = false;
+        if (KeyCode != EventKeyboard::KeyCode::KEY_UP_ARROW)
+            this->keyCode[KeyCode] = false;
     };
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
@@ -622,23 +629,35 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     
 
     
-    if (bitMaskA == SpriteBitmask::hero){
-        CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
-        if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
-            spriteB->getPhysicsBody()->setContactTestBitmask(0x0000);
-            spriteB->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
-            
-            CCLOG("Enemy DIED");
-            //TODO remove Enemy
-            //TODO music
+    if (spriteA->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero
+        || spriteB->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero){
+        cocos2d::Sprite* heroSprite =
+        spriteA->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero ? spriteA : spriteB;
+        cocos2d::Sprite* enemySprite =
+        spriteA->getPhysicsBody()->getCollisionBitmask() != SpriteBitmask::hero ? spriteA : spriteB;
+        
+        int heroBitmask = heroSprite->getPhysicsBody()->getCollisionBitmask();
+        int spriteBitmask = enemySprite->getPhysicsBody()->getCollisionBitmask();
+        
+        if (spriteBitmask == SpriteBitmask::piranha ||
+            spriteBitmask == SpriteBitmask::cloud ||
+            spriteBitmask == SpriteBitmask::sting ||
+            spriteBitmask == SpriteBitmask::fakePrincess){
+            heroSprite->getPhysicsBody()->setContactTestBitmask(0x0000);
         }
-        else{
-            spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
+        
+        if (spriteBitmask == SpriteBitmask::goomba ||
+            spriteBitmask == SpriteBitmask::koopa){
+            if (heroSprite->getPositionY() + 1 >= enemySprite->getPositionY() + 32){
+                enemySprite->getPhysicsBody()->setContactTestBitmask(0x0000);
+                enemySprite->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
+                
+                CCLOG("Enemy DIED");
+                
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("StepOn.mp3");
+                heroSprite->getPhysicsBody()->applyImpulse(cocos2d::Vec2(0, 1000));
+            }
         }
-    }
-    
-    if (bitMaskB == SpriteBitmask::hero){
-        CCLOG("Fuck");
     }
     
     return true;
