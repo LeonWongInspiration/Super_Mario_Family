@@ -21,6 +21,8 @@
 
 #include "SimpleAudioEngine.h"
 
+#include "Utility.h"
+
 USING_NS_CC;
 
 void Level2::setupMetaLayer(){
@@ -317,6 +319,8 @@ bool Level2::init(){
         return false;
     }
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Level2.mp3", true);
+    
     // First save the map in the scene
     this->map = TMXTiledMap::create("Level2.tmx");
     
@@ -591,25 +595,37 @@ bool Level2::onContactBegin(const cocos2d::PhysicsContact& contact){
         spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
     }
     
- 
-    if (bitMaskA == SpriteBitmask::hero){
-        CCLOG("heroY: %f, enemyY: %f", spriteA->getPositionY(), spriteB->getPositionY());
-        if (spriteA->getPositionY() + 1 >= spriteB->getPositionY() + 32){
-            spriteB->getPhysicsBody()->setContactTestBitmask(0x0000);
-            spriteB->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
-            
-            CCLOG("Enemy DIED");
-            //TODO remove Enemy
-            //TODO music
+    if (spriteA->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero
+        || spriteB->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero){
+        cocos2d::Sprite* heroSprite =
+        spriteA->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::hero ? spriteA : spriteB;
+        cocos2d::Sprite* enemySprite =
+        spriteA->getPhysicsBody()->getCollisionBitmask() != SpriteBitmask::hero ? spriteA : spriteB;
+        
+        int heroBitmask = heroSprite->getPhysicsBody()->getCollisionBitmask();
+        int spriteBitmask = enemySprite->getPhysicsBody()->getCollisionBitmask();
+        
+        if (spriteBitmask == SpriteBitmask::piranha ||
+            spriteBitmask == SpriteBitmask::cloud ||
+            spriteBitmask == SpriteBitmask::sting ||
+            spriteBitmask == SpriteBitmask::fakePrincess){
+            heroSprite->getPhysicsBody()->setContactTestBitmask(0x0000);
         }
-        else{
-            spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
+        
+        if (spriteBitmask == SpriteBitmask::goomba ||
+            spriteBitmask == SpriteBitmask::koopa){
+            if (heroSprite->getPositionY() + 1 >= enemySprite->getPositionY() + 32){
+                enemySprite->getPhysicsBody()->setContactTestBitmask(0x0000);
+                enemySprite->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::dead);
+                
+                CCLOG("Enemy DIED");
+                
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("StepOn.mp3");
+                heroSprite->getPhysicsBody()->applyImpulse(cocos2d::Vec2(0, 1000));
+            }
         }
     }
     
-    if (bitMaskB == SpriteBitmask::hero){
-        CCLOG("Fuck");
-    }
     
     return true;
 }

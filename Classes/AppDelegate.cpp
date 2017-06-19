@@ -1,5 +1,7 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
+#include "Level2.hpp"
+#include "Utility.h"
 
 USING_NS_CC;
 
@@ -74,7 +76,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = Level2::createScene();
+    
+    Utility::loadMusic();
 
     // run
     director->runWithScene(scene);

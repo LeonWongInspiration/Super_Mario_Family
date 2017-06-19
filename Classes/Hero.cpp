@@ -44,7 +44,7 @@ Hero::~Hero(){
 void Hero::jump(){
     if (abs(this->heroBody->getVelocity().y) <= 0.0001f){
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Jump.mp3");
-        this->heroBody->applyImpulse(Vec2(0, 20000));
+        this->heroBody->applyImpulse(Vec2(0, 25000));
         this->heroSprite->setDisplayFrame(this->runFrame);
     }
 }
