@@ -89,7 +89,7 @@ private:
     static int lifeCount;
 public:
     
-    const int getLifeCount(){
+    static const int getLifeCount(){
         return Hero::lifeCount;
     }
     
