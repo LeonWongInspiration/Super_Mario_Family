@@ -85,9 +85,13 @@ private:
     void checkDeath();
     
     bool dead = false;
-public:
     
     static int lifeCount;
+public:
+    
+    const int getLifeCount(){
+        return Hero::lifeCount;
+    }
     
     void jump();
     
