@@ -83,7 +83,7 @@ void Enemy::update()
     }
     
     
-    if(sprite->getPositionY()  < 0 &&!isDeleted)
+    if((sprite->getPositionY()  < -100 || sprite->getPositionY() > 1000) &&!isDeleted)
     {
         getSprite()->removeFromParent();
         isDeleted = true;

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 
+
 class HelloWorld : public cocos2d::Layer
 {
 public:
@@ -12,17 +13,18 @@ public:
     
     // a selector callback
     void menuCallback(cocos2d::Ref* pSender);
-
+    
+    
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
 
-	//set he TagMenu
-	typedef enum
-	{
-		SINGLE = 1,
-		ADDED,
-		HELP
-	}TAG_MENU;
+    typedef enum
+    {
+        SINGLE = 1,
+        MULTI,
+        HELP
+    }TAG_MENU;
+    
+    CREATE_FUNC(HelloWorld);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

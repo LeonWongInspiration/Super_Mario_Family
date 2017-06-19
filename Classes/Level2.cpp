@@ -159,13 +159,13 @@ void Level2::update(float dt)
                 }
                 break;
             case 2:
-                if((x < 4400 &&(*item)->getDir() == LEFT)|| (x > 4690 && (*item)->getDir() == RIGHT))
+                if((x < 4400 &&(*item)->getDir() == LEFT)|| (x > 4675 && (*item)->getDir() == RIGHT))
                 {
                     (*item)->switchDir();
                 }
                 break;
             case 3:
-                if((x < 6858 &&(*item)->getDir() ==LEFT) || (x > 6900 && (*item)->getDir() == RIGHT))
+                if((x < 6858 &&(*item)->getDir() ==LEFT) || (x > 6885 && (*item)->getDir() == RIGHT))
                 {
                     (*item)->switchDir();
                 }
@@ -173,6 +173,7 @@ void Level2::update(float dt)
             default:
                 break;
         }
+        CCLOG("koopa'X: %f",(*item)->getSprite()->getPositionX());
         
         
         
@@ -231,8 +232,8 @@ void Level2::update(float dt)
             continue;
         }
         //CCLOG("heroY %f",heroManager->getPositionY());
-        //CCLOG("piranha %d",i);
-        //CCLOG("%f",(*item)->getSprite()->getPositionY());
+        CCLOG("piranha %d",(*item)->getSprite()->getTag());
+        CCLOG("%f",(*item)->getSprite()->getPositionY());
         
         
         auto heroInPiranha = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
@@ -261,6 +262,17 @@ void Level2::update(float dt)
         auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
         (*item)->run(HeroInBricks.x);
+        if((*item)->getSprite()->getPositionY() < 112 && (*item)->getSprite()->getTag() == 1)
+        {
+            (*item)->setSpeed(Vec2(0,0));
+            auto del = item;
+            item++;
+            fallBricksList.erase(del);
+            continue;
+        }
+
+        
+        CCLOG(" fallbricks Y: %f",(*item)->getSprite()->getPositionY());
         
         item++;
     }

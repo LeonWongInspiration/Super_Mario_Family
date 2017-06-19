@@ -31,7 +31,7 @@ public:
     float getHeight(){return height;}
     
     cocos2d::Sprite * getSprite(){return sprite;}
-    void fall();
+    void fall(float x);
     void isAbove(float x,float y);
     bool isOutScene(){return outScene;}
     void run(float x);

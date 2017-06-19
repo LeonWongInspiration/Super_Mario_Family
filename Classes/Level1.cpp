@@ -298,11 +298,7 @@ void Level1::update(float dt)
         auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
             (*item)->run(HeroInBricks.x);
-        if((*item)->getSprite()->getPositionY() > 382)
-        {
-            (*item)->setSpeed(cocos2d::Vec2(0,0));
-        }
-        
+                
         CCLOG("hero x:%f",HeroInBricks.x);
         CCLOG("fallblocks x: %f",(*item)->getSprite()->getPositionX());
         item++;
@@ -650,7 +646,7 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
 
 bool Level1::isPass(cocos2d::Vec2 heroPosition)
 {
-    if(heroPosition.x > 8082 && heroPosition.y < 350 && heroPosition.y > 300)
+    if(heroPosition.x > 8072 && heroPosition.y < 220 && heroPosition.y > 155)
     {
         return true;
     }

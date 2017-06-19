@@ -9,9 +9,10 @@
 #include "Piranha.hpp"
 
 
-Piranha::Piranha(const char * frameName,const char * fileName,int x,int y):Enemy(frameName,fileName,x,y,Enemy::PIRANHA),upCount(0),upSpeed(40.0f)
+Piranha::Piranha(const char * frameName,const char * fileName,int x,int y):Enemy(frameName,fileName,x,y,Enemy::PIRANHA),upCount(0),upSpeed(0.5f)
 {
     getBody()->setCollisionBitmask(SpriteBitmask::piranha);
+    getSprite()->getPhysicsBody()->setDynamic(false);
 };
 void Piranha::up(float heroPositionX)
 {
@@ -36,7 +37,7 @@ void Piranha::up(float heroPositionX)
     {
         return;
     }
-    this->getSprite()->getPhysicsBody()->setVelocity(cocos2d::Vec2(0,upSpeed));
+    this->getSprite()->setPositionY(getSprite()->getPositionY() + upSpeed);
     
 }
 

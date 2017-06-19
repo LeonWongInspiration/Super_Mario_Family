@@ -8,7 +8,7 @@
 
 #include "FallBricks.hpp"
 
-FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(100.0f),outScene(false)
+FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(200.0f),outScene(false)
 {
     sprite = cocos2d::Sprite::create("Level1Falling1.png");
     width = sprite->getContentSize().width;
@@ -29,7 +29,7 @@ FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(100.0f),outScene(fa
     
 }
 
-void FallBricks::fall()
+void FallBricks::fall(float x)
 {
     if(!trigger)
     {
@@ -39,7 +39,7 @@ void FallBricks::fall()
     
     sprite->getPhysicsBody()->setDynamic(true);
     sprite->getPhysicsBody()->setVelocity(cocos2d::Vec2(0,-fallSpeed));
-    if(sprite->getPositionY() < 0)
+    if(sprite->getPositionY() < -100 || sprite->getPositionX() - x < -600)
     {
         outScene = true;
     }
@@ -80,5 +80,5 @@ void FallBricks::run(float x)
     {
         return;
     }
-    fall();
+    fall(x);
 }
