@@ -1,6 +1,8 @@
 #ifndef GameOver_hpp
 #define GameOver_hpp
 #include "HelloWorldScene.h"
+#include "Level1.hpp"
+#include "Hero.h"
 
 using namespace cocos2d;
 

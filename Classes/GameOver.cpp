@@ -1,5 +1,6 @@
 #include "GameOver.h"
 
+
 Scene * GameOver::createScene()
 {
 	auto scene = Scene::create();
@@ -36,7 +37,7 @@ bool GameOver::init()
 	this->addChild(backGroundImage);
 
 	//add a GameOver lable
-	auto lableOver = Label::createWithTTF("Game Over", "fonts/SuperMario256.ttf", 80);
+	auto lableOver = Label::createWithTTF("Game Over", "SuperMario256.ttf", 80);
 	CCLOG("create lable");
 
 	lableOver->setPosition(Vec2(visibleSize.width / 3, visibleSize.height-80));
@@ -46,7 +47,11 @@ bool GameOver::init()
 	this->addChild(lableOver);
 
 	//set a label back to menu
-	auto lableBack = Label::createWithTTF("Back To Menu", "fonts/SuperMario256.ttf", 35);
+    char buffer[10];
+    sprintf(buffer, "%d",Hero::getLifeCount());
+    string info = "Mario X ";
+    info += buffer;
+	auto lableBack = Label::createWithTTF(info, "SuperMario256.ttf", 35);
 	CCLOG("create lable");
 
 	auto itemBack = MenuItemLabel::create(lableBack, CC_CALLBACK_1(GameOver::menuCallBack, this));
@@ -63,4 +68,7 @@ bool GameOver::init()
 	menu->setPosition(cocos2d::Point::ZERO);
 
 	this->addChild(menu);
+    CCLOG("%d",Hero::getLifeCount());
+    
+    return true;
 }
