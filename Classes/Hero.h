@@ -111,6 +111,10 @@ public:
     
     void collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided);
     
+    bool isDead(){
+        return this->heroBody->getContactTestBitmask() == 0x0000;
+    }
+    
 };
 
 #endif /* Hero_h */
