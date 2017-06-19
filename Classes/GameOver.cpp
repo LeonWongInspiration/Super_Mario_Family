@@ -19,6 +19,14 @@ void GameOver::menuCallBack(Ref * pSender)
 	Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
 
+void GameOver::backtoGame(Ref* pSender)
+{
+	if (Hero::getLevelState() == 1)
+		Director::getInstance()->replaceScene(Level1::createScene());
+	else if (Hero::getLevelState() == 2)
+		Director::getInstance()->replaceScene(Level2::createScene());
+}
+
 bool GameOver::init()
 {
 	if (!Layer::init())
@@ -37,7 +45,7 @@ bool GameOver::init()
 	this->addChild(backGroundImage);
 
 	//add a GameOver lable
-	auto lableOver = Label::createWithTTF("Game Over", "SuperMario256.ttf", 80);
+	auto lableOver = Label::createWithTTF("Game Over", "Fonts//SuperMario256.ttf", 80);
 	CCLOG("create lable");
 
 	lableOver->setPosition(Vec2(visibleSize.width / 3, visibleSize.height-80));
@@ -51,7 +59,7 @@ bool GameOver::init()
     sprintf(buffer, "%d",Hero::getLifeCount());
     string info = "Mario X ";
     info += buffer;
-	auto lableBack = Label::createWithTTF(info, "SuperMario256.ttf", 35);
+	auto lableBack = Label::createWithTTF(info, "Fonts//SuperMario256.ttf", 35);
 	CCLOG("create lable");
 
 	auto itemBack = MenuItemLabel::create(lableBack, CC_CALLBACK_1(GameOver::menuCallBack, this));
@@ -60,15 +68,29 @@ bool GameOver::init()
 
 	itemBack->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
 
+	
+    CCLOG("%d",Hero::getLifeCount());
+    
+	//add continue button
+	auto continueGame = Label::createWithTTF("Continue", "Fonts//SuperMario256.ttf", 40);
+	CCLOG("create lable");
+
+	
+
+	auto itemContinue = MenuItemLabel::create(continueGame, CC_CALLBACK_1(GameOver::backtoGame, this));
+
+	itemContinue->setPosition(Vec2(visibleSize.width / 3, visibleSize.height - 500));
+
+	itemContinue->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+
+
 	//add lable into menu
-	auto menu = cocos2d::Menu::create(itemBack, NULL);
+	auto menu = cocos2d::Menu::create(itemBack,itemContinue, NULL);
 
 	menu->setAnchorPoint(cocos2d::Point::ANCHOR_BOTTOM_LEFT);
 
 	menu->setPosition(cocos2d::Point::ZERO);
 
 	this->addChild(menu);
-    CCLOG("%d",Hero::getLifeCount());
-    
     return true;
 }
