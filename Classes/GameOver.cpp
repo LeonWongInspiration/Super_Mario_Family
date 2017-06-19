@@ -54,23 +54,28 @@ bool GameOver::init()
 
 	this->addChild(lableOver);
 
-	//set a label back to menu
+	//set a label show lifecount
     char buffer[10];
     sprintf(buffer, "%d",Hero::getLifeCount());
     string info = "Mario X ";
     info += buffer;
-	auto lableBack = Label::createWithTTF(info, "Fonts//SuperMario256.ttf", 35);
+	auto showLife = Label::createWithTTF(info, "Fonts//SuperMario256.ttf", 50);
+	CCLOG("create lable");
+
+	showLife->setPosition(Vec2(visibleSize.width / 2+100, visibleSize.height*2 / 3));
+    CCLOG("%d",Hero::getLifeCount());
+    this->addChild(showLife);
+
+	//add a button back to menu
+	auto lableBack = Label::createWithTTF("Back To Menu", "Fonts//SuperMario256.ttf", 35);
 	CCLOG("create lable");
 
 	auto itemBack = MenuItemLabel::create(lableBack, CC_CALLBACK_1(GameOver::menuCallBack, this));
 
-	itemBack->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	itemBack->setPosition(Vec2(visibleSize.width / 3+340, visibleSize.height - 500));
 
 	itemBack->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
 
-	
-    CCLOG("%d",Hero::getLifeCount());
-    
 	//add continue button
 	auto continueGame = Label::createWithTTF("Continue", "Fonts//SuperMario256.ttf", 40);
 	CCLOG("create lable");
