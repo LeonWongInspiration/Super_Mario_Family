@@ -87,10 +87,16 @@ private:
     bool dead = false;
     
     static int lifeCount;
+    
+    static int levelState;
 public:
     
     static const int getLifeCount(){
         return Hero::lifeCount;
+    }
+    
+    static int getLevelState(){
+        return Hero::levelState;
     }
     
     void jump();
