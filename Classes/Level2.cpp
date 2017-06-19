@@ -540,11 +540,16 @@ void Level2::onEnter(){
     // Listen the keyboard
     auto keyboardListener = cocos2d::EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = true;
+        if (KeyCode != EventKeyboard::KeyCode::KEY_UP_ARROW)
+            this->keyCode[KeyCode] = true;
+        else {
+            heroManager->jump();
+        }
         CCLOG("Press");
     };
     keyboardListener->onKeyReleased = [=](cocos2d::EventKeyboard::KeyCode KeyCode,cocos2d::Event * event){
-        this->keyCode[KeyCode] = false;
+        if (KeyCode != EventKeyboard::KeyCode::KEY_UP_ARROW)
+            this->keyCode[KeyCode] = false;
     };
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);

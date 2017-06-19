@@ -58,8 +58,6 @@ private:
     
     int maxXVelocity = 80;
     
-    void jump();
-    
     void moveRight();
     
     void moveLeft();
@@ -90,6 +88,8 @@ private:
 public:
     
     static int lifeCount;
+    
+    void jump();
     
     Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool>* _KeyCode);
     
