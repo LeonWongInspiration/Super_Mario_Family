@@ -628,6 +628,9 @@ bool Level2::onContactBegin(const cocos2d::PhysicsContact& contact){
                 CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("StepOn.mp3");
                 heroSprite->getPhysicsBody()->applyImpulse(cocos2d::Vec2(0, 1000));
             }
+            else{
+                heroSprite->getPhysicsBody()->setContactTestBitmask(0x0000);
+            }
         }
     }
     

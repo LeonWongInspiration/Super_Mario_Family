@@ -113,6 +113,7 @@ void Hero::checkDeath(){
         this->heroBody->setVelocity(Vec2(0, this->heroBody->getVelocity().y));
         this->heroBody->applyImpulse(Vec2(0, 20000));
         this->heroBody->setCategoryBitmask(0x0000);
+        this->heroBody->setContactTestBitmask(0x0000);
         this->dead = true;
         --Hero::lifeCount;
     }
