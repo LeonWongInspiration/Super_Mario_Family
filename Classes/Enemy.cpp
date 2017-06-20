@@ -11,20 +11,12 @@ Enemy::Enemy(const char* frameName,const char * filename,int x,int y,KIND monste
 :
 kind(monsterKind),
 moveSpeed(60.0f),
-jumpSpeed(3.0f),
-fallSpeed(3.0f),
 isDead(false),
-normalSpeed(true),
 isDeleted(false),
 trigger(false),
-fall(false),
-setEnemyX(0),
-setEnemyY(0),
-moveTime(0),
 deathCount(0),
 dir(LEFT)
 {
-    prePisitionX = x;
     cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(frameName);
     sprite = cocos2d::Sprite::createWithSpriteFrameName(filename);
     sprite->setPositionX(x);

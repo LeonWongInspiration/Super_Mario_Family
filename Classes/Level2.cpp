@@ -99,8 +99,6 @@ void Level2::update(float dt)
     this->keepHeroInLimitedRange();
     
     auto heroWorldPositon = heroManager->getSprite()->getParent()->convertToWorldSpace(heroManager->getSprite()->getPosition());
-    //    CCLOG("Hero VelocityX: %f", this->heroManager->getPhysicsBody()->getVelocity().x);
-    
     
     
     //koopa list
@@ -112,6 +110,7 @@ void Level2::update(float dt)
             auto del = item;
             item++;
             koopaList.erase(del);
+            delete *del;
             continue;
         }
         if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
@@ -164,11 +163,6 @@ void Level2::update(float dt)
             default:
                 break;
         }
-        CCLOG("koopa'X: %f",(*item)->getSprite()->getPositionX());
-        
-        
-        
-        
         
         item++;
     }
@@ -182,6 +176,7 @@ void Level2::update(float dt)
             auto del = item;
             item++;
             goombaList.erase(del);
+            delete *del;
             continue;
         }
         if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
@@ -220,11 +215,10 @@ void Level2::update(float dt)
             auto del = item;
             item++;
             piranhaList.erase(del);
+            delete *del;
             continue;
         }
-        //CCLOG("heroY %f",heroManager->getPositionY())
-        
-        
+
         auto heroInPiranha = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
         
@@ -241,12 +235,12 @@ void Level2::update(float dt)
             auto del = item;
             item++;
             fallBricksList.erase(del);
+            delete *del;
             continue;
         }
         
         
-        // CCLOG("%f",(*item)->getSprite()->getPositionX());
-        // CCLOG("%f",enemyLayer->getPositionX());
+        
         
         auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
@@ -285,8 +279,11 @@ void Level2::update(float dt)
     
     if(heroManager->isDead() && heroManager->getPositionY() < -10)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         Director::getInstance()->replaceScene(GameOver::createScene());
     }
+    
+    
     
 }
 
@@ -377,16 +374,9 @@ bool Level2::init(){
     this->addChild(this->heroManager->getSprite());
     
     scheduleUpdate();
-   
-    
-    
-    
-    
-    
+  
     return true;
-    
-    
-    
+   
 }
 
 
@@ -489,13 +479,20 @@ void Level2::setupEnemyLayer()
     
     enemyName = "Cloud";
     
-    enemyNumber = 3;
+    enemyNumber = 4;
     
-    for(int i = 1;i  < enemyNumber;++i)
+    for(int i = 1;i  <= enemyNumber;++i)
     {
+        ValueMap stingCloudValue;
         sprintf(buffer, "%d",i);
-        auto stingCloudValue = enemy->getObject(enemyName + buffer);
-    
+        if(i < 4)
+        {
+            stingCloudValue = enemy->getObject(enemyName + buffer);
+        }
+        else
+        {
+            stingCloudValue = flagObjectGroup->getObject(enemyName + buffer);
+        }
         Cloud * stingCloud = new Cloud("normalCloud.png",stingCloudValue.at("x").asFloat(),stingCloudValue.at("y").asFloat());
         
         stingCloud->getSprite()->setTag(120);
@@ -512,8 +509,10 @@ void Level2::setupEnemyLayer()
     for(int i = 1; i <= enemyNumber;++i)
     {
         sprintf(buffer, "%d",i);
+     
+         auto stingValue = enemy->getObject(enemyName + buffer);
+       
         
-        auto stingValue = enemy->getObject(enemyName + buffer);
         auto stingX = stingValue.at("x").asFloat();
         auto stingY = stingValue.at("y").asFloat();
         

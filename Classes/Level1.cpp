@@ -72,8 +72,6 @@ void Level1::setupHiddenLayer()
 	}
 }
 
-
-
 void Level1::keepHeroInLimitedRange(){
     if(this->heroManager->getPositionX() >= 400){
         CCLOG("Limit Hero PositionX from %f to 400", this->heroManager->getPositionX());
@@ -107,11 +105,13 @@ void Level1::update(float dt)
    
     for(auto item = koopaList.begin(); item!=koopaList.end();)
     {
+        // relese the dead enemy or those who out of screen
         if((*item)->deleted())
         {
             auto del = item;
             item++;
             koopaList.erase(del);
+            delete *del;
             continue;
         }
         if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
@@ -162,15 +162,7 @@ void Level1::update(float dt)
         
         
         
-        CCLOG("Koopa: %f , %f",koopaNodePosition.x,koopaNodePosition.y);
-        CCLOG("Hero: %f, %f",heroInKoopa.x,heroInKoopa.y);
-        //CCLOG("Koopa %d",i);
-       // CCLOG("%f",enemyLayer->getPositionX());
-       // CCLOG("%f",heroManager->getPositionX());
-      //  CCLOG("%f",(*item)->getSprite()->getPositionX());
-        
-        
-        item++;
+                item++;
     }
     
     //goomba list
@@ -182,6 +174,7 @@ void Level1::update(float dt)
             auto del = item;
             item++;
             goombaList.erase(del);
+            delete *del;
             continue;
         }
         if((*item)->getSprite()->getPhysicsBody()->getCollisionBitmask() == SpriteBitmask::dead &&
@@ -267,6 +260,7 @@ void Level1::update(float dt)
             auto del = item;
             item++;
             piranhaList.erase(del);
+            delete *del;
             continue;
         }
         //CCLOG("heroY %f",heroManager->getPositionY());
@@ -290,12 +284,10 @@ void Level1::update(float dt)
             auto del = item;
             item++;
             fallBricksList.erase(del);
+            delete *del;
             continue;
         }
         
-        
-       // CCLOG("%f",(*item)->getSprite()->getPositionX());
-       // CCLOG("%f",enemyLayer->getPositionX());
         
         auto HeroInBricks = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
         
@@ -332,11 +324,13 @@ void Level1::update(float dt)
     
     if(isPass(heroInEnemyLayer))
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         Director::getInstance()->replaceScene(Level2::createScene());
     }
     
     if(heroManager->isDead() && heroManager->getPositionY() < -10)
     {
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         Director::getInstance()->replaceScene(GameOver::createScene());
     }
 
@@ -364,7 +358,7 @@ bool Level1::init(){
     }
     
     // First save the map in the scene
-    this->map = TMXTiledMap::create("Map//Level1.tmx");
+    this->map = TMXTiledMap::create("Level1.tmx");
     
     // Get the layers needed
     this->meta = this->map->getLayer("Meta");
@@ -391,7 +385,7 @@ bool Level1::init(){
     // Init Layers
     this->metaLayer = Layer::create();
     this->enemyLayer = Layer::create();
-
+    
     // Set up meta Layer to include bodies
     this->setupMetaLayer();
     this->addChild(this->metaLayer);
@@ -400,23 +394,12 @@ bool Level1::init(){
  
     this->setupEnemyLayer();
     
-    
     this->addChild(this->enemyLayer);
     
     this->setupHiddenLayer();
+    
     this->addChild(hiddenLayer);
     
-    auto Pause = MenuItemImage::create(
-										"Button//Pause.png",
-										"Button//Pause.png",
-										"Button//Pause.png",
-										CC_CALLBACK_1(GameOver::menuCallBack, this));
-	Pause->setScale(0.3);
-	Pause->setAnchorPoint(Point(Point::ANCHOR_BOTTOM_LEFT));
-	Pause->setPosition(map->getMapSize().width - Pause->getContentSize().width, map->getMapSize().height - Pause->getContentSize().height);
-	this->addChild(Pause);
-	
-
     // Set up hero
     this->heroManager = new Hero(&(this->keyCode));
     // Get hero in the Scene
@@ -426,15 +409,8 @@ bool Level1::init(){
     this->addChild(this->heroManager->getSprite());
     
     scheduleUpdate();
-    
-
-    
-    
-    
     return true;
-    
-    
-    
+  
 }
 
 
@@ -456,14 +432,12 @@ void Level1::setupEnemyLayer()
         sprintf(buffer, "%d",i);
         
         auto koopaValue = enemy->getObject(enemyName + buffer);
-        Koopa * koopa = new Koopa("Enemy//Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
+        Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
         
         koopa->getSprite()->setTag(i);
         
         this->enemyLayer->addChild(koopa->getSprite());
-        
-        
-        
+       
         koopaList.push_back(koopa);
     }
     
@@ -544,7 +518,7 @@ void Level1::setupEnemyLayer()
     
     enemyName = "Sting";
     enemyNumber = 8;
-    for(int i = 1; i <= 8;++i)
+    for(int i = 1; i <= enemyNumber;++i)
     {
         sprintf(buffer, "%d",i);
         
