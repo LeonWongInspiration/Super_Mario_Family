@@ -8,17 +8,6 @@
 
 #include "Level2.hpp"
 
-
-//
-//  Level1.cpp
-//  Physics
-//
-//  Created by Leon Wong on 15/6月.
-//
-//
-
-#include "Level2.hpp"
-
 #include "SimpleAudioEngine.h"
 
 #include "Utility.h"
