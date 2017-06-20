@@ -11,6 +11,7 @@
 
 #include "Utility.h"
 #include "Enemy.hpp"
+#include "Hero.h"
 
 class FallBricks
 {
@@ -24,7 +25,7 @@ private:
     cocos2d::Sprite * sprite;
     cocos2d::PhysicsBody * body;
 public:
-    FallBricks(int x,int y);
+    FallBricks(int x,int y,int i);
     ~FallBricks(){};
     void setFallSpeed(float speed){fallSpeed = speed;}
     float getWidth(){return width;}

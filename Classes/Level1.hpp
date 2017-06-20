@@ -20,6 +20,7 @@
 #include "Sting.h"
 #include "fakePrincess.h"
 #include "Level2.hpp"
+#include "GameOver.h"
 
 
 

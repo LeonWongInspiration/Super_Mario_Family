@@ -332,6 +332,11 @@ void Level1::update(float dt)
     {
         Director::getInstance()->replaceScene(Level2::createScene());
     }
+    
+    if(heroManager->isDead())
+    {
+        Director::getInstance()->replaceScene(GameOver::createScene());
+    }
 
 
 }
@@ -503,7 +508,7 @@ void Level1::setupEnemyLayer()
     
     auto fallBricksValue = enemy->getObject(enemyName);
     
-    FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat());
+    FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat(),1);
     
     this->enemyLayer->addChild(fallBricks->getSprite(),0);
     

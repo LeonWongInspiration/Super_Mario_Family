@@ -19,6 +19,7 @@
 #include "Goomba.hpp"
 #include "Sting.h"
 #include "fakePrincess.h"
+#include "GameOver.h"
 
 
 

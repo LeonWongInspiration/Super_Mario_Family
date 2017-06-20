@@ -297,6 +297,13 @@ void Level2::update(float dt)
             item->changeSprite();
     }
     
+    //dead scene
+    
+    if(heroManager->isDead())
+    {
+        Director::getInstance()->replaceScene(GameOver::createScene());
+    }
+    
 }
 
 Scene* Level2::createScene(){
@@ -323,6 +330,9 @@ bool Level2::init(){
     
     // First save the map in the scene
     this->map = TMXTiledMap::create("Level2.tmx");
+    
+    //Init level state
+     Hero::getLevelState() = 2;
     
     // Get the layers needed
     this->meta = this->map->getLayer("Meta");
@@ -379,9 +389,11 @@ bool Level2::init(){
     this->heroManager->getSprite()->setPosition(Vec2(64, 256));
     this->heroManager->getSprite()->setAnchorPoint(Vec2(0, 0));
     this->heroManager->getSprite()->setTag(50);
+    
     this->addChild(this->heroManager->getSprite());
     
     scheduleUpdate();
+   
     
     
     
@@ -476,7 +488,7 @@ void Level2::setupEnemyLayer()
         
         auto fallBricksValue = enemy->getObject(enemyName + buffer);
     
-        FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat());
+        FallBricks * fallBricks = new FallBricks(fallBricksValue.at("x").asFloat(),fallBricksValue.at("y").asFloat(),i);
         
         fallBricks->getSprite()->setTag(i);
         

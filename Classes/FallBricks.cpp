@@ -8,9 +8,26 @@
 
 #include "FallBricks.hpp"
 
-FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(200.0f),outScene(false)
+FallBricks::FallBricks(int x,int y,int i):trigger(false),fallSpeed(200.0f),outScene(false)
 {
-    sprite = cocos2d::Sprite::create("Level1Falling1.png");
+    std::string fallName;
+    CCLOG("i: %d",i);
+    if(Hero::getLevelState() == 1)
+    {
+        fallName = "Level1Falling1.png";
+    }
+    else
+    {
+        if(i == 1)
+        {
+            fallName = "Level2Falling1.png";
+        }
+        else
+        {
+            fallName = "Level2Falling2.png";
+        }
+    }
+    sprite = cocos2d::Sprite::create(fallName);
     width = sprite->getContentSize().width;
     height = sprite->getContentSize().height;
     sprite->setAnchorPoint(cocos2d::Point(0,0));
@@ -21,7 +38,9 @@ FallBricks::FallBricks(int x,int y):trigger(false),fallSpeed(200.0f),outScene(fa
     this->getSprite()->setPhysicsBody(body);
     this->getSprite()->getPhysicsBody()->setDynamic(false);
     
-    this->getSprite()->getPhysicsBody()->setCollisionBitmask(0xFFFF);
+    this->getSprite()->getPhysicsBody()->setContactTestBitmask(0xFFFF);
+    
+    this->getSprite()->getPhysicsBody()->setCollisionBitmask(SpriteBitmask::fallingBricks);
     
     
     

@@ -40,6 +40,7 @@ namespace SpriteBitmask{
     const int cloud = 1 << 8;
     const int sting = 1 << 9;
     const int fakePrincess = 1 << 10;
+    const int fallingBricks = 1 << 11;
 };
 
 class Utility{
