@@ -10,6 +10,7 @@
 #include "SimpleAudioEngine.h"
 
 int Hero::lifeCount = 2;
+int Hero::levelState = 1;
 
 Hero::Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool>* _KeyCode):
 keyCode(_KeyCode){
