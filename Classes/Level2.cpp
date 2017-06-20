@@ -108,8 +108,8 @@ void Level2::update(float dt)
         if((*item)->deleted())
         {
             auto del = item;
-            item++;
-            koopaList.erase(del);
+            
+            item = koopaList.erase(item);
             delete *del;
             continue;
         }
@@ -174,8 +174,7 @@ void Level2::update(float dt)
         if((*item)->deleted())
         {
             auto del = item;
-            item++;
-            goombaList.erase(del);
+            item = goombaList.erase(item);
             delete *del;
             continue;
         }
@@ -213,8 +212,7 @@ void Level2::update(float dt)
         if((*item)->deleted())
         {
             auto del = item;
-            item++;
-            piranhaList.erase(del);
+            item = piranhaList.erase(item);
             delete *del;
             continue;
         }
@@ -233,8 +231,8 @@ void Level2::update(float dt)
         if((*item)->isOutScene())
         {
             auto del = item;
-            item++;
-            fallBricksList.erase(del);
+           
+            item = fallBricksList.erase(item);
             delete *del;
             continue;
         }
@@ -249,8 +247,10 @@ void Level2::update(float dt)
         {
             (*item)->setSpeed(Vec2(0,0));
             auto del = item;
-            item++;
-            fallBricksList.erase(del);
+            
+            item = fallBricksList.erase(item);
+            
+            delete *del;
             continue;
         }
 
