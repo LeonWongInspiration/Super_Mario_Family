@@ -12,7 +12,6 @@
 int Hero::lifeCount = 2;
 
 Hero::Hero(std::map<cocos2d::EventKeyboard::KeyCode, bool>* _KeyCode):
-heroState(STAND),
 keyCode(_KeyCode){
     this->heroSpriteSheet = SpriteFrameCache::getInstance();
     this->heroSpriteSheet->addSpriteFramesWithFile("Mario_256.plist", "Mario_256.png");
@@ -149,18 +148,3 @@ void Hero::run(){
     //}
 }
 
-void Hero::collideEnemy(bool enemyCanBeSteppedOn, Sprite* enemyCollided){
-    if (enemyCanBeSteppedOn && this->heroSprite->getPosition().x >=
-        enemyCollided->getPosition().x + 0.1 * enemyCollided->getContentSize().width
-        && this->heroSprite->getPosition().x <=
-        enemyCollided->getPosition().x - 0.1 * enemyCollided->getContentSize().width){
-        CCLOG("Enemy DIED");
-        //TODO remove Enemy
-        //TODO music
-    }
-    else {
-        CCLOG("Hero DIED");
-        //TODO music
-        //this->death(0);
-    }
-}
