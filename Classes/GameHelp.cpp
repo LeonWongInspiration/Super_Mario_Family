@@ -69,17 +69,19 @@ bool GameHelp::init()
 
 	//add contents of help
 
-	auto keyHelp = cocos2d::Label::createWithTTF("UP:JUMP LEFT:MOVE LEFT RIGHT:MOVE RIGHT F:FLY", "fonts//Mario and Luigi.ttf", 50);
+	auto keyHelp = cocos2d::Label::createWithTTF("UP:JUMP LEFT:MOVE LEFT RIGHT:MOVE RIGHT F:FLY \nR:RUN", "fonts//Mario and Luigi.ttf", 50);
 
-	keyHelp->setDimensions(500, 500);
+	keyHelp->setDimensions(500, 400);
 
 	keyHelp->setTextColor(Color4B::YELLOW);
 
 	keyHelp->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE);
 
-	keyHelp->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height/2-50));
+	keyHelp->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height/2-20));
 
 	this->addChild(keyHelp);
+
+
 
 
     auto itemBack = cocos2d::MenuItemLabel::create(lableBack, CC_CALLBACK_1(GameHelp::menuCallBack, this));
