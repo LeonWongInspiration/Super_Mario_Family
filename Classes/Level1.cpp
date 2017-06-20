@@ -333,7 +333,7 @@ void Level1::update(float dt)
         Director::getInstance()->replaceScene(Level2::createScene());
     }
     
-    if(heroManager->isDead())
+    if(heroManager->isDead() && heroManager->getPositionY() < -10)
     {
         Director::getInstance()->replaceScene(GameOver::createScene());
     }
@@ -625,10 +625,13 @@ bool Level1::onContactBegin(const cocos2d::PhysicsContact& contact){
     if(tag1 == 120)
     {
         spriteA->setTag(60);
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("GetCoin.mp3");
     }
     if(tag2 == 120)
     {
         spriteA->setTag(60);
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("GetCoin.mp3");
+
     }
 
     

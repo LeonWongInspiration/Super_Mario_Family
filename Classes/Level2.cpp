@@ -233,9 +233,7 @@ void Level2::update(float dt)
             piranhaList.erase(del);
             continue;
         }
-        //CCLOG("heroY %f",heroManager->getPositionY());
-        CCLOG("piranha %d",(*item)->getSprite()->getTag());
-        CCLOG("%f",(*item)->getSprite()->getPositionY());
+        //CCLOG("heroY %f",heroManager->getPositionY())
         
         
         auto heroInPiranha = (*item)->getSprite()->getParent()->convertToNodeSpace(heroWorldPositon);
@@ -273,9 +271,6 @@ void Level2::update(float dt)
             continue;
         }
 
-        
-        CCLOG(" fallbricks Y: %f",(*item)->getSprite()->getPositionY());
-        
         item++;
     }
     
@@ -299,7 +294,7 @@ void Level2::update(float dt)
     
     //dead scene
     
-    if(heroManager->isDead())
+    if(heroManager->isDead() && heroManager->getPositionY() < -10)
     {
         Director::getInstance()->replaceScene(GameOver::createScene());
     }
@@ -604,11 +599,14 @@ bool Level2::onContactBegin(const cocos2d::PhysicsContact& contact){
     if(tag1 == 120 && tag2 == 50)
     {
         spriteA->setTag(60);
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("GetCoin.mp3");
+        CCLOG("getCoin");
         spriteB->getPhysicsBody()->setContactTestBitmask(0x0000);
     }
     if(tag2 == 120 && tag1 == 50)
     {
         spriteB->setTag(60);
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("GetCoin.mp3");
         spriteA->getPhysicsBody()->setContactTestBitmask(0x0000);
     }
     
@@ -621,6 +619,16 @@ bool Level2::onContactBegin(const cocos2d::PhysicsContact& contact){
         
         int heroBitmask = heroSprite->getPhysicsBody()->getCollisionBitmask();
         int spriteBitmask = enemySprite->getPhysicsBody()->getCollisionBitmask();
+        
+        if(spriteBitmask == SpriteBitmask::fallingBricks)
+        {
+            if(heroManager->getPositionY() < enemySprite->getPositionY())
+            {
+                heroSprite->getPhysicsBody()->setContactTestBitmask(0x0000);
+            }
+        }
+        
+        
         
         if (spriteBitmask == SpriteBitmask::piranha ||
             spriteBitmask == SpriteBitmask::cloud ||
