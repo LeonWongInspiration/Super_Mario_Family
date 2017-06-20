@@ -72,6 +72,8 @@ void Level1::setupHiddenLayer()
 	}
 }
 
+
+
 void Level1::keepHeroInLimitedRange(){
     if(this->heroManager->getPositionX() >= 400){
         CCLOG("Limit Hero PositionX from %f to 400", this->heroManager->getPositionX());
@@ -362,7 +364,7 @@ bool Level1::init(){
     }
     
     // First save the map in the scene
-    this->map = TMXTiledMap::create("Level1.tmx");
+    this->map = TMXTiledMap::create("Map//Level1.tmx");
     
     // Get the layers needed
     this->meta = this->map->getLayer("Meta");
@@ -389,7 +391,7 @@ bool Level1::init(){
     // Init Layers
     this->metaLayer = Layer::create();
     this->enemyLayer = Layer::create();
-    
+
     // Set up meta Layer to include bodies
     this->setupMetaLayer();
     this->addChild(this->metaLayer);
@@ -401,14 +403,20 @@ bool Level1::init(){
     
     this->addChild(this->enemyLayer);
     
-    
     this->setupHiddenLayer();
-    
     this->addChild(hiddenLayer);
     
-    
-    
-    
+    auto Pause = MenuItemImage::create(
+										"Button//Pause.png",
+										"Button//Pause.png",
+										"Button//Pause.png",
+										CC_CALLBACK_1(GameOver::menuCallBack, this));
+	Pause->setScale(0.3);
+	Pause->setAnchorPoint(Point(Point::ANCHOR_BOTTOM_LEFT));
+	Pause->setPosition(map->getMapSize().width - Pause->getContentSize().width, map->getMapSize().height - Pause->getContentSize().height);
+	this->addChild(Pause);
+	
+
     // Set up hero
     this->heroManager = new Hero(&(this->keyCode));
     // Get hero in the Scene
@@ -419,7 +427,7 @@ bool Level1::init(){
     
     scheduleUpdate();
     
-    
+
     
     
     
@@ -448,7 +456,7 @@ void Level1::setupEnemyLayer()
         sprintf(buffer, "%d",i);
         
         auto koopaValue = enemy->getObject(enemyName + buffer);
-        Koopa * koopa = new Koopa("Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
+        Koopa * koopa = new Koopa("Enemy//Enemy_256.plist","Koopa_256.png",koopaValue.at("x").asFloat(),koopaValue.at("y").asFloat());
         
         koopa->getSprite()->setTag(i);
         
